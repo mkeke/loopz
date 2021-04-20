@@ -1,0 +1,41 @@
+@function str-replace($string, $search, $replace: '') {
+    $index: str-index($string, $search);
+
+    @if $index {
+        @return str-slice($string, 1, $index - 1) + $replace 
+        + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+
+    @return $string;
+}
+
+/*
+    set svg as background image
+
+    usage
+        $svg-body: (
+            '<g stroke="none" fill="#ff0000">'
+            '<circle cx="50" cy="50" r="25" />'
+            '</g>'
+        );
+        @include svg($svg-body, 0, 0, 100, 100);
+
+    requires function str-replace
+*/
+@mixin svg($body, $vbx1, $vby1, $vbx2, $vby2, $size: 'contain', $position: 'left top', $repeat: 'no-repeat') {
+
+    $mimetype: "data:image/svg+xml;utf8,";
+    $open: "<svg viewBox='#{$vbx1} #{$vby1} #{$vbx2} #{$vby2}' xmlns='http://www.w3.org/2000/svg'>";
+    $close: "</svg>";
+
+    $svg: $mimetype + $open;
+    @each $p in $body {
+        $svg: $svg + str-replace($p, '#', '%23');
+    }
+    $svg: $svg + $close;
+
+    background-image: url($svg);
+    background-repeat: #{$repeat};
+    background-size: #{$size};
+    background-position: #{$position};
+}

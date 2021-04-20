@@ -1,0 +1,42 @@
+/*
+    resetting default behaviour on different devices
+*/
+
+* {
+    /* clear default margins and paddings*/
+    margin: 0; padding: 0;
+
+    /* remove highlight color when tapping on a link */
+    -webkit-tap-highlight-color: transparent;
+
+    /* disable text magnifier pop-up on click and hold (iPhone) */
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none;
+
+    /* disable outline when tabbing through UI elements */
+    outline: none;
+}
+
+ul {
+    /* disable bullets in lists */
+    list-style: none;
+}
+
+li {
+    /* avoid vertical space between cells when cells are small */
+    font-size: 1px;
+}
+
+html, body { 
+    height: 100%;
+
+    /* disable chrome browser pull-down-to-refresh */
+    overflow-y: hidden;
+}
+
+/*
+    font adjustments
+*/
+body {
+    font-family: monospace;
+}
