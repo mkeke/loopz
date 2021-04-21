@@ -13,10 +13,8 @@ $debugMode: 1;
         background-color: #00ff0000;
     }
 
-    section.board {
-
+    .stone {
         // TODO explain the magic numbers
-        
         border: 4px solid #555;
         border-right-color: #999;
         border-top-color: #999;
@@ -27,7 +25,8 @@ $debugMode: 1;
 
         position: relative;
 
-        .border {
+        // diagonal shine/shadow on borders
+        .borders {
             li {
                 width: 4px;
                 height: 4px;
@@ -70,16 +69,30 @@ $debugMode: 1;
                 }
             }
         }
-        .tiles {
-            div {
-                // width and height is calculated runtime
-                display: inline-block;
-                vertical-align: top;
-                box-sizing: border-box;
-                border: 1px dashed #ffffff80;
-            }
-            background-color: #00000090;
+    }
+
+    section.board {
+    }
+    .tiles {
+        div {
+            // width and height is calculated runtime
+            display: inline-block;
+            vertical-align: top;
+            box-sizing: border-box;
+            border: 1px dashed #ffffff80;
         }
+        background-color: #00000090;
+    }
+    .tile {
+        display: inline-block;
+        vertical-align: top;
+        box-sizing: border-box;
+        border: 1px dashed #ff00ff80;
+        background-color: black;
+    }
+    .loopz, .time, .score {
+        display: inline-block;
+        vertical-align: top;
     }
 
 }
