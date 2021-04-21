@@ -2,7 +2,10 @@ const state = {
     // calculated sizes
     ratioWidth: null,
     ratioHeight: null,
+    ratioLeft: null,
+    ratioTop: null,
     tileSize: null,
+
 
     // end event names
     trend: null,
