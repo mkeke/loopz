@@ -2,6 +2,7 @@ const dom = {
     runtimeStyle: null,
     parent: null,
     ratio: null,
+    tiles: null,
 
     /*
         calculateSizes()
@@ -68,6 +69,11 @@ const dom = {
                 '}';
 
         str += '.tile{' +
+                `width:${state.tileSize}px;` + 
+                `height:${state.tileSize}px;` +
+                '}';
+
+        str += '.tiles div{' +
                 `width:${state.tileSize}px;` + 
                 `height:${state.tileSize}px;` +
                 '}';
