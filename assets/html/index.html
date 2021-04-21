@@ -17,18 +17,19 @@
     <div class="fullscreen">
         <div class="ratio">
             <section class="board stone">
-                <ul class="borders"><li></li><li></li><li></li><li></li></ul>
                 <div class="tiles"></div>
+                <!-- div class="piece tile"></div -->
             </section>
+
             <section class="stats">
-                <div class="lives"></div>
-                <div class="loopz stone"><ul class="borders"><li></li><li></li><li></li><li></li></ul><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                <div class="time stone"><ul class="borders"><li></li><li></li><li></li><li></li></ul><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                <div class="score stone"><ul class="borders"><li></li><li></li><li></li><li></li></ul><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                <div class="multi"></div>
+                <div class="stone tiles left"><p></p><p></p><p></p><div class="skew"></div></div>
+                <div class="stone tiles middle"><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p></div>
+                <div class="stone tiles right"><p></p><p></p><p></p><div class="skew"></div></div>
             </section>
         </div>
     </div>
+
+                <!-- ul class="borders"><li></li><li></li><li></li><li></li></ul -->
 
     <script type="text/javascript">
         const timestamp = @@timestamp;

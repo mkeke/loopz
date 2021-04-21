@@ -16,18 +16,10 @@
     position: absolute;
     box-sizing: border-box;
 
-    // the padding is taken into consideration when calculating runtime sizes
-    padding: 10px;
-
     // width and height is maintained by javascript
     // left and top is maintained by javascript
     // to ensure integer size on tiles
     // and whole integer positions
-}
-
-section.board {
-    box-sizing: border-box;
-    // the padding is taken into consideration when calculating runtime sizes
 }
 
 body {

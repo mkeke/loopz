@@ -44,13 +44,13 @@ const dom = {
 
         // update state
         state.tileSize = tileSize;
-        state.ratioWidth = ratioWidth;
-        state.ratioHeight = ratioHeight;
+        state.ratioWidth = ratioWidth - 20; // 10px space on either side
+        state.ratioHeight = ratioHeight - 20;
         // ratio container is centered and near the top if possible
-        state.ratioLeft = Math.floor((window.innerWidth - ratioWidth) / 2);
-        state.ratioTop = Math.floor((window.innerHeight - ratioHeight) / 4);
+        state.ratioLeft = Math.floor((window.innerWidth - state.ratioWidth) / 2);
+        state.ratioTop = Math.floor((window.innerHeight - state.ratioHeight) / 4);
 
-        log(`screen:${window.innerWidth}x${window.innerHeight} ratio:${ratioWidth}x${ratioHeight} tile:${tileSize}`);
+        log(`screen:${window.innerWidth}x${window.innerHeight} ratio:${state.ratioWidth}x${state.ratioHeight} tile:${tileSize}`);
     },
 
     /*
@@ -73,9 +73,14 @@ const dom = {
                 `height:${state.tileSize}px;` +
                 '}';
 
-        str += '.tiles div{' +
+        str += '.tiles p{' +
                 `width:${state.tileSize}px;` + 
                 `height:${state.tileSize}px;` +
+                '}';
+
+        str += '.stats{' +
+                `top:${8 + 8 + state.tileSize*conf.tilesY + state.tileSize*2}px;` +
+                `height:${8 + 8 + state.tileSize}px;` +
                 '}';
 
         // TODO might need a .tileheight and .tilewidth

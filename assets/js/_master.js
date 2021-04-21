@@ -15,7 +15,7 @@ const master = {
         state.init();
 
         // DEV generate tiles
-        let str = '<div></div>'.repeat(conf.tilesX*conf.tilesY);
-        z(".tiles").innerHTML = str;
+        let str = '<p></p>'.repeat(conf.tilesX*conf.tilesY);
+        z(".board .tiles").innerHTML = str;
     },
 };
