@@ -34,6 +34,13 @@ const dom = {
             ratioHeight = tileSize * conf.ratioHeightTiles + conf.ratioHeightPx;
         }
 
+        /*
+            TODO
+            if stats elements should be centered on top of its parent,
+            then the tiles might need to be even numbers.
+            check if spritemaps etc are blurry
+        */
+
         // update state
         state.tileSize = tileSize;
         state.ratioWidth = ratioWidth;
@@ -64,6 +71,9 @@ const dom = {
                 `width:${state.tileSize}px;` + 
                 `height:${state.tileSize}px;` +
                 '}';
+
+        // TODO might need a .tileheight and .tilewidth
+        // that only defines one axis
 
         this.runtimeStyle.innerHTML = str;
     },
