@@ -17,5 +17,9 @@ const master = {
         // DEV generate tiles
         let str = '<p></p>'.repeat(conf.tilesX*conf.tilesY);
         z(".board .tiles").innerHTML = str;
+
+        // get computed value for skew
+        log(screen);
+        log(window.innerWidth + " x " + window.innerHeight);
     },
 };

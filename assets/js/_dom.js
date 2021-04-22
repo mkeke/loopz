@@ -31,9 +31,20 @@ const dom = {
             tileSize = Math.floor(
                 (window.innerHeight-conf.ratioHeightPx)/conf.ratioHeightTiles);
 
+            // calculate width and height
             ratioWidth = tileSize * conf.ratioWidthTiles + conf.ratioWidthPx;
             ratioHeight = tileSize * conf.ratioHeightTiles + conf.ratioHeightPx;
         }
+
+        // The ratio calculation take into account a 10px padding on either
+        // side of the element. This is necessary in terms of calculating the
+        // correct tile size.
+        // But the ratio container doesn't need the actual padding size when
+        // it is centered on screen. Thus removing this from the width/height
+        // also removes the need for setting the padding on the element, and
+        // the hassle of adjusting positioned items to the padding etc.
+        ratioWidth -= 20;
+        ratioHeight -= 20;
 
         /*
             TODO
@@ -44,9 +55,9 @@ const dom = {
 
         // update state
         state.tileSize = tileSize;
-        state.ratioWidth = ratioWidth - 20; // 10px space on either side
-        state.ratioHeight = ratioHeight - 20;
-        // ratio container is centered and near the top if possible
+        state.ratioWidth = ratioWidth;
+        state.ratioHeight = ratioHeight;
+        // ratio container is centered and near the top
         state.ratioLeft = Math.floor((window.innerWidth - state.ratioWidth) / 2);
         state.ratioTop = Math.floor((window.innerHeight - state.ratioHeight) / 4);
 
@@ -68,12 +79,7 @@ const dom = {
                 `top:${state.ratioTop}px;` +
                 '}';
 
-        str += '.tile{' +
-                `width:${state.tileSize}px;` + 
-                `height:${state.tileSize}px;` +
-                '}';
-
-        str += '.tiles p{' +
+        str += '.tile, .tiles p{' +
                 `width:${state.tileSize}px;` + 
                 `height:${state.tileSize}px;` +
                 '}';
@@ -83,8 +89,10 @@ const dom = {
                 `height:${8 + 8 + state.tileSize}px;` +
                 '}';
 
-        // TODO might need a .tileheight and .tilewidth
-        // that only defines one axis
+        str += '.skew{' +
+                `width:${state.tileSize*3}px;` + 
+                `height:${state.tileSize*3}px;` +
+                '}';
 
         this.runtimeStyle.innerHTML = str;
     },
