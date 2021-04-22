@@ -2,7 +2,7 @@ const dom = {
     runtimeStyle: null,
     parent: null,
     ratio: null,
-    tiles: null,
+    board: null,
 
     /*
         calculateSizes()
@@ -110,6 +110,7 @@ const dom = {
         this.runtimeStyle = z("style.runtime");
         this.parent = z(".fullscreen");
         this.ratio = this.parent.find(".ratio");
+        this.board = this.parent.find("section.board .tiles");
 
         // handle viewport size change
         this.handleResize();
