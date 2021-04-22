@@ -1,3 +1,19 @@
+// color assignment
+$border-top-color: #334433;
+$border-right-color: #444433;
+$border-bottom-color: #112200;
+$border-left-color: #112222;
+$border-shine-light: #777777;
+$border-shine-medium: #223322;
+$border-shine-dark: #222211;
+$border-plateau-color: #223322;
+$tile-color: #223322;
+$tile-border-top: #444433;
+$tile-border-right: #444433;
+$tile-border-bottom: #112222;
+$tile-border-left: #112222;
+
+
 body {
     background-color: #000;
 }
@@ -26,45 +42,28 @@ body {
     // and whole integer positions
 }
 
-section.board {}
+section.board {
+}
 
 section.stats {
     position: absolute;
     width: 100%;
     left: 0;
     // top is maintined by javascript
-}
-
-// tiles in a wrapper
-.tiles p {
-    // width and height is calculated runtime
-    display: inline-block;
-    vertical-align: top;
-    box-sizing: border-box;
-
-    border-width: 1px;
-    border-style: solid;
-    border-right-color: #ffffff30;
-    border-top-color: #ffffff30;
-    border-left-color: #00000050;
-    border-bottom-color: #00000050;
-
-    background-color: #334433;
-
-    // TODO assign svg+bg based on primitive type
+    // height is auto
 }
 
 // elements with a stone border
 .stone {
-    border-width: 4px;
+    border-width: 10px;
     border-style: solid;
-    border-top-color: #444433;
-    border-right-color: #444433;
-    border-bottom-color: #112222;
-    border-left-color: #112222;
+    border-top-color: $border-top-color;
+    border-right-color: $border-right-color;
+    border-bottom-color: $border-bottom-color;
+    border-left-color: $border-left-color;
 
-    padding: 4px;
-    background-color: #223322;
+    padding: 5px;
+    background-color: $border-plateau-color;
 
     box-sizing: border-box;
     position: relative;
@@ -72,47 +71,70 @@ section.stats {
     vertical-align: top;
 }
 
+// tiles in a wrapper
+.tiles {
+    border: 2px solid black;
+    p {
+        // width and height is calculated runtime
+        display: inline-block;
+        vertical-align: top;
+        box-sizing: border-box;
+
+        border-width: 1px;
+        border-style: solid;
+        border-top-color: $tile-border-top;
+        border-right-color: $tile-border-right;
+        border-bottom-color: $tile-border-bottom;
+        border-left-color: $tile-border-left;
+
+        background-color: $tile-color;
+
+        // TODO assign svg+bg based on primitive type
+    }
+}
+
+
 // diagonal shine/shadow on stone borders
 .border-shine {
     li {
-        width: 4px;
-        height: 4px;
+        width: 10px;
+        height: 10px;
         position: absolute;
         &:nth-child(1) {
-            left: -4px;
-            top: -4px;
+            left: -10px;
+            top: -10px;
             $svg: (
-                '<path fill="none" stroke="#223322" stroke-width="3"'
-                ' d="M0,0 L5,5" />'
+                '<path fill="none" stroke="#{$border-shine-medium}" stroke-width="2"'
+                ' d="M0,0 L10,10" />'
             );
-            @include svg($svg, 0, 0, 5, 5);
+            @include svg($svg, 0, 0, 10, 10);
         }
         &:nth-child(2) {
-            right: -4px;
-            top: -4px;
+            right: -10px;
+            top: -10px;
             $svg: (
-                '<path fill="none" stroke="#777777" stroke-width="3"'
-                ' d="M5,0 L0,5" />'
+                '<path fill="none" stroke="#{$border-shine-light}" stroke-width="2"'
+                ' d="M10,0 L0,10" />'
             );
-            @include svg($svg, 0, 0, 5, 5);
+            @include svg($svg, 0, 0, 10, 10);
         }
         &:nth-child(3) {
-            right: -4px;
-            bottom: -4px;
+            right: -10px;
+            bottom: -10px;
             $svg: (
-                '<path fill="none" stroke="#223322" stroke-width="3"'
-                ' d="M0,0 L5,5" />'
+                '<path fill="none" stroke="#{$border-shine-medium}" stroke-width="2"'
+                ' d="M0,0 L10,10" />'
             );
-            @include svg($svg, 0, 0, 5, 5);
+            @include svg($svg, 0, 0, 10, 10);
         }
         &:nth-child(4) {
-            left: -4px;
-            bottom: -4px;
+            left: -10px;
+            bottom: -10px;
             $svg: (
-                '<path fill="none" stroke="#222211" stroke-width="3"'
-                ' d="M0,5 L5,0" />'
+                '<path fill="none" stroke="#{$border-shine-dark}" stroke-width="2"'
+                ' d="M0,10 L10,0" />'
             );
-            @include svg($svg, 0, 0, 5, 5);
+            @include svg($svg, 0, 0, 10, 10);
         }
     }
 }

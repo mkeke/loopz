@@ -36,16 +36,6 @@ const dom = {
             ratioHeight = tileSize * conf.ratioHeightTiles + conf.ratioHeightPx;
         }
 
-        // The ratio calculation take into account a 10px padding on either
-        // side of the element. This is necessary in terms of calculating the
-        // correct tile size.
-        // But the ratio container doesn't need the actual padding size when
-        // it is centered on screen. Thus removing this from the width/height
-        // also removes the need for setting the padding on the element, and
-        // the hassle of adjusting positioned items to the padding etc.
-        ratioWidth -= 20;
-        ratioHeight -= 20;
-
         /*
             TODO
             if stats elements should be centered on top of its parent,
@@ -85,8 +75,8 @@ const dom = {
                 '}';
 
         str += '.stats{' +
-                `top:${8 + 8 + state.tileSize*conf.tilesY + state.tileSize*2}px;` +
-                `height:${8 + 8 + state.tileSize}px;` +
+                `top:${conf.borderDX*2 + state.tileSize*conf.tilesY + state.tileSize*2}px;` +
+                `height:${conf.borderDX*2 + state.tileSize}px;` +
                 '}';
 
         str += '.skew{' +

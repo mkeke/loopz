@@ -12,6 +12,6 @@ const master = {
         dom.init();
         state.init();
 
-        board.init();
+        state.newGame();
     },
 };

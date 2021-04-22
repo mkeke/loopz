@@ -6,7 +6,6 @@ const state = {
     ratioTop: null,
     tileSize: null,
 
-
     // end event names
     trend: null,
     anend: null,
@@ -14,12 +13,25 @@ const state = {
     // game loop timer
     time: null,
 
+    // game states
+    pause: null,
+    gameOn: null,
+
     init: function() {
         // set start time
         this.time = Date.now();
 
         this.trend = this.whichTransitionEndEvent();
         this.anend = this.whichAnimationEndEvent();
+
+        this.gameOn = false;
+    },
+
+    newGame: function() {
+        this.pause = false;
+        this.gameOn = true;
+
+        board.init();
     },
 
     /*
