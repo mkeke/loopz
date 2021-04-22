@@ -43,13 +43,13 @@ section.stats {
     box-sizing: border-box;
 
     border-width: 1px;
-    border-style: dashed;
-    border-right-color: #ffffff80;
-    border-top-color: #ffffff80;
-    border-left-color: #00000080;
-    border-bottom-color: #00000080;
+    border-style: solid;
+    border-right-color: #ffffff30;
+    border-top-color: #ffffff30;
+    border-left-color: #00000050;
+    border-bottom-color: #00000050;
 
-    background-color: #448888;
+    background-color: #334433;
 
     // TODO assign svg+bg based on primitive type
 }
@@ -71,6 +71,52 @@ section.stats {
     display: inline-block;
     vertical-align: top;
 }
+
+// diagonal shine/shadow on stone borders
+.border-shine {
+    li {
+        width: 4px;
+        height: 4px;
+        position: absolute;
+        &:nth-child(1) {
+            left: -4px;
+            top: -4px;
+            $svg: (
+                '<path fill="none" stroke="#223322" stroke-width="3"'
+                ' d="M0,0 L5,5" />'
+            );
+            @include svg($svg, 0, 0, 5, 5);
+        }
+        &:nth-child(2) {
+            right: -4px;
+            top: -4px;
+            $svg: (
+                '<path fill="none" stroke="#777777" stroke-width="3"'
+                ' d="M5,0 L0,5" />'
+            );
+            @include svg($svg, 0, 0, 5, 5);
+        }
+        &:nth-child(3) {
+            right: -4px;
+            bottom: -4px;
+            $svg: (
+                '<path fill="none" stroke="#223322" stroke-width="3"'
+                ' d="M0,0 L5,5" />'
+            );
+            @include svg($svg, 0, 0, 5, 5);
+        }
+        &:nth-child(4) {
+            left: -4px;
+            bottom: -4px;
+            $svg: (
+                '<path fill="none" stroke="#222211" stroke-width="3"'
+                ' d="M0,5 L5,0" />'
+            );
+            @include svg($svg, 0, 0, 5, 5);
+        }
+    }
+}
+
 
 // position stats
 section.stats {

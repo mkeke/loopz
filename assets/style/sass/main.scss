@@ -17,49 +17,6 @@ $debugMode: 1;
     /*
     .stone {
         // diagonal shine/shadow on borders
-        .borders {
-            li {
-                width: 4px;
-                height: 4px;
-                position: absolute;
-                &:nth-child(1) {
-                    left: -4px;
-                    top: -4px;
-                    $svg: (
-                        '<path fill="none" stroke="#777" stroke-width="3"'
-                        ' d="M0,0 L5,5" />'
-                    );
-                    @include svg($svg, 0, 0, 5, 5);
-                }
-                &:nth-child(2) {
-                    right: -4px;
-                    top: -4px;
-                    $svg: (
-                        '<path fill="none" stroke="#bbb" stroke-width="3"'
-                        ' d="M5,0 L0,5" />'
-                    );
-                    @include svg($svg, 0, 0, 5, 5);
-                }
-                &:nth-child(3) {
-                    right: -4px;
-                    bottom: -4px;
-                    $svg: (
-                        '<path fill="none" stroke="#777" stroke-width="3"'
-                        ' d="M0,0 L5,5" />'
-                    );
-                    @include svg($svg, 0, 0, 5, 5);
-                }
-                &:nth-child(4) {
-                    left: -4px;
-                    bottom: -4px;
-                    $svg: (
-                        '<path fill="none" stroke="#444" stroke-width="3"'
-                        ' d="M0,5 L5,0" />'
-                    );
-                    @include svg($svg, 0, 0, 5, 5);
-                }
-            }
-        }
     }
     */
 
