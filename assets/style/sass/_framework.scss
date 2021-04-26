@@ -13,7 +13,6 @@ $tile-border-right: #444433;
 $tile-border-bottom: #112222;
 $tile-border-left: #112222;
 
-
 body {
     background-color: #000;
 }
@@ -80,16 +79,17 @@ section.stats {
         vertical-align: top;
         box-sizing: border-box;
 
-        border-width: 1px;
-        border-style: solid;
-        border-top-color: $tile-border-top;
-        border-right-color: $tile-border-right;
-        border-bottom-color: $tile-border-bottom;
-        border-left-color: $tile-border-left;
-
         background-color: $tile-color;
+        @include piece(8);
 
-        // TODO assign svg+bg based on primitive type
+        // assign bg + svg based on primitive type
+        &.p1 { background-color: black; @include piece(1); }
+        &.p2 { background-color: black; @include piece(2); }
+        &.p3 { background-color: black; @include piece(3); }
+        &.p4 { background-color: black; @include piece(4); }
+        &.p5 { background-color: black; @include piece(5); }
+        &.p6 { background-color: black; @include piece(6); }
+        &.pe { background-color: black; @include piece(7); } // eraser
     }
 }
 

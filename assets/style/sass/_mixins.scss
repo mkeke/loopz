@@ -39,3 +39,255 @@
     background-size: #{$size};
     background-position: #{$position};
 }
+
+/*
+    piece primitives definitions
+*/
+
+@mixin piece($id) {
+    /*
+        piece primitives:
+         _____     _____     _____     _____     _____     _____
+        |  #  |   |     |   |  #  |   |     |   |     |   |  #  |
+        |  #  |   |#####|   |  ###|   |  ###|   |###  |   |###  |
+        |__#__|   |_____|   |_____|   |__#__|   |__#__|   |_____|
+
+           1         2         3         4         5         6
+
+
+        svg sprite map
+       
+         0 _____30____60____90
+          |     |     |     |
+          |  ###|#####|###  |
+        30|__#__|_____|__#__|
+          |  #  |     |     |  8 = S = space
+          |  #  |  S  |  E  |  7 = E = eraser
+        60|__#__|_____|_____|
+          |  #  |     |  #  |
+          |  ###|#####|###  |
+        90|_____|_____|_____|
+                   ^
+                   ^---------- not used
+
+        <3
+
+    */
+
+    $top: #663322;
+    $right: #552211;
+    $left: #331100;
+    $bottom: #221100;
+
+    $black: #000000;
+    $white: #888888;
+
+    $lighten: #774433;
+    $darken: #110800;
+
+    $fn: 'fill="none"';
+    $sn: 'stroke="none"';
+    $s1: 'stroke-width="1"';
+    $s2: 'stroke-width="2"';
+
+    $svg: (
+        '<g stroke="none">'
+        // 9pt outer skew borders
+        '<path fill="#{$top}" d="M0.5,0.5 h 89 l -10,10 h -69 Z" />'
+        '<path fill="#{$right}" d="M89.5,0.5 v 89 l -10,-10 v -69 Z" />'
+        '<path fill="#{$left}" d="M0.5,89.5 v -89 l 10,10 v 69 Z" />'
+        '<path fill="#{$bottom}" d="M0.5,89.5 h 89 l -10,-10 h -69 Z" />'
+        // 9pt inner skew borders (opposite colors)
+        '<path fill="#{$bottom}" d="M29.5,29.5 h 31 l 10,-10 h -51 Z" />'
+        '<path fill="#{$top}" d="M29.5,60.5 h 31 l 10,10 h -51 Z" />'
+        '<path fill="#{$right}" d="M29.5,29.5 v 31 l -10,10 v -51 Z" />'
+        '<path fill="#{$left}" d="M60.5,60.5 v -31 l 10,-10 v 51 Z" />'
+        '</g>'
+
+        '<g fill="none" stroke-width="1">'
+        // 1pt outer border shine
+        '<path stroke="#{$right}" d="M1,1 l 10,10" />'
+        '<path stroke="#{$lighten}" d="M89,1 l -10,10" />'
+        '<path stroke="#{$darken}" d="M1,89 l 10,-10" />'
+        '<path stroke="#{$left}" d="M89,89 l -10,-10" />'
+        // 1pt inner border shine
+        '<path stroke="#{$left}" d="M20,20 l 10,10" />'
+        '<path stroke="#{$darken}" d="M70,20 l -10,10" />'
+        '<path stroke="#{$lighten}" d="M20,70 l 10,-10" />'
+        '<path stroke="#{$right}" d="M70,70 l -10,-10" />'
+        '</g>'
+
+        '<g stroke="none">'
+        // 1pt outer frame
+        '<path fill="black" d="M0,0 H90 v1 H0 Z" />'
+        '<path fill="black" d="M0,90 H90 v-1 H0 Z" />'
+        '<path fill="black" d="M0,0 V90 h1 V0 Z" />'
+        '<path fill="black" d="M90,0 V90 h-1 V0 Z" />'
+        // 1pt inner frame
+        '<path fill="black" d="M29,29 h32 v1 h-32 Z" />'
+        '<path fill="black" d="M29,60 h32 v1 h-32 Z" />'
+        '<path fill="black" d="M29,29 h1 v32 h-1 Z" />'
+        '<path fill="black" d="M60,29 h1 v32 h-1 Z" />'
+        // 1pt outer top
+        '<path fill="#{$right}" d="M10,10 h70 v1 h-70 Z" />'
+        '<path fill="#{$right}" d="M10,79 h70 v1 h-70 Z" />'
+        '<path fill="#{$right}" d="M10,10 v70 h1 v-70 Z" />'
+        '<path fill="#{$right}" d="M79,10 v70 h1 v-70 Z" />'
+        // 1pt inner top
+        '<path fill="#{$right}" d="M19,19 h52 v1 h-52 Z" />'
+        '<path fill="#{$right}" d="M19,70 h52 v1 h-52 Z" />'
+        '<path fill="#{$right}" d="M19,19 v52 h1 v-52 Z" />'
+        '<path fill="#{$right}" d="M70,19 v52 h1 v-52 Z" />'
+        '</g>'
+        // eraser
+        '<g stroke="none">'
+        '<path fill="#{$top}" d="M61,31 h28 l-9,9 h-10 Z" />'
+        '<path fill="#{$right}" d="M89,31 v28 l-9,-9 v-10 Z" />'
+        '<path fill="#{$bottom}" d="M89,59 h-28 l9,-9 h10 Z" />'
+        '<path fill="#{$left}" d="M61,31 v28 l9,-9 v-10 Z" />'
+        '</g>'
+        '<g fill="none" stroke-width="1">'
+        '<path stroke="#{$right}" d="M61,31 l 10,10" />'
+        '<path stroke="#{$lighten}" d="M89,31 l -10,10" />'
+        '<path stroke="#{$darken}" d="M61,59 l 10,-10" />'
+        '<path stroke="#{$left}" d="M89,59 l -10,-10" />'
+        '</g>'
+        '<g stroke="none">'
+        '<path fill="black" d="M60,30 h30 v1 h-30 Z" />'
+        '<path fill="black" d="M90,30 v30 h-1 v-30 Z" />'
+        '<path fill="black" d="M60,60 v-30 h1 v30 Z" />'
+        '<path fill="black" d="M60,60 h30 v-1 h-30 Z" />'
+        '<circle fill="#{$right}" cx="75" cy="45" r="12" />'
+        '<circle fill="white" cx="75" cy="45" r="11" />'
+        '<circle fill="#{$right}" cx="75" cy="45" r="5" />'
+        '<circle fill="white" cx="75" cy="45" r="4" />'
+        '<circle fill="black" cx="75" cy="45" r="3" />'
+        '</g>'
+        // space
+        '<g stroke="none">'
+        '<path fill="#{$border-bottom-color}" d="M60,60 h-30 v-1 h30 Z" />'
+        '<path fill="#{$border-left-color}" d="M30,30 v30 h1 v-30 Z" />'
+        '<path fill="#{$border-top-color}" d="M30,30 h30 v1 h-30 Z" />'
+        '<path fill="#{$border-right-color}" d="M60,30 v30 h-1 v-30 Z" />'
+        '</g>'
+
+        /*
+        // reference hell
+        '<g fill="#ffff0040" #{$sn}>'
+        '<path d="M0,0 h30 v30 h-30 Z" />'
+        '<path d="M60,0 h30 v30 h-30 Z" />'
+        '<path d="M30,30 h30 v30 h-30 Z" />'
+        '<path d="M0,60 h30 v30 h-30 Z" />'
+        '<path d="M60,60 h30 v30 h-30 Z" />'
+        '</g>'
+        '<g fill="#00000020" #{$sn}>'
+        '<path d="M0,0 h1 v90 h-1 Z" />'
+        '<path d="M2,0 h1 v90 h-1 Z" />'
+        '<path d="M4,0 h1 v90 h-1 Z" />'
+        '<path d="M6,0 h1 v90 h-1 Z" />'
+        '<path d="M8,0 h1 v90 h-1 Z" />'
+        '<path d="M10,0 h1 v90 h-1 Z" />'
+        '<path d="M12,0 h1 v90 h-1 Z" />'
+        '<path d="M14,0 h1 v90 h-1 Z" />'
+        '<path d="M16,0 h1 v90 h-1 Z" />'
+        '<path d="M18,0 h1 v90 h-1 Z" />'
+        '<path d="M20,0 h1 v90 h-1 Z" />'
+        '<path d="M22,0 h1 v90 h-1 Z" />'
+        '<path d="M24,0 h1 v90 h-1 Z" />'
+        '<path d="M26,0 h1 v90 h-1 Z" />'
+        '<path d="M28,0 h1 v90 h-1 Z" />'
+        '<path d="M30,0 h1 v90 h-1 Z" />'
+        '<path d="M32,0 h1 v90 h-1 Z" />'
+        '<path d="M34,0 h1 v90 h-1 Z" />'
+        '<path d="M36,0 h1 v90 h-1 Z" />'
+        '<path d="M38,0 h1 v90 h-1 Z" />'
+        '<path d="M40,0 h1 v90 h-1 Z" />'
+        '<path d="M42,0 h1 v90 h-1 Z" />'
+        '<path d="M44,0 h1 v90 h-1 Z" />'
+        '<path d="M46,0 h1 v90 h-1 Z" />'
+        '<path d="M48,0 h1 v90 h-1 Z" />'
+        '<path d="M50,0 h1 v90 h-1 Z" />'
+        '<path d="M52,0 h1 v90 h-1 Z" />'
+        '<path d="M54,0 h1 v90 h-1 Z" />'
+        '<path d="M56,0 h1 v90 h-1 Z" />'
+        '<path d="M58,0 h1 v90 h-1 Z" />'
+        '<path d="M60,0 h1 v90 h-1 Z" />'
+        '<path d="M62,0 h1 v90 h-1 Z" />'
+        '<path d="M64,0 h1 v90 h-1 Z" />'
+        '<path d="M66,0 h1 v90 h-1 Z" />'
+        '<path d="M68,0 h1 v90 h-1 Z" />'
+        '<path d="M70,0 h1 v90 h-1 Z" />'
+        '<path d="M72,0 h1 v90 h-1 Z" />'
+        '<path d="M74,0 h1 v90 h-1 Z" />'
+        '<path d="M76,0 h1 v90 h-1 Z" />'
+        '<path d="M78,0 h1 v90 h-1 Z" />'
+        '<path d="M80,0 h1 v90 h-1 Z" />'
+        '<path d="M82,0 h1 v90 h-1 Z" />'
+        '<path d="M84,0 h1 v90 h-1 Z" />'
+        '<path d="M86,0 h1 v90 h-1 Z" />'
+        '<path d="M88,0 h1 v90 h-1 Z" />'
+        '<path d="M0,0 h90 v1 h-90 Z" />'
+        '<path d="M0,2 h90 v1 h-90 Z" />'
+        '<path d="M0,4 h90 v1 h-90 Z" />'
+        '<path d="M0,6 h90 v1 h-90 Z" />'
+        '<path d="M0,8 h90 v1 h-90 Z" />'
+        '<path d="M0,10 h90 v1 h-90 Z" />'
+        '<path d="M0,12 h90 v1 h-90 Z" />'
+        '<path d="M0,14 h90 v1 h-90 Z" />'
+        '<path d="M0,16 h90 v1 h-90 Z" />'
+        '<path d="M0,18 h90 v1 h-90 Z" />'
+        '<path d="M0,20 h90 v1 h-90 Z" />'
+        '<path d="M0,22 h90 v1 h-90 Z" />'
+        '<path d="M0,24 h90 v1 h-90 Z" />'
+        '<path d="M0,26 h90 v1 h-90 Z" />'
+        '<path d="M0,28 h90 v1 h-90 Z" />'
+        '<path d="M0,30 h90 v1 h-90 Z" />'
+        '<path d="M0,32 h90 v1 h-90 Z" />'
+        '<path d="M0,34 h90 v1 h-90 Z" />'
+        '<path d="M0,36 h90 v1 h-90 Z" />'
+        '<path d="M0,38 h90 v1 h-90 Z" />'
+        '<path d="M0,40 h90 v1 h-90 Z" />'
+        '<path d="M0,42 h90 v1 h-90 Z" />'
+        '<path d="M0,44 h90 v1 h-90 Z" />'
+        '<path d="M0,46 h90 v1 h-90 Z" />'
+        '<path d="M0,48 h90 v1 h-90 Z" />'
+        '<path d="M0,50 h90 v1 h-90 Z" />'
+        '<path d="M0,52 h90 v1 h-90 Z" />'
+        '<path d="M0,54 h90 v1 h-90 Z" />'
+        '<path d="M0,56 h90 v1 h-90 Z" />'
+        '<path d="M0,58 h90 v1 h-90 Z" />'
+        '<path d="M0,60 h90 v1 h-90 Z" />'
+        '<path d="M0,62 h90 v1 h-90 Z" />'
+        '<path d="M0,64 h90 v1 h-90 Z" />'
+        '<path d="M0,66 h90 v1 h-90 Z" />'
+        '<path d="M0,68 h90 v1 h-90 Z" />'
+        '<path d="M0,70 h90 v1 h-90 Z" />'
+        '<path d="M0,72 h90 v1 h-90 Z" />'
+        '<path d="M0,74 h90 v1 h-90 Z" />'
+        '<path d="M0,76 h90 v1 h-90 Z" />'
+        '<path d="M0,78 h90 v1 h-90 Z" />'
+        '<path d="M0,80 h90 v1 h-90 Z" />'
+        '<path d="M0,82 h90 v1 h-90 Z" />'
+        '<path d="M0,84 h90 v1 h-90 Z" />'
+        '<path d="M0,86 h90 v1 h-90 Z" />'
+        '<path d="M0,88 h90 v1 h-90 Z" />'
+        '</g>'
+        */
+    );
+
+    // scss has no switch statements
+    // create a lookup table instead of if elsif elsif.... just for fun
+    // only define the viewBox start coordinates. The size is always 30 30
+    $viewBoxSwitch:
+        0 30,  // p1
+        30 0,  // p2
+        0 60,  // p3
+        0 0,   // p4
+        60 0,  // p5
+        60 60, // p6
+        60 30, // p7 = eraser
+        30 30; // p8 = space
+
+    // use viewBoxSwitch[id] to set the correct viewBox start coordinates
+    @include svg($svg, nth(nth($viewBoxSwitch, $id), 1), nth(nth($viewBoxSwitch, $id), 2), 30, 30);
+}
