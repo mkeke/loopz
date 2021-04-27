@@ -11,6 +11,7 @@ const master = {
 
         dom.init();
         state.init();
+        def.init();
 
         state.newGame();
     },

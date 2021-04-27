@@ -3,6 +3,7 @@ const dom = {
     parent: null,
     ratio: null,
     board: null,
+    current: null,
 
     /*
         calculateSizes()
@@ -101,6 +102,7 @@ const dom = {
         this.parent = z(".fullscreen");
         this.ratio = this.parent.find(".ratio");
         this.board = this.parent.find("section.board .tiles");
+        this.current = this.parent.find(".piece");
 
         // handle viewport size change
         this.handleResize();

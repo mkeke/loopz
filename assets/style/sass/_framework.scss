@@ -73,24 +73,25 @@ section.stats {
 // tiles in a wrapper
 .tiles {
     border: 2px solid black;
-    p {
-        // width and height is calculated runtime
-        display: inline-block;
-        vertical-align: top;
-        box-sizing: border-box;
+}
 
-        background-color: $tile-color;
-        @include piece(8);
+.tiles p, .piece p {
+    // width and height is calculated runtime
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
 
-        // assign bg + svg based on primitive type
-        &.p1 { background-color: black; @include piece(1); }
-        &.p2 { background-color: black; @include piece(2); }
-        &.p3 { background-color: black; @include piece(3); }
-        &.p4 { background-color: black; @include piece(4); }
-        &.p5 { background-color: black; @include piece(5); }
-        &.p6 { background-color: black; @include piece(6); }
-        &.pe { background-color: black; @include piece(7); } // eraser
-    }
+    background-color: $tile-color;
+    @include piece(8);
+
+    // assign bg + svg based on primitive type
+    &.p1 { background-color: black; @include piece(1); }
+    &.p2 { background-color: black; @include piece(2); }
+    &.p3 { background-color: black; @include piece(3); }
+    &.p4 { background-color: black; @include piece(4); }
+    &.p5 { background-color: black; @include piece(5); }
+    &.p6 { background-color: black; @include piece(6); }
+    &.pe { background-color: black; @include piece(7); } // eraser
 }
 
 
