@@ -12,7 +12,7 @@ const piece = {
     new: function(id, x, y) {
 
         if(id === undefined) {
-            // TODO get random piece
+            this.id = this.getNewPiece();
         } else {
             this.id = id;
         }
@@ -69,8 +69,6 @@ const piece = {
     */
     moveTo(vpX, vpY) {
 
-        // TODO only if game on or not paused
-
         // TODO precalc this. No need to calc each time
         let boardLeft = state.ratioLeft + conf.borderDX;
         let boardTop = state.ratioTop + conf.borderDX;
@@ -116,7 +114,69 @@ const piece = {
             this.y = py;
             piece.updatePosition();
         }
-    }
+    },
 
+    /*
+        drop()
+        drop the piece on the board if allowed
+    */
+    drop: function() {
 
+        if(this.isDroppable()) {
+            for(let i in def.p[this.id]) {
+                let pp = def.p[this.id][i];
+                let nx = this.x + pp.x;
+                let ny = this.y + pp.y;
+                board.plot(pp.id, nx, ny);
+            }
+            this.new();
+        } else {
+            // TODO visualize wrong move
+        }
+    },
+
+    /*
+        isDroppable()
+        checks if the current piece can be dropped on the board
+        returns true unless
+            - a piece primitive is outside the board
+            - the location on the board is occupied by a piece primnitive
+            - a piece primitive along the borders faces out of the board
+        returns false as soon as possible
+    */
+    isDroppable: function() {
+        for(let i in def.p[this.id]) {
+            let pp = def.p[this.id][i];
+            let px = this.x + pp.x;
+            let py = this.y + pp.y;
+
+            // is piece primitive outside the board?
+            if (px < 0 || px >= conf.tilesX || py < 0 || py >= conf.tilesY) {
+                return false;
+            }
+
+            // is the seat taken?
+            if (board.b[py][px] !== def.space) {
+                return false;
+            }
+
+            // is piece primitive open and facing the border?
+            if(
+                (px == 0 && def.ol[pp.id]) ||
+                (py == 0 && def.ot[pp.id]) ||
+                (px == conf.tilesX-1 && def.or[pp.id]) ||
+                (py == conf.tilesY-1 && def.ob[pp.id])) {
+                // man, lookup tables <3
+                return false;
+            }
+        }
+
+        return true;
+    },
+
+    getNewPiece: function() {
+        // TODO move to state
+        // TODO implement alternating random window
+        return Math.floor(Math.random()*(def.p.length-1)) + 1;
+    },
 };

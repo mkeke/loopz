@@ -14,6 +14,14 @@ const def = {
            1         2         3         4         5         6
     */
 
+    // lookups describing if a piece is open in either direction
+    // ot or ob ol = openings to the top right bottom left
+    //       1      2      3      4      5      6
+    ot: [ 0, false, true,  true,  false, true,  false ],
+    or: [ 0, false, false, true,  true,  false, true  ],
+    ob: [ 0, true,  false, false, true,  true,  false ],
+    ol: [ 0, true,  true,  false, false, false, true  ],
+
     // piece primitives ids.
     // pLB etc are for convenience (T R B L = Top Right Bottom Left)
     p1: 1, pLB: 1, pBL: 1,

@@ -3,6 +3,7 @@ const dom = {
     parent: null,
     ratio: null,
     board: null,
+    tiles: null,
     current: null,
 
     /*
@@ -106,6 +107,8 @@ const dom = {
         this.ratio = this.parent.find(".ratio");
         this.board = this.parent.find("section.board .tiles");
         this.current = this.parent.find(".piece");
+
+        // this.tiles is updated on board.init()
 
         // handle viewport size change
         this.handleResize();

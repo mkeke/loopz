@@ -19,5 +19,28 @@ const board = {
         let str = '<p></p>'.repeat(conf.tilesX*conf.tilesY);
         dom.board.innerHTML = str;
 
+        // update dom reference to tiles
+        dom.tiles = dom.board.find("p");
+
     },
+
+    /*
+        plot(id, x, y)
+        plots a certain piece primitive id at the desired position
+        on the board. both internally and visually
+    */
+    plot: function(id, x, y) {
+        this.b[y][x] = id;
+        dom.tiles[y*conf.tilesX + x].addClass("p"+id);
+    },
+
+    /*
+        unplot(x,y)
+        clear the board at a specific coordinate
+    */
+    unplot: function(x, y) {
+        this.b[y][x] = def.space;
+        dom.tiles[y*conf.tilesX + x].className="";
+    },
+
 }
