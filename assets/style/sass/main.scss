@@ -34,34 +34,5 @@ $debugMode: 1;
     .tiles p {
     }
 
-    .piece {
-        // width and height is set by js (one tile)
-        // left + top is updated by js
-        position: absolute;
-        background-color: red;
-
-        p {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        // piece primitive positions relative to piece origo
-        .x-3 { left: -300%; }
-        .x-2 { left: -200%; }
-        .x-1 { left: -100%; }
-        .x0  { left:    0%; }
-        .x1  { left:  100%; }
-        .x2  { left:  200%; }
-        .x3  { left:  300%; }
-        .y-3 { top:  -300%; }
-        .y-2 { top:  -200%; }
-        .y-1 { top:  -100%; }
-        .y0  { top:     0%; }
-        .y1  { top:   100%; }
-        .y2  { top:   200%; }
-        .y3  { top:   300%; }
-
-    }
 
 }

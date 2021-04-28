@@ -33,6 +33,8 @@ const state = {
 
         board.init();
 
+        /*
+        */
         // dev place different piece primitives on the board
         dom.board.find("p")[21].addClass("p1");
         dom.board.find("p")[22].addClass("p2");
@@ -41,9 +43,9 @@ const state = {
         dom.board.find("p")[25].addClass("p5");
         dom.board.find("p")[26].addClass("p6");
         dom.board.find("p")[27].addClass("pe");
-        /*
-        */
-        piece.new(9, 4, 4);
+        piece.new(23, 13, 3);
+
+        //piece.rotate();
     },
 
     /*

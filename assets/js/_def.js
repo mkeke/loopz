@@ -15,8 +15,7 @@ const def = {
     */
 
     // piece primitives ids.
-    // pLB etc are for convenience (Left Bottom)
-    // T R B L = TOP RIGHT BOTTOM LEFT
+    // pLB etc are for convenience (T R B L = Top Right Bottom Left)
     p1: 1, pLB: 1, pBL: 1,
     p2: 2, pLT: 2, pTL: 2,
     p3: 3, pRT: 3, pTR: 3,
@@ -24,193 +23,243 @@ const def = {
     p5: 5, pTB: 5, pBT: 5,
     p6: 6, pLR: 6, pRL: 6,
 
+    // piece definition lookup is created runtime
     p: [],
+
+    // rotation lookup
+    r: [ 0, // not used
+         2, //  1
+         3, //  2
+         4, //  3
+         1, //  4
+         6, //  5
+         5, //  6
+         8, //  7
+         9, //  8
+        10, //  9
+         7, // 10
+        12, // 11
+        11, // 12
+        14, // 13
+        15, // 14
+        16, // 15
+        13, // 16
+        18, // 17
+        19, // 18
+        20, // 19
+        17, // 20
+        22, // 21
+        21, // 22
+        24, // 23
+        23, // 24
+        26, // 25
+        27, // 26
+        28, // 27
+        25, // 28
+        30, // 29
+        29, // 30
+        32, // 31
+        31, // 32
+        ],
 
     createPieceLookup: function() {
         this.p.push([]); // 0 = not used
 
         // piece primitives
-        this.p.push([{id:this.p1,x:0,y:0}]); // p1
-        this.p.push([{id:this.p2,x:0,y:0}]); // p2
-        this.p.push([{id:this.p3,x:0,y:0}]); // p3
-        this.p.push([{id:this.p4,x:0,y:0}]); // p4
-        this.p.push([{id:this.p5,x:0,y:0}]); // p5
-        this.p.push([{id:this.p6,x:0,y:0}]); // p6
+        this.p.push([{id:this.p1,x:0,y:0}]); // 1
+        this.p.push([{id:this.p2,x:0,y:0}]); // 2
+        this.p.push([{id:this.p3,x:0,y:0}]); // 3
+        this.p.push([{id:this.p4,x:0,y:0}]); // 4
+        this.p.push([{id:this.p5,x:0,y:0}]); // 5
+        this.p.push([{id:this.p6,x:0,y:0}]); // 6
 
-        this.p.push([                   //  ___ ___ ___ 
-            {id:this.pLR,x:-1,y: 0},    // |   | . |   |
+        // pieces sorted somewhat by complexity
+
+        this.p.push([                   //  ___ ___ 
+            {id:this.pLR,x:-1,y: 0},    // |   | o |      7
+            {id:this.pLB,x: 0,y: 0},    // |___|___|
+            {id:this.pTB,x: 0,y: 1},    //     |   |
+        ]);                             //     |___|
+                                        //
+        this.p.push([                   //      ___ 
+            {id:this.pLR,x:-1,y: 0},    //     |   |      8
+            {id:this.pLT,x: 0,y: 0},    //  ___|___|
+            {id:this.pTB,x: 0,y:-1},    // |   | o |
+        ]);                             // |___|___|
+                                        //
+        this.p.push([                   //  ___
+            {id:this.pTB,x: 0,y:-1},    // |   |          9
+            {id:this.pRT,x: 0,y: 0},    // |___|___
+            {id:this.pLR,x: 1,y: 0},    // | o |   |
+        ]);                             // |___|___|
+                                        //
+        this.p.push([                   //  ___ ___ 
+            {id:this.pTB,x: 0,y: 1},    // | o |   |     10
+            {id:this.pRB,x: 0,y: 0},    // |___|___|
+            {id:this.pLR,x: 1,y: 0},    // |   |
+        ]);                             // |___|
+                                        //
+        this.p.push([                   //  ___ 
+            {id:this.pTB,x: 0,y:-1},    // |   |         11
+            {id:this.pTB,x: 0,y: 0},    // |___|
+            {id:this.pTB,x: 0,y: 1},    // | o |
+        ]);                             // |___|
+                                        // |   |
+                                        // |___| 
+        this.p.push([                   //  ___ ___ ___
+            {id:this.pLR,x:-1,y: 0},    // |   | o |   | 12
             {id:this.pLR,x: 0,y: 0},    // |___|___|___|
-            {id:this.pLR,x: 1,y: 0},    //
-        ]);                             //  ___ 
-        this.p.push([                   // |   |
+            {id:this.pLR,x: 1,y: 0},    //      
+        ]);                             //
+                                        //
+        this.p.push([                   //  ___ ___
+            {id:this.pLR,x:-1,y: 0},    // |   | o |     13
+            {id:this.pLB,x: 0,y: 0},    // |___|___|
+            {id:this.pTB,x: 0,y: 1},    //     |   |
+            {id:this.pTB,x: 0,y: 2},    //     |___|
+        ]);                             //     |   |
+                                        //     |___|
+        this.p.push([                   //          ___ 
+            {id:this.pLR,x:-2,y: 0},    //         |   | 14
+            {id:this.pLR,x:-1,y: 0},    //  ___ ___|___|
+            {id:this.pLT,x: 0,y: 0},    // |   |   | o |
+            {id:this.pTB,x: 0,y:-1},    // |___|___|___|
+        ]);                             //
+                                        //
+        this.p.push([                   //  ___ 
+            {id:this.pTB,x: 0,y:-2},    // |   |         15
             {id:this.pTB,x: 0,y:-1},    // |___|
-            {id:this.pTB,x: 0,y: 0},    // | . |
-            {id:this.pTB,x: 0,y: 1},    // |___|
+            {id:this.pRT,x: 0,y: 0},    // |   |
+            {id:this.pLR,x: 1,y: 0},    // |___|___
+        ]);                             // | o |   |
+                                        // |___|___|
+        this.p.push([                   //  ___ ___ ___
+            {id:this.pTB,x: 0,y: 1},    // | o |   |   | 16
+            {id:this.pRB,x: 0,y: 0},    // |___|___|___|
+            {id:this.pLR,x: 1,y: 0},    // |   |
+            {id:this.pLR,x: 2,y: 0},    // |___|
+        ]);                             //
+                                        //
+        this.p.push([                   //  ___ ___ ___
+            {id:this.pLR,x:-2,y: 0},    // |   |   | o | 17
+            {id:this.pLR,x:-1,y: 0},    // |___|___|___|
+            {id:this.pLB,x: 0,y: 0},    //         |   |
+            {id:this.pTB,x: 0,y: 1},    //         |___|
+        ]);                             //
+                                        //
+        this.p.push([                   //      ___ 
+            {id:this.pLR,x:-1,y: 0},    //     |   |     18
+            {id:this.pLT,x: 0,y: 0},    //     |___|
+            {id:this.pTB,x: 0,y:-1},    //     |   |
+            {id:this.pTB,x: 0,y:-2},    //  ___|___|
+        ]);                             // |   | o |
+                                        // |___|___|
+        this.p.push([                   //  ___ 
+            {id:this.pTB,x: 0,y:-1},    // |   |         19
+            {id:this.pRT,x: 0,y: 0},    // |___|___ ___
+            {id:this.pLR,x: 1,y: 0},    // | o |   |   |
+            {id:this.pLR,x: 2,y: 0},    // |___|___|___|
+        ]);                             //
+                                        //
+        this.p.push([                   //  ___ ___ 
+            {id:this.pRB,x: 0,y: 0},    // | o |   |     20
+            {id:this.pLR,x: 1,y: 0},    // |___|___|
+            {id:this.pTB,x: 0,y: 1},    // |   |
+            {id:this.pTB,x: 0,y: 2},    // |___|
         ]);                             // |   |
                                         // |___|
-                                        //  ___ ___
-        this.p.push([                   // |   | . |
-            {id:this.pLR,x:-1,y: 0},    // |___|___|
-            {id:this.pLB,x: 0,y: 0},    //     |   |
-            {id:this.pTB,x: 0,y: 1},    //     |___|
-            {id:this.pTB,x: 0,y: 2},    //     |   |
-        ]);                             //     |___|
-                                        // 
-
-
-        /*
-        this.p.push([
-            {this.p,x:,y:},
-        ]);
-        */
-
-/*
-
-        lctrl.pieceLookup[10] = [
-        [lctrl.pp_up_down, 0, 2], 
-        [lctrl.pp_up_down, 0, 1], 
-        [lctrl.pp_right_down, 0, 0], 
-        [lctrl.pp_left_right, 1, 0]];
-
-        lctrl.pieceLookup[11] = [
-        [lctrl.pp_up_down, 0, -1], 
-        [lctrl.pp_right_up, 0, 0], 
-        [lctrl.pp_left_down, 1, 0], 
-        [lctrl.pp_up_down, 1, 1]];
-
-        lctrl.pieceLookup[12] = [
-        [lctrl.pp_up_down, 0, 1], 
-        [lctrl.pp_right_down, 0, 0], 
-        [lctrl.pp_left_up, 1, 0], 
-        [lctrl.pp_up_down, 1, -1]];
-
-        lctrl.pieceLookup[13] = [
-        [lctrl.pp_left_right, 1, -1], 
-        [lctrl.pp_right_down, 0, -1], 
-        [lctrl.pp_up_down, 0, 0], 
-        [lctrl.pp_right_up, 0, 1], 
-        [lctrl.pp_left_right, 1, 1]];
-
-        lctrl.pieceLookup[14] = [
-        [lctrl.pp_up_down, -1, -1], 
-        [lctrl.pp_right_up, -1, 0], 
-        [lctrl.pp_left_right, 0, 0], 
-        [lctrl.pp_left_down, 1, 0], 
-        [lctrl.pp_up_down, 1, 1]];
-
-        lctrl.pieceLookup[15] = [
-        [lctrl.pp_up_down, -1, 1], 
-        [lctrl.pp_right_down, -1, 0], 
-        [lctrl.pp_left_right, 0, 0], 
-        [lctrl.pp_left_up, 1, 0], 
-        [lctrl.pp_up_down, 1, -1]];
-
-        lctrl.pieceLookup[16] = [
-        [lctrl.pp_left_right, -1, 0], 
-        [lctrl.pp_left_up, 0, 0], 
-        [lctrl.pp_up_down, 0, -1]];
-
-        lctrl.pieceLookup[17] = [
-        [lctrl.pp_left_right, -1, 0], 
-        [lctrl.pp_left_right, 0, 0], 
-        [lctrl.pp_left_right, 1, 0]];
-
-        lctrl.pieceLookup[18] = [
-        [lctrl.pp_left_right, -2, 0], 
-        [lctrl.pp_left_right, -1, 0], 
-        [lctrl.pp_left_up, 0, 0], 
-        [lctrl.pp_up_down, 0, -1]];
-
-        lctrl.pieceLookup[19] = [
-        [lctrl.pp_left_right, -2, 0], 
-        [lctrl.pp_left_right, -1, 0], 
-        [lctrl.pp_left_down, 0, 0], 
-        [lctrl.pp_up_down, 0, 1]];
-
-        lctrl.pieceLookup[20] = [
-        [lctrl.pp_left_right, -1, 1], 
-        [lctrl.pp_left_up, 0, 1], 
-        [lctrl.pp_right_down, 0, 0], 
-        [lctrl.pp_left_right, 1, 0]];
-
-        lctrl.pieceLookup[21] = [
-        [lctrl.pp_left_right, -1, 0], 
-        [lctrl.pp_left_down, 0, 0], 
-        [lctrl.pp_right_up, 0, 1], 
-        [lctrl.pp_left_right, 1, 1]];
-
-        lctrl.pieceLookup[22] = [
-        [lctrl.pp_up_down, -1, 1], 
-        [lctrl.pp_right_down, -1, 0], 
-        [lctrl.pp_left_right, 0, 0], 
-        [lctrl.pp_left_down, 1, 0], 
-        [lctrl.pp_up_down, 1, 1]];
-
-        lctrl.pieceLookup[23] = [
-        [lctrl.pp_left_right, -1, 1], 
-        [lctrl.pp_left_up, 0, 1], 
-        [lctrl.pp_up_down, 0, 0], 
-        [lctrl.pp_right_down, 0, -1], 
-        [lctrl.pp_left_right, 1, -1]];
-
-        lctrl.pieceLookup[24] = [
-        [lctrl.pp_left_right, -1, -1], 
-        [lctrl.pp_left_down, 0, -1], 
-        [lctrl.pp_up_down, 0, 0], 
-        [lctrl.pp_right_up, 0, 1], 
-        [lctrl.pp_left_right, 1, 1]];
-
-        lctrl.pieceLookup[25] = [
-        [lctrl.pp_up_down, 0, -1], 
-        [lctrl.pp_right_up, 0, 0], 
-        [lctrl.pp_left_right, 1, 0]];
-
-        lctrl.pieceLookup[26] = [
-        [lctrl.pp_up_down, 0, -2], 
-        [lctrl.pp_up_down, 0, -1], 
-        [lctrl.pp_right_up, 0, 0], 
-        [lctrl.pp_left_right, 1, 0]];
-
-        lctrl.pieceLookup[27] = [
-        [lctrl.pp_left_right, -1, 0], 
-        [lctrl.pp_left_up, 0, 0], 
-        [lctrl.pp_up_down, 0, -1], 
-        [lctrl.pp_up_down, 0, -2]];
-
-        lctrl.pieceLookup[28] = [
-        [lctrl.pp_left_right, -1, -1], 
-        [lctrl.pp_left_down, 0, -1], 
-        [lctrl.pp_up_down, 0, 0], 
-        [lctrl.pp_left_up, 0, 1], 
-        [lctrl.pp_left_right, -1, 1]];
-
-        lctrl.pieceLookup[29] = [
-        [lctrl.pp_up_down, 0, 1], 
-        [lctrl.pp_right_down, 0, 0], 
-        [lctrl.pp_left_right, 1, 0]];
-
-        lctrl.pieceLookup[30] = [
-        [lctrl.pp_up_down, 0, 1], 
-        [lctrl.pp_right_down, 0, 0], 
-        [lctrl.pp_left_right, 1, 0], 
-        [lctrl.pp_left_right, 2, 0]];
-
-        lctrl.pieceLookup[31] = [
-        [lctrl.pp_up_down, 0, -1], 
-        [lctrl.pp_right_up, 0, 0], 
-        [lctrl.pp_left_right, 1, 0], 
-        [lctrl.pp_left_right, 2, 0]];
-
-        lctrl.pieceLookup[32] = [
-        [lctrl.pp_up_down, -1, -1], 
-        [lctrl.pp_right_up, -1, 0], 
-        [lctrl.pp_left_right, 0, 0], 
-        [lctrl.pp_left_up, 1, 0], 
-        [lctrl.pp_up_down, 1, -1]];
-
-*/
-
-
+                                        //
+        this.p.push([                   //  ___ 
+            {id:this.pTB,x: 0,y:-1},    // |   |         21
+            {id:this.pRT,x: 0,y: 0},    // |___|___
+            {id:this.pLB,x: 1,y: 0},    // | o |   |
+            {id:this.pTB,x: 1,y: 1},    // |___|___|
+        ]);                             //     |   |
+                                        //     |___|
+        this.p.push([                   //      ___ ___
+            {id:this.pLR,x:-1,y: 1},    //     | o |   | 22
+            {id:this.pLT,x: 0,y: 1},    //  ___|___|___|
+            {id:this.pRB,x: 0,y: 0},    // |   |   |
+            {id:this.pLR,x: 1,y: 0},    // |___|___|
+        ]);                             //
+                                        //
+        this.p.push([                   //      ___ 
+            {id:this.pTB,x: 0,y: 1},    //     |   |     23
+            {id:this.pRB,x: 0,y: 0},    //  ___|___|
+            {id:this.pLT,x: 1,y: 0},    // | o |   |
+            {id:this.pTB,x: 1,y:-1},    // |___|___|
+        ]);                             // |   |
+                                        // |___|
+        this.p.push([                   //  ___ ___
+            {id:this.pLR,x:-1,y: 0},    // |   | o |     24
+            {id:this.pLB,x: 0,y: 0},    // |___|___|___
+            {id:this.pRT,x: 0,y: 1},    //     |   |   |
+            {id:this.pLR,x: 1,y: 1},    //     |___|___|
+        ]);                             //
+                                        //
+        this.p.push([                   //  ___ ___ 
+            {id:this.pLR,x: 1,y:-1},    // |   |   |     25
+            {id:this.pRB,x: 0,y:-1},    // |___|___|
+            {id:this.pTB,x: 0,y: 0},    // | o |
+            {id:this.pRT,x: 0,y: 1},    // |___|___
+            {id:this.pLR,x: 1,y: 1},    // |   |   |
+        ]);                             // |___|___|
+                                        //
+        this.p.push([                   //  ___ ___ ___
+            {id:this.pTB,x:-1,y: 1},    // |   | o |   | 26
+            {id:this.pRB,x:-1,y: 0},    // |___|___|___|
+            {id:this.pLR,x: 0,y: 0},    // |   |   |   |
+            {id:this.pLB,x: 1,y: 0},    // |___|   |___|
+            {id:this.pTB,x: 1,y: 1},    //
+        ]);                             //
+                                        //
+        this.p.push([                   //  ___ ___ 
+            {id:this.pLR,x:-1,y:-1},    // |   |   |     27
+            {id:this.pLB,x: 0,y:-1},    // |___|___|
+            {id:this.pTB,x: 0,y: 0},    //     | o |
+            {id:this.pLT,x: 0,y: 1},    //  ___|___|
+            {id:this.pLR,x:-1,y: 1},    // |   |   |
+        ]);                             // |___|___|
+                                        //
+        this.p.push([                   //  ___     ___
+            {id:this.pTB,x:-1,y:-1},    // |   |   |   | 28
+            {id:this.pRT,x:-1,y: 0},    // |___|___|___|
+            {id:this.pLR,x: 0,y: 0},    // |   | o |   |
+            {id:this.pLT,x: 1,y: 0},    // |___|___|___|
+            {id:this.pTB,x: 1,y:-1},    //
+        ]);                             //
+        this.p.push([                   //  ___ 
+            {id:this.pTB,x:-1,y:-1},    // |   |         29
+            {id:this.pRT,x:-1,y: 0},    // |___|___ ___
+            {id:this.pLR,x: 0,y: 0},    // |   | o |   |
+            {id:this.pLB,x: 1,y: 0},    // |___|___|___|
+            {id:this.pTB,x: 1,y: 1},    //         |   |
+        ]);                             //         |___|
+                                        //
+        this.p.push([                   //      ___ ___ 
+            {id:this.pLR,x:-1,y: 1},    //     |   |   | 30
+            {id:this.pLT,x: 0,y: 1},    //     |___|___|
+            {id:this.pTB,x: 0,y: 0},    //     | o |
+            {id:this.pRB,x: 0,y:-1},    //  ___|___|
+            {id:this.pLR,x: 1,y:-1},    // |   |   |
+        ]);                             // |___|___|
+                                        //
+        this.p.push([                   //          ___ 
+            {id:this.pTB,x:-1,y: 1},    //         |   | 31
+            {id:this.pRB,x:-1,y: 0},    //  ___ ___|___|
+            {id:this.pLR,x: 0,y: 0},    // |   | o |   |
+            {id:this.pLT,x: 1,y: 0},    // |___|___|___|
+            {id:this.pTB,x: 1,y:-1},    // |   |
+        ]);                             // |___|
+                                        //
+        this.p.push([                   //  ___ ___ 
+            {id:this.pLR,x:-1,y:-1},    // |   |   |     32
+            {id:this.pLB,x: 0,y:-1},    // |___|___|
+            {id:this.pTB,x: 0,y: 0},    //     | o |
+            {id:this.pRT,x: 0,y: 1},    //     |___|___
+            {id:this.pLR,x: 1,y: 1},    //     |   |   |
+        ]);                             //     |___|___|
+                                        //
     },
 
     init: function() {

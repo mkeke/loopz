@@ -31,7 +31,7 @@ body {
 }
 
 .ratio {
-    overflow: hidden;
+    overflow: visible;
     position: absolute;
     box-sizing: border-box;
 
@@ -42,6 +42,8 @@ body {
 }
 
 section.board {
+    // TODO enable cursor when game is not on
+    cursor: none;
 }
 
 section.stats {
@@ -75,6 +77,7 @@ section.stats {
     border: 2px solid black;
 }
 
+// piece primitive bgimages
 .tiles p, .piece p {
     // width and height is calculated runtime
     display: inline-block;
@@ -82,18 +85,66 @@ section.stats {
     box-sizing: border-box;
 
     background-color: $tile-color;
-    @include piece(8);
+    @include piece(8); // space
 
-    // assign bg + svg based on primitive type
-    &.p1 { background-color: black; @include piece(1); }
-    &.p2 { background-color: black; @include piece(2); }
-    &.p3 { background-color: black; @include piece(3); }
-    &.p4 { background-color: black; @include piece(4); }
-    &.p5 { background-color: black; @include piece(5); }
-    &.p6 { background-color: black; @include piece(6); }
-    &.pe { background-color: black; @include piece(7); } // eraser
+    // assign svg based on primitive type
+    &.p1 { @include piece(1); }
+    &.p2 { @include piece(2); }
+    &.p3 { @include piece(3); }
+    &.p4 { @include piece(4); }
+    &.p5 { @include piece(5); }
+    &.p6 { @include piece(6); }
+    &.pe { @include piece(7); } // eraser
 }
 
+// black bg on pieces placed on the board
+.tiles p {
+    &.p1 { background-color: black; }
+    &.p2 { background-color: black; }
+    &.p3 { background-color: black; }
+    &.p4 { background-color: black; }
+    &.p5 { background-color: black; }
+    &.p6 { background-color: black; }
+}
+
+// light bg on current piece
+.piece p {
+    &.p1 { background-color: #888; }
+    &.p2 { background-color: #888; }
+    &.p3 { background-color: #888; }
+    &.p4 { background-color: #888; }
+    &.p5 { background-color: #888; }
+    &.p6 { background-color: #888; }
+}
+
+// piece primitive placement relative to piece origo
+.piece {
+    // width and height is set by js (one tile)
+    // left + top is updated by js
+    position: absolute;
+    background-color: red;
+
+    p {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .x-3 { left: -300%; }
+    .x-2 { left: -200%; }
+    .x-1 { left: -100%; }
+    .x0  { left:    0%; }
+    .x1  { left:  100%; }
+    .x2  { left:  200%; }
+    .x3  { left:  300%; }
+    .y-3 { top:  -300%; }
+    .y-2 { top:  -200%; }
+    .y-1 { top:  -100%; }
+    .y0  { top:     0%; }
+    .y1  { top:   100%; }
+    .y2  { top:   200%; }
+    .y3  { top:   300%; }
+}
 
 // diagonal shine/shadow on stone borders
 .border-shine {

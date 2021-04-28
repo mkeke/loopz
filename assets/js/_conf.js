@@ -1,6 +1,9 @@
 const conf = {
     debugLevel: 1,
 
+    // screen maxWidth
+    maxWidth: 800,
+
     // screen ratio consists of tiles + additional px in either direction
     ratioWidthTiles: 18, // 18 board tiles
     ratioWidthPx: 34, // 2*(10+5+2) px border stuff on each side

@@ -19,9 +19,11 @@ const dom = {
     */
     calculateSizes: function() {
 
+        let innerWidth = Math.min(conf.maxWidth, window.innerWidth);
+
         // attempt to determine tile size based on available screen width
         let tileSize = Math.floor(
-            (window.innerWidth-conf.ratioWidthPx)/conf.ratioWidthTiles);
+            (innerWidth-conf.ratioWidthPx)/conf.ratioWidthTiles);
 
         // calculate width and height of ratio element based on tile size
         let ratioWidth = tileSize * conf.ratioWidthTiles + conf.ratioWidthPx;
@@ -95,6 +97,7 @@ const dom = {
     handleResize: function() {
         this.calculateSizes();
         this.updateRuntimeCSS();
+        piece.updatePosition();
     },
 
     init: function() {
