@@ -12,6 +12,8 @@ const master = {
         dom.init();
         state.init();
         def.init();
+        board.init();
+
         this.handleMouseEvents();
 
         state.newGame();

@@ -31,9 +31,8 @@ const state = {
         this.pause = false;
         this.gameOn = true;
 
-        board.init();
 
-        piece.new(15, 9, 3);
+        piece.new(1, 9, 3);
 
         //piece.rotate();
     },

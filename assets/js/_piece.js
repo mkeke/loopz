@@ -123,13 +123,21 @@ const piece = {
     drop: function() {
 
         if(this.isDroppable()) {
+
+            // TODO temporarily set game on pause
+            dom.current.innerHTML = "";
             for(let i in def.p[this.id]) {
                 let pp = def.p[this.id][i];
                 let nx = this.x + pp.x;
                 let ny = this.y + pp.y;
                 board.plot(pp.id, nx, ny);
             }
-            this.new();
+            if(!this.handleLoop()) {
+                // log("no loop yet");
+                // no loop
+                // TODO turn off pause to resume game
+                this.new();
+            }
         } else {
             // TODO visualize wrong move
         }
@@ -177,6 +185,111 @@ const piece = {
     getNewPiece: function() {
         // TODO move to state
         // TODO implement alternating random window
-        return Math.floor(Math.random()*(def.p.length-1)) + 1;
+
+        if(Math.floor(Math.random()*4) > 1) {
+            // easy
+            return Math.floor(Math.random()*11) + 1;
+        } else {
+            // all
+            return Math.floor(Math.random()*(def.p.length-1)) + 1;
+        }
+
+        // return Math.floor(Math.random()*(def.p.length-1)) + 1;
     },
+
+    /*
+        handleLoop()
+        determines if the current piece (placed on the board)
+        resulted in a complete loop
+        returns false if not, resuming normal flow
+
+        however if a loop is detected a lot of things will happen
+    */
+    handleLoop: function() {
+
+        /*
+            overview of algorithm:
+
+            isLoop = false;
+
+            get an exit direction (for instance "LEFT")
+            dir = def.exit[pp][0] (contains 2 directions)
+
+            go in that direction
+            x = ox + dir.dx
+            y = oy + dir.dy
+            pp = board[y][x]
+
+            while pp is pp AND pp is open in opposite direction ("RIGHT")
+                dir = direction other than opposite_direction
+                go in that direction
+                x += dx
+                y += dx
+                pp = board[y][x]
+
+                if x y is origo
+                    isLoop = true
+                    break
+        */
+
+        // we'll see about that
+        let isLoop = false;
+        let loop = [];
+
+        // start/end coordinate
+        let ox = this.x;
+        let oy = this.y;
+        let pp = board.b[oy][ox];
+
+        // log(`start: ${ox},${oy}`);
+
+        // get an exit direction
+        let exit = def.exit[pp][0]; // for instance "left"
+
+        // go in that direction
+        let x = ox + def.dir[exit].dx;
+        let y = oy + def.dir[exit].dy;
+        pp = board.b[y][x];
+        let inv = def.dir[exit].inv;
+        loop.push({x:x,y:y});
+        //log(`go ${exit} to ${x},${y} pp:${pp} looking ${inv}`);
+
+        while(pp !== def.space &&
+            (def.exit[pp][0] == inv || def.exit[pp][1] == inv)) {
+
+            // determine new direction. Must be different from inv
+            if(def.exit[pp][0] !== inv) {
+                exit = def.exit[pp][0];
+            } else {
+                exit = def.exit[pp][1];
+            }
+
+            // go in that direction
+            x += def.dir[exit].dx;
+            y += def.dir[exit].dy;
+            pp = board.b[y][x];
+            inv = def.dir[exit].inv;
+            loop.push({x:x,y:y});
+
+            // log(`go ${exit} to ${x},${y} pp:${pp} looking ${inv}`);
+
+            if (x == ox && y == oy) {
+                isLoop = true;
+                //log("LOOP!");
+                break;
+            }
+        }
+
+        if(!isLoop) {
+            return false;
+        }
+
+        // remove stuff
+        for(let i in loop) {
+            board.unplot(loop[i].x,loop[i].y);
+        }
+
+        this.new();
+
+    }
 };

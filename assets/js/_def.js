@@ -14,13 +14,32 @@ const def = {
            1         2         3         4         5         6
     */
 
-    // lookups describing if a piece is open in either direction
+    // lookups defining whether a piece is open in either direction
     // ot or ob ol = openings to the top right bottom left
     //       1      2      3      4      5      6
     ot: [ 0, false, true,  true,  false, true,  false ],
     or: [ 0, false, false, true,  true,  false, true  ],
     ob: [ 0, true,  false, false, true,  true,  false ],
     ol: [ 0, true,  true,  false, false, false, true  ],
+
+    // lookup defining dx and dy for each direction,
+    // as well as the name of the opposite direction
+    dir: {
+        "left":  { dx:-1, dy: 0, inv: "right"},
+        "right": { dx: 1, dy: 0, inv: "left"},
+        "up":    { dx: 0, dy:-1, inv: "down"},
+        "down":  { dx: 0, dy: 1, inv: "up"},
+    },
+
+    // piece exit lookup
+    exit: [ [],
+        ["left", "down"],
+        ["left", "up"],
+        ["up", "right"],
+        ["right", "down"],
+        ["up", "down"],
+        ["left", "right"],
+    ],
 
     // piece primitives ids.
     // pLB etc are for convenience (T R B L = Top Right Bottom Left)
@@ -68,7 +87,7 @@ const def = {
         29, // 30
         32, // 31
         31, // 32
-        ],
+    ],
 
     createPieceLookup: function() {
         this.p.push([]); // 0 = not used
