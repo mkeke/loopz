@@ -4,24 +4,21 @@ const piece = {
     id: null,
 
     /*
-        new(id, x, y)
+        new(id)
         sets up a new piece
         TODO: if id is not defined, select randomly based on level cycle
-        TODO: if coordinates are not defined, place piece at cursor pos
     */
-    new: function(id, x, y) {
+    new: function(id) {
 
         if(id === undefined) {
-            this.id = this.getNewPiece();
+            this.id = state.getNextPiece();
         } else {
             this.id = id;
         }
 
-        if(x !== undefined && y !== undefined) {
-            this.x = x;
-            this.y = y;
-        } else {
-            // TODO obtain cursor coordinates
+        if(this.x == null || this.y == null) {
+            this.x = Math.round(conf.tilesX / 2);
+            this.y = Math.round(conf.tilesY / 2);
         }
 
         dom.current.innerHTML = this.createPieceHTML(this.id);
@@ -58,7 +55,7 @@ const piece = {
         rotate the current piece, according to def.r[id]
     */
     rotate: function() {
-        this.new(def.r[this.id], this.x, this.y);
+        this.new(def.r[this.id]);
     },
 
     /*
@@ -180,21 +177,6 @@ const piece = {
         }
 
         return true;
-    },
-
-    getNewPiece: function() {
-        // TODO move to state
-        // TODO implement alternating random window
-
-        if(Math.floor(Math.random()*4) > 1) {
-            // easy
-            return Math.floor(Math.random()*11) + 1;
-        } else {
-            // all
-            return Math.floor(Math.random()*(def.p.length-1)) + 1;
-        }
-
-        // return Math.floor(Math.random()*(def.p.length-1)) + 1;
     },
 
     /*

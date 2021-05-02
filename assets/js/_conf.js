@@ -15,4 +15,7 @@ const conf = {
     // board size
     tilesX: 18,
     tilesY: 7,
+
+    // game
+    startExtralife: 2,
 };
