@@ -266,12 +266,34 @@ const piece = {
             return false;
         }
 
+        /*
+        // dev fill with white
+        let els = [];
+        for(let i in loop) {
+            els.push(dom.tiles[loop[i].y * conf.tilesX + loop[i].x]);
+        }
+        for(let i in els) {
+            els[i].addClass("loop");
+        }
+
+        setTimeout(function(){
+            // remove stuff
+            for(let i in loop) {
+                board.unplot(loop[i].x,loop[i].y);
+            }
+
+            this.new();
+        }.bind(this), 1000);
+        */
+
         // remove stuff
         for(let i in loop) {
             board.unplot(loop[i].x,loop[i].y);
         }
 
         this.new();
+
+        return true;
 
     }
 };

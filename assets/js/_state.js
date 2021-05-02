@@ -46,7 +46,7 @@ const state = {
         this.maxSize = 0;
     },
 
-    newGame: function() {
+    newGame: function(level) {
         this.pause = false;
         this.gameOn = true;
 
@@ -56,11 +56,17 @@ const state = {
         this.lives = conf.startExtralife;
         this.time = 100;
 
+        if(level == undefined) {
+            this.level = 2;
+        } else {
+            this.level = parseInt(level);
+        }
+
         this.generateBag();
 
-        piece.new();
+        dom.parent.addClass("gameon");
 
-        //piece.rotate();
+        piece.new();
     },
 
     generateBag: function() {

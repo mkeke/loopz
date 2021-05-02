@@ -31,7 +31,54 @@ $debugMode: 1;
 
 
 
+    // TEST flash to white when loop is found
     .tiles p {
+        &.loop {
+            background-color: white;
+            transition: background-color 1s linear;
+        }
+    }
+
+
+    // start buttons
+    section.intro {
+        li {
+            font-size: 20px;
+        }
+        p {
+            text-align: center;
+            color: green;
+        }
+        button.start {
+            padding: 10px 20px;
+            border: 1px dashed red;
+            background-color: transparent; 
+            color: yellow;
+        }
+    }
+
+    // show/hide intro and game sections
+    .fullscreen {
+
+        section.intro {
+            display: block;
+        }
+        section.board,
+        section.stats {
+            display: none;
+        }
+
+        &.gameon {
+            section.intro {
+                display: none;
+            }
+            section.board,
+            section.stats {
+                display: block;
+            }
+
+        }
+
     }
 
 

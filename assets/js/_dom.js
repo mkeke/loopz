@@ -5,6 +5,7 @@ const dom = {
     board: null,
     tiles: null,
     current: null,
+    start: null,
 
     /*
         calculateSizes()
@@ -107,6 +108,7 @@ const dom = {
         this.ratio = this.parent.find(".ratio");
         this.board = this.parent.find("section.board .tiles");
         this.current = this.parent.find(".piece");
+        this.start = this.parent.find("button.start");
 
         // this.tiles is updated on board.init()
 

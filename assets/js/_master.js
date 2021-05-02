@@ -14,9 +14,19 @@ const master = {
         def.init();
         board.init();
 
+        this.handleButtonClick();
         this.handleMouseEvents();
+    },
 
-        state.newGame();
+    handleButtonClick: function() {
+        dom.start.addEventListener("click", function(e){
+            e.preventDefault();
+            // prevent click from causing piece drop
+            e.stopPropagation();
+
+            let level = e.target.getAttribute("data-level");
+            state.newGame(level);
+        }.bind(this));
     },
 
     handleMouseEvents: function() {
@@ -28,19 +38,25 @@ const master = {
 
         dom.parent.addEventListener("mousemove", function(e){
             e.preventDefault();
-            let x = e.clientX;
-            let y = e.clientY;
-            piece.moveTo(x, y);
+            if(state.gameOn) {
+                let x = e.clientX;
+                let y = e.clientY;
+                piece.moveTo(x, y);
+            }
         }.bind(this));
 
         dom.parent.addEventListener("contextmenu", function(e){
-            e.preventDefault();
-            piece.rotate();
+            if(state.gameOn) {
+                e.preventDefault();
+                piece.rotate();
+            }
         }.bind(this));
 
         dom.parent.addEventListener("click", function(e){
-            e.preventDefault();
-            piece.drop();
+            if(state.gameOn) {
+                e.preventDefault();
+                piece.drop();
+            }
         }.bind(this));
 
     },
