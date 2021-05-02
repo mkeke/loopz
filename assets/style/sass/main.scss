@@ -16,7 +16,6 @@ $debugMode: 1;
 
 @if $debugMode > 0 {
     .ratio {
-        background-color: #00ff0000;
     }
 
     /*
@@ -76,10 +75,41 @@ $debugMode: 1;
             section.stats {
                 display: block;
             }
-
         }
-
     }
 
+    // stats
+    .stats {
+        .top {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            width: 100%;
+            // background-color: #ff00ff20;
+            text-align: center;
+            color: white;
+            // padding-bottom is maintained by js
+        }
+        .tiles {
+            >div {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                // background-color: #ffff0060;
+                z-index: 1;
+                text-align: center;
+            }
+            .time div {
+                // width is maintained by js
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                background-color: #888;
+            }
+        }
+    }
 
 }

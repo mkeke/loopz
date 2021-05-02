@@ -22,6 +22,7 @@ const state = {
     score: null,
     lives: null,
     time: null, // percentage of time left
+    bonus: null,
 
     // today's best
     maxLoopz: null,
@@ -51,10 +52,11 @@ const state = {
         this.gameOn = true;
 
         this.pieces = 0;
-        this.score = 0;
-        this.loopz = 0;
         this.lives = conf.startExtralife;
+        this.loopz = 0;
         this.time = 100;
+        this.bonus = 1;
+        this.score = 0;
 
         if(level == undefined) {
             this.level = 2;
@@ -67,6 +69,8 @@ const state = {
         dom.parent.addClass("gameon");
 
         piece.new();
+
+        dom.updateStats();
     },
 
     generateBag: function() {

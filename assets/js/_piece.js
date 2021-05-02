@@ -286,6 +286,14 @@ const piece = {
         }.bind(this), 1000);
         */
 
+        // TODO the remaining operations inbetween transitions
+
+        // inc number of loopz + visual update
+        state.loopz++;
+        dom.updateLoopz();
+
+        log("loop with " + loop.length + " tiles");
+
         // remove stuff
         for(let i in loop) {
             board.unplot(loop[i].x,loop[i].y);

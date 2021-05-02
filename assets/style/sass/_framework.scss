@@ -75,6 +75,7 @@ section.stats {
 // tiles in a wrapper
 .tiles {
     border: 2px solid black;
+    position: relative;
 }
 
 // piece primitive bgimages
@@ -122,7 +123,6 @@ section.stats {
     // width and height is set by js (one tile)
     // left + top is updated by js
     position: absolute;
-    background-color: red;
 
     p {
         position: absolute;

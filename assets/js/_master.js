@@ -16,6 +16,9 @@ const master = {
 
         this.handleButtonClick();
         this.handleMouseEvents();
+
+        // skip start button click
+        state.newGame(2);
     },
 
     handleButtonClick: function() {
