@@ -23,6 +23,7 @@ const state = {
     lives: null,
     time: null, // percentage of time left
     bonus: null,
+    tileCount: null, // number of occupied tiles left on the board
 
     // today's best
     maxLoopz: null,
@@ -57,6 +58,7 @@ const state = {
         this.time = 100;
         this.bonus = 1;
         this.score = 0;
+        this.tileCount = 0;
 
         if(level == undefined) {
             this.level = 2;
@@ -161,6 +163,22 @@ const state = {
             this.generateBag();
         }
         return p;
+    },
+
+    /*
+        incLoopScore(length)
+        increase score based on level and the length of the loop
+    */
+    incLoopScore: function(length) {
+        this.score += (length*length + this.level*2*length);
+    },
+
+    /*
+        incBonus()
+        increase score when user has cleared the board
+    */
+    incBonus: function() {
+        this.score += [0,300,600,900][this.level];
     },
 
     /*

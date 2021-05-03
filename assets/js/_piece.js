@@ -128,6 +128,7 @@ const piece = {
                 let nx = this.x + pp.x;
                 let ny = this.y + pp.y;
                 board.plot(pp.id, nx, ny);
+                state.tileCount ++;
             }
             if(!this.handleLoop()) {
                 // log("no loop yet");
@@ -288,15 +289,29 @@ const piece = {
 
         // TODO the remaining operations inbetween transitions
 
+        // calc score
+        state.incLoopScore(loop.length);
+        dom.updateScore();
+
         // inc number of loopz + visual update
         state.loopz++;
         dom.updateLoopz();
 
         log("loop with " + loop.length + " tiles");
 
-        // remove stuff
+        // remove loop
+        // TODO transition chain
         for(let i in loop) {
             board.unplot(loop[i].x,loop[i].y);
+            state.tileCount--;
+        }
+
+        // if board is empty: add bonus
+        if(state.tileCount == 0) {
+            log("clear bonus");
+            // TODO transition chain
+            state.incBonus();
+            dom.updateScore();
         }
 
         this.new();

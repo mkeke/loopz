@@ -11,7 +11,6 @@ const dom = {
     time: null,
     score: null,
     lives: null,
-    bonus: null,
 
     init: function() {
         this.runtimeStyle = z("style.runtime");
@@ -25,7 +24,6 @@ const dom = {
         this.time = this.parent.find(".time div");
         this.score = this.parent.find(".score");
         this.lives = this.parent.find(".lives");
-        this.bonus = this.parent.find(".bonus");
 
         // handle viewport size change
         this.handleResize();
@@ -46,7 +44,6 @@ const dom = {
         this.updateLives();
         this.updateLoopz();
         this.updateTime();
-        this.updateBonus();
         this.updateScore();
     },
 
@@ -64,9 +61,6 @@ const dom = {
     },
     updateTime: function() {
         this.time.style["width"] = state.time + "%";
-    },
-    updateBonus: function() {
-        this.bonus.innerHTML = this.createCharset("x" + state.bonus);
     },
     updateScore: function() {
         // 6 digits
