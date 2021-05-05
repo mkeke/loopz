@@ -1,13 +1,15 @@
 const master = {
 
-    raf: null,
+    // raf: null,
 
     init: function() {
+        /*
         // determine the correct raf
         this.raf = (window.requestAnimationFrame ||
             window.mozRequestAnimationFrame ||
             window.webkitRequestAnimationFrame ||
             window.msRequestAnimationFrame).bind(window);
+        */
 
         dom.init();
         state.init();
@@ -16,37 +18,10 @@ const master = {
 
         this.handleButtonClick();
         this.handleMouseEvents();
-
-        // prepare timer loop
-        this.raf(this.timer.bind(this));
+        this.handleKeyboardEvents();
 
         // skip start button click
         // state.newGame(2);
-    },
-
-    timer: function() {
-        let time = Date.now();
-
-        if(time - state.raftime > conf.rafDelay) {
-            state.raftime = time;
-            if(state.gameOn && !state.pause) {
-                state.time = Math.max(0, state.time - conf.timerSpeed[state.level])
-
-                if(state.time == 0) {
-                    if(--state.lives < 0) {
-                        // game over
-                        state.gameOn = false;
-                    } else {
-                        state.time = 100;
-                        dom.updateLives();
-                    }
-                }
-                
-                dom.updateTime();
-            }
-        }
-
-        this.raf(this.timer.bind(this));
     },
 
     handleButtonClick: function() {
@@ -91,4 +66,20 @@ const master = {
         }.bind(this));
 
     },
+
+    handleKeyboardEvents: function() {
+        window.addEventListener("keydown", function(e){
+
+            // handle first occurrence of key, ignore key repeat
+            if(!e.repeat) {
+                switch(e.keyCode) {
+                    case def.keyP:
+                        // toggle user pause on/off
+                        state.toggleUserPause();
+                        break;
+                }
+            }
+        }.bind(this));
+    },
+
 };

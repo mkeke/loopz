@@ -68,6 +68,14 @@ const dom = {
         str += state.score;
         this.score.innerHTML = this.createCharset(str);
     },
+    updateBoard: function() {
+        // unscramble board
+        this.tiles.each(function(i, el){
+            let y = Math.floor(i/conf.tilesX);
+            let x = i%conf.tilesX;
+            el.className = "p" + board.b[y][x];
+        }.bind(this));
+    },
 
 
 

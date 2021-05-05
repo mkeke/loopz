@@ -6,14 +6,7 @@ const board = {
     b: [],
 
     init: function() {
-        // fill internal board with space
-        this.b = [];
-        for(let y=0; y<conf.tilesY; y++) {
-            this.b.push([]);
-            for(let x=0; x<conf.tilesX; x++) {
-                this.b[y].push(def.space);
-            }
-        }
+        this.clear();
 
         // generate HTML
         let str = '<p></p>'.repeat(conf.tilesX*conf.tilesY);
@@ -22,6 +15,17 @@ const board = {
         // update dom reference to tiles
         dom.tiles = dom.board.find("p");
 
+    },
+
+    clear: function() {
+        // fill internal board with space
+        this.b = [];
+        for(let y=0; y<conf.tilesY; y++) {
+            this.b.push([]);
+            for(let x=0; x<conf.tilesX; x++) {
+                this.b[y].push(def.space);
+            }
+        }
     },
 
     /*

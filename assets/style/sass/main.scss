@@ -112,4 +112,9 @@ $debugMode: 1;
         }
     }
 
+    // hidden piece during pause
+    .piece.hidden {
+        display: none;
+    }
+
 }

@@ -2,6 +2,10 @@ const def = {
     // internal board value
     space: 0,
 
+    // keydown/up codes
+    keyP:  80,
+
+
     /*
         piece definition
 

@@ -10,6 +10,9 @@ const state = {
     trend: null,
     anend: null,
 
+    // request animation frame
+    raf: null,
+
     // raf timer
     raftime: null,
 
@@ -32,6 +35,7 @@ const state = {
 
     // game states
     pause: null,
+    userPause: null,
     gameOn: null,
 
     init: function() {
@@ -40,15 +44,24 @@ const state = {
 
         this.trend = this.whichTransitionEndEvent();
         this.anend = this.whichAnimationEndEvent();
+        this.raf = this.whichRequestAnimationFrame().bind(window);
 
         this.gameOn = false;
+        this.pause = false;
+        this.userPause = false;
 
         this.maxLoopz = 0;
         this.maxScore = 0;
         this.maxSize = 0;
+
+        // prepare timer loop
+        this.raf(this.timer.bind(this));
     },
 
     newGame: function(level) {
+
+        board.clear();
+        dom.updateBoard();
 
         this.pieces = 0;
         this.lives = conf.startExtralife;
@@ -78,6 +91,39 @@ const state = {
 
 
         log("started new game level " + this.level);
+    },
+
+    /*
+        timer()
+        timer loop, updates time
+        but only when game is on and not paused or userPause
+    */
+    timer: function() {
+        let time = Date.now();
+
+        if(time - this.raftime > conf.rafDelay) {
+            this.raftime = time;
+
+            if(this.gameOn && !this.pause && !this.userPause) {
+                this.time = Math.max(0, this.time - conf.timerSpeed[this.level])
+
+                if(this.time == 0) {
+                    if(--this.lives < 0) {
+                        // game over
+                        this.gameOn = false;
+                        dom.parent.removeClass("gameon");
+                    } else {
+                        this.time = 100;
+                        piece.new();
+                        dom.updateLives();
+                    }
+                }
+
+                dom.updateTime();
+            }
+        }
+
+        this.raf(this.timer.bind(this));
     },
 
     generateBag: function() {
@@ -198,6 +244,30 @@ const state = {
     },
 
     /*
+        toggleUserPause()
+        scrambles/unscrambles the board
+        only if the game is on and not internally paused
+        (due to transition chain waiting)
+    */
+    toggleUserPause: function() {
+        if(this.gameOn && !this.pause) {
+            this.userPause = !this.userPause;
+            if(this.userPause) {
+                // scramble board
+                dom.tiles.each(function(i, el){
+                    el.className = "p" + Math.ceil(Math.random()*4);
+                }.bind(this));
+                dom.current.addClass("hidden");
+
+            } else {
+                dom.updateBoard();
+                dom.current.removeClass("hidden");
+
+            }
+        }
+    },
+
+    /*
         whichTransitionEndEvent()
         determine the correct transition end event for the current browser
     */
@@ -257,5 +327,13 @@ const state = {
                 return animations[a];
             }
         }
-    },    
+    },
+
+    whichRequestAnimationFrame: function() {
+        // determine the correct raf
+        return (window.requestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.msRequestAnimationFrame);
+    },
 };
