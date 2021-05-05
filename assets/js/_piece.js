@@ -24,6 +24,11 @@ const piece = {
         dom.current.innerHTML = this.createPieceHTML(this.id);
         this.updatePosition();
 
+        if(id === undefined) {
+            // piece has not been rotated. Reset time
+            state.time = 100;
+        }
+
     },
 
     /*
@@ -290,12 +295,16 @@ const piece = {
         // TODO the remaining operations inbetween transitions
 
         // calc score
-        state.incLoopScore(loop.length);
+        state.incScore("loop", loop.length);
         dom.updateScore();
 
         // inc number of loopz + visual update
         state.loopz++;
         dom.updateLoopz();
+
+        // maintain today's best
+        state.maxLoopz = Math.max(state.maxLoopz, state.loopz);
+        state.maxSize = Math.max(state.maxSize, loop.length);
 
         log("loop with " + loop.length + " tiles");
 
@@ -310,7 +319,7 @@ const piece = {
         if(state.tileCount == 0) {
             log("clear bonus");
             // TODO transition chain
-            state.incBonus();
+            state.incScore("bonus");
             dom.updateScore();
         }
 

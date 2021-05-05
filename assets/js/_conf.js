@@ -4,6 +4,9 @@ const conf = {
     // screen maxWidth
     maxWidth: 800,
 
+    // timer loop repeat delay
+    rafDelay: 50,
+
     // screen ratio consists of tiles + additional px in either direction
     ratioWidthTiles: 18, // 18 board tiles
     ratioWidthPx: 34, // 2*(10+5+2) px border stuff on each side
@@ -18,4 +21,6 @@ const conf = {
 
     // game
     startExtralife: 2,
+
+    timerSpeed: [0.5, 1.5, 3],
 };

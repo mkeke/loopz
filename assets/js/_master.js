@@ -17,8 +17,36 @@ const master = {
         this.handleButtonClick();
         this.handleMouseEvents();
 
+        // prepare timer loop
+        this.raf(this.timer.bind(this));
+
         // skip start button click
-        state.newGame(2);
+        // state.newGame(2);
+    },
+
+    timer: function() {
+        let time = Date.now();
+
+        if(time - state.raftime > conf.rafDelay) {
+            state.raftime = time;
+            if(state.gameOn && !state.pause) {
+                state.time = Math.max(0, state.time - conf.timerSpeed[state.level])
+
+                if(state.time == 0) {
+                    if(--state.lives < 0) {
+                        // game over
+                        state.gameOn = false;
+                    } else {
+                        state.time = 100;
+                        dom.updateLives();
+                    }
+                }
+                
+                dom.updateTime();
+            }
+        }
+
+        this.raf(this.timer.bind(this));
     },
 
     handleButtonClick: function() {

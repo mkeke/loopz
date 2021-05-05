@@ -49,30 +49,35 @@ const state = {
     },
 
     newGame: function(level) {
-        this.pause = false;
-        this.gameOn = true;
 
         this.pieces = 0;
         this.lives = conf.startExtralife;
         this.loopz = 0;
-        this.time = 100;
+        // this.time = 100; set by piece.new()
         this.bonus = 1;
         this.score = 0;
         this.tileCount = 0;
 
         if(level == undefined) {
-            this.level = 2;
+            this.level = 1;
         } else {
             this.level = parseInt(level);
         }
 
         this.generateBag();
 
+        this.pause = false;
+        this.gameOn = true;
         dom.parent.addClass("gameon");
 
         piece.new();
 
         dom.updateStats();
+
+        // enable timer loop
+
+
+        log("started new game level " + this.level);
     },
 
     generateBag: function() {
@@ -166,19 +171,30 @@ const state = {
     },
 
     /*
-        incLoopScore(length)
-        increase score based on level and the length of the loop
+        incScore(key, val)
+        increase score in 3 different ways
+        key=loop, val is the length of the loop
+            increase score based on level and the length of the loop
+        key=bonus, val is ignored
+            increase score when user has cleared the board
+        key=rest, val is the number of tiles left
+            clearing the board after game has ended
     */
-    incLoopScore: function(length) {
-        this.score += (length*length + this.level*2*length);
-    },
+    incScore(key, val) {
+        switch(key) {
+            case "loop":
+                this.score += (val*val + (this.level+1)*2*val);
+                break;
+            case "bonus":
+                this.score += [300,600,900][this.level];
+                break;
+            case "rest":
+                // TODO increase score by number of tiles left
+                break;
+        }
 
-    /*
-        incBonus()
-        increase score when user has cleared the board
-    */
-    incBonus: function() {
-        this.score += [0,300,600,900][this.level];
+        // update today's best score
+        this.maxScore = Math.max(this.maxScore, this.score);
     },
 
     /*
