@@ -1,6 +1,7 @@
 const def = {
     // internal board value
     space: 0,
+    eraser: 0,
 
     // keydown/up codes
     keyP:  80,
@@ -58,7 +59,7 @@ const def = {
     p: [],
 
     // rotation lookup
-    r: [ 0, // not used
+    r: [ 0, // not used (eraser)
          2, //  1
          3, //  2
          4, //  3
@@ -94,7 +95,7 @@ const def = {
     ],
 
     createPieceLookup: function() {
-        this.p.push([]); // 0 = not used
+        this.p.push([]); // 0 = not used (eraser)
 
         // piece primitives
         this.p.push([{id:this.p1,x:0,y:0}]); // 1

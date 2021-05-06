@@ -8,23 +8,40 @@ const piece = {
         sets up a new piece
         TODO: if id is not defined, select randomly based on level cycle
     */
-    new: function(id) {
+    new: function(id=null, rotate=false) {
 
-        if(id === undefined) {
-            this.id = state.getNextPiece();
+        /*
+            if pieceTime > limit
+                piece is eraser
+            else
+                stuff
+
+            create piece html
+            time stuff
+        */
+
+        if(rotate == false && state.eraserTime > conf.eraserTimeLimit * 1000 / conf.rafDelay) {
+            log("eraser time");
+            this.id = def.eraser;
         } else {
-            this.id = id;
-        }
+            log("new piece " + id)
 
-        if(this.x == null || this.y == null) {
-            this.x = Math.round(conf.tilesX / 2);
-            this.y = Math.round(conf.tilesY / 2);
+            if(id === null) {
+                this.id = state.getNextPiece();
+            } else {
+                this.id = id;
+            }
+
+            if(this.x == null || this.y == null) {
+                this.x = Math.round(conf.tilesX / 2);
+                this.y = Math.round(conf.tilesY / 2);
+            }
         }
 
         dom.current.innerHTML = this.createPieceHTML(this.id);
         this.updatePosition();
 
-        if(id === undefined) {
+        if(rotate == false) {
             // piece has not been rotated. Reset time
             state.time = 100;
         }
@@ -48,9 +65,14 @@ const piece = {
     */
     createPieceHTML: function(id) {
         let str = '';
-        for(let a in def.p[id]) {
-            let pp = def.p[id][a];
-            str += `<p class="p${pp.id} x${pp.x} y${pp.y}"></p>`;
+
+        if(id == def.eraser) {
+            str = `<p class="pe x0 y0"></p>`;
+        } else {
+            for(let a in def.p[id]) {
+                let pp = def.p[id][a];
+                str += `<p class="p${pp.id} x${pp.x} y${pp.y}"></p>`;
+            }
         }
         return str;
     },
@@ -60,7 +82,11 @@ const piece = {
         rotate the current piece, according to def.r[id]
     */
     rotate: function() {
-        this.new(def.r[this.id]);
+        // rotate to a specific piece, flag as rotate
+        // if piece is eraser, no need to rotate
+        if(this.id != def.eraser) {
+            this.new(def.r[this.id], true);
+        }
     },
 
     /*
@@ -124,7 +150,21 @@ const piece = {
     */
     drop: function() {
 
-        if(this.isDroppable()) {
+        // TODO if eraser
+        //     if place is occupied
+        if(this.id == def.eraser) {
+            if(board.b[this.y][this.x] !== def.space) {
+                // something to erase!!
+
+                // TODO find snake
+                // TODO erase
+                // TODO new piece
+                board.unplot(this.x,this.y);
+                state.decEraserTime(false);
+                this.new();
+            }
+
+        } else if(this.isDroppable()) {
 
             // TODO temporarily set game on pause
             dom.current.innerHTML = "";
@@ -272,24 +312,15 @@ const piece = {
             return false;
         }
 
+        // loop is detected
+        log("loop with " + loop.length + " tiles");
+
         /*
-        // dev fill with white
+        // dev gather elements
         let els = [];
         for(let i in loop) {
             els.push(dom.tiles[loop[i].y * conf.tilesX + loop[i].x]);
         }
-        for(let i in els) {
-            els[i].addClass("loop");
-        }
-
-        setTimeout(function(){
-            // remove stuff
-            for(let i in loop) {
-                board.unplot(loop[i].x,loop[i].y);
-            }
-
-            this.new();
-        }.bind(this), 1000);
         */
 
         // TODO the remaining operations inbetween transitions
@@ -306,7 +337,8 @@ const piece = {
         state.maxLoopz = Math.max(state.maxLoopz, state.loopz);
         state.maxSize = Math.max(state.maxSize, loop.length);
 
-        log("loop with " + loop.length + " tiles");
+        // prolong the time for eraser to appear
+        state.decEraserTime();
 
         // remove loop
         // TODO transition chain

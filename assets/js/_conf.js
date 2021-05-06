@@ -21,6 +21,9 @@ const conf = {
 
     // game
     startExtralife: 2,
+    eraserTimeLimit: 10,
+    eraserTimeLoopReduction: 10,
+    eraserTimeReductionFactor: 0.5,
 
     timerSpeed: [0.5, 1.5, 2.5],
 };

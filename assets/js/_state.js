@@ -25,6 +25,7 @@ const state = {
     score: null,
     lives: null,
     time: null, // percentage of time left
+    eraserTime: null, // used to determine if eraser is needed
     bonus: null,
     tileCount: null, // number of occupied tiles left on the board
 
@@ -70,6 +71,7 @@ const state = {
         this.bonus = 1;
         this.score = 0;
         this.tileCount = 0;
+        this.resetEraserTime();
 
         if(level == undefined) {
             this.level = 1;
@@ -106,13 +108,18 @@ const state = {
 
             if(this.gameOn && !this.pause && !this.userPause) {
                 this.time = Math.max(0, this.time - conf.timerSpeed[this.level])
+                this.incEraserTime();
 
                 if(this.time == 0) {
-                    if(--this.lives < 0) {
+                    if(piece.id !== def.eraser && --this.lives < 0) {
                         // game over
                         this.gameOn = false;
                         dom.parent.removeClass("gameon");
                     } else {
+                        if(piece.id == def.eraser) {
+                            // eraser was not used
+                            this.decEraserTime();
+                        }
                         this.time = 100;
                         piece.new();
                         dom.updateLives();
@@ -124,6 +131,25 @@ const state = {
         }
 
         this.raf(this.timer.bind(this));
+    },
+
+    resetEraserTime: function() {
+        this.eraserTime = 0;
+    },
+    decEraserTime: function(isLoop=true) {
+        if(isLoop) {
+            // a loop was created
+            // dec eraserTime with n seconds
+            this.eraserTime -= conf.eraserTimeLoopReduction * 1000 / conf.rafDelay;
+        } else {
+            // eraser has been used, or not used
+            // reduce eraserTime with a factor (0.5)
+            this.eraserTime = Math.round(this.eraserTime*conf.eraserTimeReductionFactor);
+        }
+        // TODO Math.max(0, val)
+    },
+    incEraserTime: function() {
+        this.eraserTime++;
     },
 
     generateBag: function() {
