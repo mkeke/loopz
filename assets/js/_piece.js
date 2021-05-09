@@ -24,7 +24,7 @@ const piece = {
             log("eraser time");
             this.id = def.eraser;
         } else {
-            log("new piece " + id)
+            // log("new piece " + id)
 
             if(id === null) {
                 this.id = state.getNextPiece();
@@ -154,12 +154,25 @@ const piece = {
         //     if place is occupied
         if(this.id == def.eraser) {
             if(board.b[this.y][this.x] !== def.space) {
+
                 // something to erase!!
 
-                // TODO find snake
-                // TODO erase
-                // TODO new piece
-                board.unplot(this.x,this.y);
+                // find continuous pieces in both directions
+                let pp = board.b[this.y][this.x];
+                let dir = def.exit[pp];
+                let arr = board.getConnectedPieces(this.x,this.y,dir[0]);
+                let arr2 = board.getConnectedPieces(this.x,this.y,dir[1]);
+                arr2.shift();
+
+                for(let i in arr) {
+                    board.unplot(arr[i].x,arr[i].y);
+                    state.tileCount--;
+                }
+                for(let i in arr2) {
+                    board.unplot(arr2[i].x,arr2[i].y);
+                    state.tileCount--;
+                }
+
                 state.decEraserTime(false);
                 this.new();
             }
@@ -235,93 +248,13 @@ const piece = {
     */
     handleLoop: function() {
 
-        /*
-            overview of algorithm:
-
-            isLoop = false;
-
-            get an exit direction (for instance "LEFT")
-            dir = def.exit[pp][0] (contains 2 directions)
-
-            go in that direction
-            x = ox + dir.dx
-            y = oy + dir.dy
-            pp = board[y][x]
-
-            while pp is pp AND pp is open in opposite direction ("RIGHT")
-                dir = direction other than opposite_direction
-                go in that direction
-                x += dx
-                y += dx
-                pp = board[y][x]
-
-                if x y is origo
-                    isLoop = true
-                    break
-        */
-
-        // we'll see about that
-        let isLoop = false;
-        let loop = [];
-
-        // start/end coordinate
-        let ox = this.x;
-        let oy = this.y;
-        let pp = board.b[oy][ox];
-
-        // log(`start: ${ox},${oy}`);
-
-        // get an exit direction
-        let exit = def.exit[pp][0]; // for instance "left"
-
-        // go in that direction
-        let x = ox + def.dir[exit].dx;
-        let y = oy + def.dir[exit].dy;
-        pp = board.b[y][x];
-        let inv = def.dir[exit].inv;
-        loop.push({x:x,y:y});
-        //log(`go ${exit} to ${x},${y} pp:${pp} looking ${inv}`);
-
-        while(pp !== def.space &&
-            (def.exit[pp][0] == inv || def.exit[pp][1] == inv)) {
-
-            // determine new direction. Must be different from inv
-            if(def.exit[pp][0] !== inv) {
-                exit = def.exit[pp][0];
-            } else {
-                exit = def.exit[pp][1];
-            }
-
-            // go in that direction
-            x += def.dir[exit].dx;
-            y += def.dir[exit].dy;
-            pp = board.b[y][x];
-            inv = def.dir[exit].inv;
-            loop.push({x:x,y:y});
-
-            // log(`go ${exit} to ${x},${y} pp:${pp} looking ${inv}`);
-
-            if (x == ox && y == oy) {
-                isLoop = true;
-                //log("LOOP!");
-                break;
-            }
-        }
-
-        if(!isLoop) {
+        let loop = board.getLoop(this.x, this.y);
+        if (loop === false) {
             return false;
         }
 
         // loop is detected
         log("loop with " + loop.length + " tiles");
-
-        /*
-        // dev gather elements
-        let els = [];
-        for(let i in loop) {
-            els.push(dom.tiles[loop[i].y * conf.tilesX + loop[i].x]);
-        }
-        */
 
         // TODO the remaining operations inbetween transitions
 
@@ -358,6 +291,5 @@ const piece = {
         this.new();
 
         return true;
-
     }
 };

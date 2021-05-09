@@ -19,9 +19,20 @@ const def = {
            1         2         3         4         5         6
     */
 
+    // lookup to query if a piece is open in a certain direction
+    isOpen: [ {}, // 0 is not used
+        { up: false, right: false, down: true,  left: true  }, // pp 1
+        { up: true,  right: false, down: false, left: true  }, // pp 2
+        { up: true,  right: true,  down: false, left: false }, // pp 3
+        { up: false, right: true,  down: true,  left: false }, // pp 4
+        { up: true,  right: false, down: true,  left: false }, // pp 5
+        { up: false, right: true,  down: false, left: true  }, // pp 6
+    ],
+
     // lookups defining whether a piece is open in either direction
     // ot or ob ol = openings to the top right bottom left
     //       1      2      3      4      5      6
+// TODO refactor ot = ou, up down left right
     ot: [ 0, false, true,  true,  false, true,  false ],
     or: [ 0, false, false, true,  true,  false, true  ],
     ob: [ 0, true,  false, false, true,  true,  false ],
