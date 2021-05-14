@@ -52,14 +52,14 @@ const master = {
         }.bind(this));
 
         dom.parent.addEventListener("contextmenu", function(e){
-            if(state.gameOn) {
+            if(state.gameOn && !state.pause && !state.userPause) {
                 e.preventDefault();
                 piece.rotate();
             }
         }.bind(this));
 
         dom.parent.addEventListener("click", function(e){
-            if(state.gameOn) {
+            if(state.gameOn && !state.pause && !state.userPause) {
                 e.preventDefault();
                 piece.drop();
             }
@@ -80,6 +80,61 @@ const master = {
                 }
             }
         }.bind(this));
+    },
+
+
+
+    /*
+        initEventChain()
+        Set up and start a chain of functions and event triggers.
+        The chain defines which function to run,
+        and which element that fires a certain event,
+        before the next function can be run.
+
+        The chain must contain a start function and an end function,
+        thus the initial length must be at least 2
+    */
+    initEventChain: function() {
+        if(state.eventChain !== undefined && state.eventChain.length >= 2) {
+            state.eventChainFunc = this.continueEventChain.bind(this);
+            this.triggerEventChainItem();
+        }
+    },
+
+    /*
+        triggerEventChainItem()
+        set up event handler, if any
+        run the function currently on top of the chain
+    */
+    triggerEventChainItem: function() {
+        // set up event handler if defined
+        if(state.eventChain[0].ev !== undefined) {
+            state.eventChain[0].el.addEventListener(
+                state.eventChain[0].ev,
+                state.eventChainFunc
+            );
+        }
+
+        // run the current function, eventually triggering the event
+        state.eventChain[0].func();
+    },
+
+    /*
+        continueEventChain()
+        current event has occurred
+        remove event listener
+        prepare for the next element in chain
+    */
+    continueEventChain: function() {
+        // remove event listener
+        state.eventChain[0].el.removeEventListener(
+            state.eventChain[0].ev,
+            state.eventChainFunc
+        );
+
+        // prepare for the next element in chain
+        state.eventChain.shift();
+        this.triggerEventChainItem();
     },
 
 };

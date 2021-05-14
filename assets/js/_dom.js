@@ -2,6 +2,7 @@ const dom = {
     runtimeStyle: null,
     parent: null,
     ratio: null,
+    boardWrapper: null,
     board: null,
     tiles: null,
     current: null,
@@ -16,6 +17,7 @@ const dom = {
         this.runtimeStyle = z("style.runtime");
         this.parent = z(".fullscreen");
         this.ratio = this.parent.find(".ratio");
+        this.boardWrapper = this.parent.find("section.board");
         this.board = this.parent.find("section.board .tiles");
         this.current = this.parent.find(".piece");
         this.start = this.parent.find("button.start");
@@ -178,5 +180,28 @@ const dom = {
         this.updateRuntimeCSS();
         piece.updatePosition();
     },
+
+    // effect for wrong move: border flashes red
+    borderFlashUp: function() {
+        dom.boardWrapper.addClass("wrongmove");
+    },
+    borderFlashDown: function() {
+        dom.boardWrapper.removeClass("wrongmove");
+    },
+
+    /*
+    showWrongMove: function() {
+        // assign end function to a variable
+        // to ensure same signature when the eventListener is removed
+        state.temp = this.showWrongMoveEnded.bind(this);
+
+        this.boardWrapper.addEventListener(state.trend, state.temp);
+        this.boardWrapper.addClass("wrongmove");
+    },
+    showWrongMoveEnded: function(e) {
+        this.boardWrapper.removeEventListener(state.trend, state.temp);
+        this.boardWrapper.removeClass("wrongmove");
+    },
+    */
 
 };

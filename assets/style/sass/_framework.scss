@@ -41,9 +41,20 @@ body {
     // and whole integer positions
 }
 
-section.board {
-    // TODO enable cursor when game is not on
+.fullscreen.gameon {
+    // hide cursor when game is on
     cursor: none;
+
+    &.userpause {
+        // re-enable cursor
+        cursor: default;
+
+        // hide current piece
+        .piece {
+            display: none;
+        }
+
+    }
 }
 
 section.stats {
@@ -233,4 +244,67 @@ section.stats {
         '<path fill="#00000080" stroke="none" d="M50,40 l10,10 l-10,10 l-10,-10 z" />'
     );
     @include svg($svg, 0, 0, 100, 100);
+}
+
+// show/hide intro and game sections
+.fullscreen {
+
+    section.intro {
+        display: block;
+    }
+    section.board,
+    section.stats {
+        display: none;
+    }
+
+    &.gameon {
+        section.intro {
+            display: none;
+        }
+        section.board,
+        section.stats {
+            display: block;
+        }
+    }
+}
+
+// stats
+.stats {
+    .top {
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: white;
+        // padding-bottom is maintained by js
+    }
+    .tiles {
+        >div {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            text-align: center;
+        }
+        .time div {
+            // width is maintained by js
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background-color: #888;
+        }
+    }
+}
+
+// board flashes on wrong move
+section.board {
+    transition: background-color .2s linear;
+    &.wrongmove {
+        transition: background-color .2s linear;
+        background-color: red;
+    }
 }

@@ -195,7 +195,12 @@ const piece = {
                 this.new();
             }
         } else {
-            // TODO visualize wrong move
+            // visualize wrong move
+            state.eventChain = [
+                { func: dom.borderFlashUp.bind(this), ev: state.trend, el: dom.boardWrapper },
+                { func: dom.borderFlashDown.bind(this) }
+            ];
+            master.initEventChain();
         }
     },
 
@@ -248,35 +253,61 @@ const piece = {
     */
     handleLoop: function() {
 
-        let loop = board.getLoop(this.x, this.y);
-        if (loop === false) {
+        if (!board.isLoop(this.x, this.y)) {
             return false;
         }
 
-        // loop is detected
-        log("loop with " + loop.length + " tiles");
-
-        // TODO the remaining operations inbetween transitions
+        // loop is detected and stored in board.loop
+        log("loop with " + board.loop.length + " tiles");
 
         // calc score
-        state.incScore("loop", loop.length);
+        state.incScore("loop", board.loop.length);
         dom.updateScore();
 
         // inc number of loopz + visual update
         state.loopz++;
         dom.updateLoopz();
+        if(state.loopz % conf.newLifeLoop == 0) {
+            state.lives++;
+            dom.updateLives();
+        }
 
         // maintain today's best
         state.maxLoopz = Math.max(state.maxLoopz, state.loopz);
-        state.maxSize = Math.max(state.maxSize, loop.length);
+        state.maxSize = Math.max(state.maxSize, board.loop.length);
 
         // prolong the time for eraser to appear
         state.decEraserTime();
 
+        state.eventChain = [
+            { func: this.flashLoop.bind(this), ev: state.trend, el: dom.tiles[board.loop[0].y*conf.tilesX + board.loop[0].x] },
+            { func: this.removeLoop.bind(this) }
+        ];
+        master.initEventChain();
+
+        //this.flashLoop();
+        /*
+
         // remove loop
         // TODO transition chain
-        for(let i in loop) {
-            board.unplot(loop[i].x,loop[i].y);
+        */
+
+        return true;
+    },
+
+    flashLoop: function() {
+        state.pause = true;
+        for(let i in board.loop) {
+            let x = board.loop[i].x;
+            let y = board.loop[i].y;
+
+            dom.tiles[y*conf.tilesX + x].addClass("loop");
+        }
+    },
+
+    removeLoop: function() {
+        for(let i in board.loop) {
+            board.unplot(board.loop[i].x,board.loop[i].y);
             state.tileCount--;
         }
 
@@ -290,6 +321,6 @@ const piece = {
 
         this.new();
 
-        return true;
-    }
+        state.pause = false;
+    },
 };

@@ -111,6 +111,11 @@ const state = {
                 this.incEraserTime();
 
                 if(this.time == 0) {
+
+                    // time is up
+                    // TODO remove piece, pause and wait a bit
+                    // TODO countdown or timeout
+
                     if(piece.id !== def.eraser && --this.lives < 0) {
                         // game over
                         this.gameOn = false;
@@ -283,12 +288,11 @@ const state = {
                 dom.tiles.each(function(i, el){
                     el.className = "p" + Math.ceil(Math.random()*4);
                 }.bind(this));
-                dom.current.addClass("hidden");
 
+                dom.parent.addClass("userpause");
             } else {
                 dom.updateBoard();
-                dom.current.removeClass("hidden");
-
+                dom.parent.removeClass("userpause");
             }
         }
     },

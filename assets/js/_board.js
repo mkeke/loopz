@@ -4,6 +4,7 @@ const board = {
     /*
     */
     b: [],
+    loop: [],
 
     init: function() {
         this.clear();
@@ -31,10 +32,10 @@ const board = {
     /*
         getLoop(x, y)
         get the coordinates for the loop at x,y
-        return array of coordinates
-        or false if there is no loop
+        return true if loop, false if not
+        the loop is stored in this.loop
     */
-    getLoop: function(x, y) {
+    isLoop: function(x, y) {
         // collect pieces in one of the exit directions
         let pp = this.b[y][x];
 
@@ -42,10 +43,9 @@ const board = {
         let last = arr.pop();
         if(arr.length > 3 && last.x == x && last.y == y) {
             // u got urself a loop there, pardner
-            log("LOOP");
-            return arr;
+            this.loop = arr;
+            return true;
         } else {
-            log("no loop");
             return false;
         }
     },

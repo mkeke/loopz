@@ -34,12 +34,12 @@ $debugMode: 1;
     .tiles p {
         &.loop {
             background-color: white;
-            transition: background-color 1s linear;
+            transition: background-color 0.5s linear;
         }
     }
 
 
-    // start buttons
+    // TEST start buttons
     section.intro {
         li {
             font-size: 20px;
@@ -56,65 +56,95 @@ $debugMode: 1;
         }
     }
 
-    // show/hide intro and game sections
-    .fullscreen {
+    .ztest {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff50;
+        padding-top: 5%;
+        .logo {
+            width: 80%;
+            height: 0;
+            padding-bottom: 20%;
+            margin: 0 auto;
+            position: relative;
+            margin-bottom: 5%;
 
-        section.intro {
-            display: block;
-        }
-        section.board,
-        section.stats {
-            display: none;
-        }
-
-        &.gameon {
-            section.intro {
-                display: none;
-            }
-            section.board,
-            section.stats {
-                display: block;
-            }
-        }
-    }
-
-    // stats
-    .stats {
-        .top {
-            position: absolute;
-            bottom: 100%;
-            left: 0;
-            width: 100%;
-            // background-color: #ff00ff20;
-            text-align: center;
-            color: white;
-            // padding-bottom is maintained by js
-        }
-        .tiles {
-            >div {
+            &:after {
+                content: '';
                 position: absolute;
                 left: 0;
                 top: 0;
                 width: 100%;
                 height: 100%;
-                // background-color: #ffff0060;
-                z-index: 1;
-                text-align: center;
+                background-image: url('assets/images/logo905x226.png');
+                background-repeat: no-repeat;
+                background-position: left top;
+                background-size: contain;
             }
-            .time div {
-                // width is maintained by js
-                position: absolute;
-                left: 0;
-                top: 0;
-                height: 100%;
-                background-color: #888;
+
+            &.svg {
+                &:after {
+                    opacity: 0.2;
+                }
+/*
+    aaaaaaaaaaaaaaaaaaaa
+
+    aaaabbbbcccc  bb  aa....
+
+    10 2 10 2 10   5 4 5 4
+
+    w--- 52 ---------------------------------------+
+    |
+    |  b--- 52-10-4=38 ---------------------+
+    |  |
+    |  |  w--- 38-2-5 = 31 -----------------+
+    |  |  |
+    |  |  |  b--- 31-10-4 = 17 ---------+
+    |  |  |  |
+    |  |  |  |  w--- 17-2-5 = 10 ----+
+    |  |  |  |  |
+
+
+
+*/
+                $l: 9; // large step (white)
+                $m: 5;  // medium step (black)
+                $s: 4;  // small step (white)
+                $xs: 2; // extra small step (black)
+
+                $s1: $l + $xs + $l + $xs + $l + $m + $s + $m + $s; // level 1 size (white)
+                $s2: $s1 - $l - $s;
+                $s3: $s2 - $xs - $m;
+                $s4: $s3 - $l - $s;
+                $s5: $s4 - $xs - $m;
+
+                $b: 'fill="red" stroke="none"';
+                $w: 'fill="white" stroke="none"';
+                $svg: (
+                    '<path stroke="green" stroke-width="1" d="M0,10 h800" />'
+                    '<path stroke="green" stroke-width="1" d="M10,0 v200" />'
+                    '<path stroke="green" stroke-width="1" d="M0,#{130 + $s1} h800" />'
+
+                    '<path #{$w} d="M10,10 h#{$s1} v120 h#{$s1 + $l} v#{$s1} h#{-$s1 - $s1 - $l} z" />'
+                    '<path #{$b} d="M10,10 m#{$l},#{$l} h#{$s2} v120 h#{$s1 + $l} v#{$s2} h#{-$s2 - $s1 - $l} z" />'
+                    '<path #{$w} d="M10,10 m#{$l + $xs},#{$l + $xs} h#{$s3} v120 h#{$s1 + $l} v#{$s3} h#{-$s3 - $s1 - $l} z" />'
+                    '<path #{$b} d="M10,10 m#{$l + $xs + $l},#{$l + $xs + $l} h#{$s4} v120 h#{$s1 + $l} v#{$s4} h#{-$s4 - $s1 - $l} z" />'
+                    '<path #{$w} d="M10,10 m#{$l + $xs + $l + $xs},#{$l + $xs + $l + $xs} h#{$s5} v120 h#{$s1 + $l} v#{$s5} h#{-$s5 - $s1 - $l} z" />'
+/*
+                    '<path #{$w} d="M10,10 h52 v122 h-52 z" />'
+                    '<path #{$b} d="M20,20 h38 v108 h-38 z" />'
+                    '<path #{$w} d="M22,22 h31 v101 h-31 z" />'
+                    '<path #{$b} d="M32,32 h17 v87 h-17 z" />'
+                    '<path #{$w} d="M34,34 h10 v80 h-10 z" />'
+                    //'<path #{$w} d="M14,14 h4 h4 h4 h2 v55 h25 v14 h-39 z" />'
+*/                    
+                );
+                @include svg($svg, 0, 0, 800, 200);
             }
         }
     }
-
-    // hidden piece during pause
-    .piece.hidden {
-        display: none;
-    }
-
 }
