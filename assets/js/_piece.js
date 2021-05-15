@@ -179,8 +179,11 @@ const piece = {
 
         } else if(this.isDroppable()) {
 
-            // TODO temporarily set game on pause
+            // temporarily set game on pause
+            state.pause = true;
+            // remove current piece
             dom.current.innerHTML = "";
+
             for(let i in def.p[this.id]) {
                 let pp = def.p[this.id][i];
                 let nx = this.x + pp.x;
@@ -188,10 +191,11 @@ const piece = {
                 board.plot(pp.id, nx, ny);
                 state.tileCount ++;
             }
+            // TODO move handleLoop/isLoop to board
             if(!this.handleLoop()) {
-                // log("no loop yet");
                 // no loop
-                // TODO turn off pause to resume game
+                // turn off pause to resume game
+                state.pause = false;
                 this.new();
             }
         } else {
@@ -260,6 +264,32 @@ const piece = {
         // loop is detected and stored in board.loop
         log("loop with " + board.loop.length + " tiles");
 
+        state.eventChain = [
+            { ev: "time", ms: 100 },
+            { func: this.flashLoop.bind(this), ev: state.trend, el: dom.tiles[board.loop[0].y*conf.tilesX + board.loop[0].x] },
+            { func: this.removeLoop.bind(this), ev: "time", ms: 300 },
+            { func: this.resumeAfterLoop.bind(this) },
+        ];
+        master.initEventChain();
+
+        return true;
+    },
+
+    flashLoop: function() {
+        for(let i in board.loop) {
+            let x = board.loop[i].x;
+            let y = board.loop[i].y;
+
+            dom.tiles[y*conf.tilesX + x].addClass("loop");
+        }
+    },
+
+    removeLoop: function() {
+        for(let i in board.loop) {
+            board.unplot(board.loop[i].x,board.loop[i].y);
+            state.tileCount--;
+        }
+
         // calc score
         state.incScore("loop", board.loop.length);
         dom.updateScore();
@@ -279,48 +309,16 @@ const piece = {
         // prolong the time for eraser to appear
         state.decEraserTime();
 
-        state.eventChain = [
-            { func: this.flashLoop.bind(this), ev: state.trend, el: dom.tiles[board.loop[0].y*conf.tilesX + board.loop[0].x] },
-            { func: this.removeLoop.bind(this) }
-        ];
-        master.initEventChain();
-
-        //this.flashLoop();
-        /*
-
-        // remove loop
-        // TODO transition chain
-        */
-
-        return true;
-    },
-
-    flashLoop: function() {
-        state.pause = true;
-        for(let i in board.loop) {
-            let x = board.loop[i].x;
-            let y = board.loop[i].y;
-
-            dom.tiles[y*conf.tilesX + x].addClass("loop");
-        }
-    },
-
-    removeLoop: function() {
-        for(let i in board.loop) {
-            board.unplot(board.loop[i].x,board.loop[i].y);
-            state.tileCount--;
-        }
-
         // if board is empty: add bonus
         if(state.tileCount == 0) {
-            log("clear bonus");
-            // TODO transition chain
             state.incScore("bonus");
             dom.updateScore();
         }
 
-        this.new();
+    },
 
+    resumeAfterLoop: function() {
+        this.new();
         state.pause = false;
     },
 };

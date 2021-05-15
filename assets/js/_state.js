@@ -113,22 +113,13 @@ const state = {
                 if(this.time == 0) {
 
                     // time is up
-                    // TODO remove piece, pause and wait a bit
-                    // TODO countdown or timeout
-
-                    if(piece.id !== def.eraser && --this.lives < 0) {
-                        // game over
-                        this.gameOn = false;
-                        dom.parent.removeClass("gameon");
-                    } else {
-                        if(piece.id == def.eraser) {
-                            // eraser was not used
-                            this.decEraserTime();
-                        }
-                        this.time = 100;
-                        piece.new();
-                        dom.updateLives();
-                    }
+                    state.pause = true;
+                    dom.current.innerHTML = "";
+                    state.eventChain = [
+                        { func: this.handleTimeout.bind(this), ev: "time", ms: 500 },
+                        { func: this.resumeTimeout.bind(this) }
+                    ];
+                    master.initEventChain();
                 }
 
                 dom.updateTime();
@@ -136,6 +127,41 @@ const state = {
         }
 
         this.raf(this.timer.bind(this));
+    },
+
+    handleTimeout: function() {
+
+        if(piece.id !== def.eraser) {
+            // losing a life. only show if above 0
+            if(--this.lives >= 0) {
+                dom.updateLives();
+            }
+        } else {
+            // eraser was not used
+            this.decEraserTime();
+        }
+    },
+
+    resumeTimeout: function() {
+        if(this.lives < 0) {
+            // TODO game over sequence
+            state.eventChain = [
+                { ev: "time", ms: 500 },
+                { func: this.startGameover.bind(this) }
+            ];
+            master.initEventChain();
+
+        } else {
+            this.time = 100;
+            piece.new();
+            state.pause = false;
+        }
+    },
+
+    startGameover: function() {
+        log("game over man");
+        this.gameOn = false;
+        dom.parent.removeClass("gameon");
     },
 
     resetEraserTime: function() {
