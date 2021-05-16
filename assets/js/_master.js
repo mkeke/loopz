@@ -82,8 +82,6 @@ const master = {
         }.bind(this));
     },
 
-
-
     /*
         initEventChain()
         Set up and start a chain of functions and event triggers.
@@ -95,7 +93,6 @@ const master = {
         thus the initial length must be at least 2
     */
     initEventChain: function() {
-        log("initEventChain()");
         if(state.eventChain !== undefined && state.eventChain.length >= 2) {
             state.eventChainFunc = this.continueEventChain.bind(this);
             this.triggerEventChainItem();
@@ -108,8 +105,6 @@ const master = {
         run the function currently on top of the chain
     */
     triggerEventChainItem: function() {
-        log("triggerEventChainItem()");
-
         // set up event handler if defined
         if(state.eventChain[0].ev == "time") {
 
@@ -119,7 +114,6 @@ const master = {
             }
 
             // wait until next step
-            log("  waiting " + state.eventChain[0].ms + " ms");
             setTimeout(
                 this.continueEventChain.bind(this), 
                 state.eventChain[0].ms
@@ -128,7 +122,6 @@ const master = {
         } else {
 
             if(state.eventChain[0].ev !== undefined) {
-                log("  setting up event listener");
                 state.eventChain[0].el.addEventListener(
                     state.eventChain[0].ev,
                     state.eventChainFunc
@@ -136,37 +129,9 @@ const master = {
             }
 
             // run the current function, eventually triggering the event
-            log("  running current function");
             state.eventChain[0].func();
         }
     },
-
-/*
-    { ev: "time", ms: 100 },
-    { func: this.flashLoop.bind(this), ev: state.trend, el: dom.tiles[board.loop[0].y*conf.tilesX + board.loop[0].x] },
-    { func: this.removeLoop.bind(this), ev: "time", ms: 1000 },
-    { func: this.continueLoop.bind(this) },
-
-    trigger:
-        if time and no func
-            set timeout
-                continue chain
-        if time and func
-            run func AND set timeout for continue
-
-        if time
-            if func
-                run func
-            set timeout
-                continue chain
-
-    continue:
-        if event should be removed
-            remove event
-
-    somewhere
-        run function AND set timeout
-*/
 
     /*
         continueEventChain()
@@ -175,10 +140,8 @@ const master = {
         prepare for the next element in chain
     */
     continueEventChain: function() {
-        log("continueEventChain()");
         // remove event listener if different from "time"
         if(state.eventChain[0].ev !== "time") {
-            log("  removing event listener");
             state.eventChain[0].el.removeEventListener(
                 state.eventChain[0].ev,
                 state.eventChainFunc
@@ -186,7 +149,6 @@ const master = {
         }
 
         // prepare for the next element in chain
-        log("  preparing for next in chain");
         state.eventChain.shift();
         this.triggerEventChainItem();
     },

@@ -150,8 +150,6 @@ const piece = {
     */
     drop: function() {
 
-        // TODO if eraser
-        //     if place is occupied
         if(this.id == def.eraser) {
             if(board.b[this.y][this.x] !== def.space) {
 
@@ -265,7 +263,7 @@ const piece = {
         log("loop with " + board.loop.length + " tiles");
 
         state.eventChain = [
-            { ev: "time", ms: 100 },
+            { ev: "time", ms: 50 },
             { func: this.flashLoop.bind(this), ev: state.trend, el: dom.tiles[board.loop[0].y*conf.tilesX + board.loop[0].x] },
             { func: this.removeLoop.bind(this), ev: "time", ms: 300 },
             { func: this.resumeAfterLoop.bind(this) },
