@@ -30,6 +30,107 @@ const board = {
     },
 
     /*
+        handleLoop()
+
+        if the given coordinates are part of a complete loop
+        set up event chain to remove it, update score etc
+        before resuming the game.
+    */
+    handleLoop: function(x, y) {
+        if(!this.isLoop(x,y)) {
+            return false;
+        }
+
+        // loop is detected and stored in board.loop
+        log("loop with " + board.loop.length + " tiles");
+
+        let startEl = dom.tiles[this.loop[0].y*conf.tilesX + this.loop[0].x];
+
+        // set up event chain
+        state.eventChain = [
+            { ev: "time", ms: 50 },
+            { func: this.flashLoop.bind(this), ev: state.trend, el: startEl },
+            { func: this.removeLoop.bind(this), ev: "time", ms: 1000 },
+        ];
+
+        // if loop is the last one on board, add clear bonus to event chain
+        if(this.loop.length == state.tileCount) {
+            log("adding clear bonus function");
+            state.eventChain.push(
+                { func: this.addClearBonus.bind(this), ev: "time", ms: 1000 }
+            );
+        }
+
+        state.eventChain.push(
+            { func: this.resumeAfterLoop.bind(this) }
+        );
+
+        master.initEventChain();
+
+        return true;
+    },
+
+    /*
+        flashLoop()
+        add classname "loop" to all the tiles in the current loop
+    */
+    flashLoop: function() {
+        for(let i in this.loop) {
+            let x = this.loop[i].x;
+            let y = this.loop[i].y;
+
+            dom.tiles[y*conf.tilesX + x].addClass("loop");
+        }
+    },
+
+    /*
+        removeLoop()
+        remove the loop from the board (internally and visually)
+        update score, number of loopz, today's best
+    */
+    removeLoop: function() {
+        for(let i in this.loop) {
+            this.unplot(this.loop[i].x,this.loop[i].y);
+            state.tileCount--;
+        }
+
+        // calc score
+        state.incScore("loop", this.loop.length);
+        dom.updateScore();
+
+        // inc number of loopz + visual update
+        state.loopz++;
+        dom.updateLoopz();
+        if(state.loopz % conf.newLifeLoop == 0) {
+            state.lives++;
+            dom.updateLives();
+        }
+
+        // maintain today's best
+        state.maxLoopz = Math.max(state.maxLoopz, state.loopz);
+        state.maxSize = Math.max(state.maxSize, this.loop.length);
+
+        // prolong the time for eraser to appear
+        state.decEraserTime();
+
+        // clear internal loop
+        this.loop = [];
+    },
+
+    addClearBonus: function() {
+        // if board is empty: add bonus
+        if(state.tileCount == 0) {
+            state.incScore("bonus");
+            dom.updateScore();
+        }
+    },
+
+    resumeAfterLoop: function() {
+        piece.new();
+        state.pause = false;
+    },
+
+    /*
         getLoop(x, y)
         get the coordinates for the loop at x,y
         return true if loop, false if not
@@ -114,5 +215,33 @@ const board = {
         this.b[y][x] = def.space;
         dom.tiles[y*conf.tilesX + x].className="";
     },
+
+        /*
+        erase(x, y)
+        erase continuous pieces from given location
+        update score acording to number of tiles removed
+    */
+    erase: function(x, y) {
+
+
+        // find continuous pieces in both directions
+        let pp = this.b[y][x];
+        let dir = def.exit[pp];
+        let arr = this.getConnectedPieces(x,y,dir[0]);
+        let arr2 = this.getConnectedPieces(x,y,dir[1]);
+        arr2.shift();
+
+        for(let i in arr) {
+            this.unplot(arr[i].x,arr[i].y);
+            state.tileCount--;
+        }
+        for(let i in arr2) {
+            this.unplot(arr2[i].x,arr2[i].y);
+            state.tileCount--;
+        }
+
+        // TODO increase score
+    },
+
 
 }

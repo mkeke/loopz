@@ -181,27 +181,19 @@ const dom = {
         piece.updatePosition();
     },
 
+    /*
+        hideCurrentPiece()
+        clears the html for the current piece
+    */
+    hideCurrentPiece: function() {
+        this.current.innerHTML = "";
+    },
+
     // effect for wrong move: border flashes red
-    borderFlashUp: function() {
+    showWrongMove: function() {
         dom.boardWrapper.addClass("wrongmove");
     },
-    borderFlashDown: function() {
+    hideWrongMove: function() {
         dom.boardWrapper.removeClass("wrongmove");
     },
-
-    /*
-    showWrongMove: function() {
-        // assign end function to a variable
-        // to ensure same signature when the eventListener is removed
-        state.temp = this.showWrongMoveEnded.bind(this);
-
-        this.boardWrapper.addEventListener(state.trend, state.temp);
-        this.boardWrapper.addClass("wrongmove");
-    },
-    showWrongMoveEnded: function(e) {
-        this.boardWrapper.removeEventListener(state.trend, state.temp);
-        this.boardWrapper.removeClass("wrongmove");
-    },
-    */
-
 };

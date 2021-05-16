@@ -14,6 +14,7 @@ const conf = {
     ratioHeightPx: 68, // 2*(10+5+2) board border + 2*(10+5+2) stats border
 
     borderDX: 10 + 5 + 2, // how much space (in px) one border takes
+    borderInnerOffset: 5 + 2,
 
     // board size
     tilesX: 18,

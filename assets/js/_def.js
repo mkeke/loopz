@@ -9,6 +9,7 @@ const def = {
     // TODO remove dev cheats
     key1: 49,
     key2: 50,
+    keyE: 69,
 
 
     /*

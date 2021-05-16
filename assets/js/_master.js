@@ -69,6 +69,7 @@ const master = {
 
     handleKeyboardEvents: function() {
         window.addEventListener("keydown", function(e){
+            // log(e.keyCode);
             // handle first occurrence of key, ignore key repeat
             if(!e.repeat) {
                 switch(e.keyCode) {
@@ -83,6 +84,10 @@ const master = {
                         break;
                     case def.key2:
                         piece.new(5);
+                        break;
+                    case def.keyE:
+                        state.eraserTime = conf.eraserTimeLimit * 1001 / conf.rafDelay;
+                        piece.new();
                         break;
                 }
             }
@@ -113,7 +118,6 @@ const master = {
     */
     triggerEventChainItem: function() {
         // set up event handler if defined
-        log("triggerEventChainItem");
         if(
             state.eventChain !== undefined && 
             state.eventChain.length > 0 && 
@@ -163,7 +167,6 @@ const master = {
     */
     continueEventChain: function() {
         // remove event listener if different from "time"
-        log("continueEventChain");
         if(
             state.eventChain !== undefined && 
             state.eventChain.length > 0 && 

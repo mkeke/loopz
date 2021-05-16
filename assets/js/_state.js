@@ -114,7 +114,7 @@ const state = {
 
                     // time is up
                     state.pause = true;
-                    dom.current.innerHTML = "";
+                    dom.hideCurrentPiece();
                     state.eventChain = [
                         { func: this.handleTimeout.bind(this), ev: "time", ms: 500 },
                         { func: this.resumeTimeout.bind(this) }
@@ -251,16 +251,12 @@ const state = {
 
             // shuffle the last 30% of the bag
             let startShuffle = Math.round(this.bag.length * 0.7);
-            log("shuffle at " + startShuffle);
-            log(this.bag.join(" "));
             for (let i = this.bag.length - 1; i > startShuffle; i--) {
                 let j = Math.floor(Math.random() * (this.bag.length - startShuffle) + startShuffle);
                 let temp = this.bag[i];
                 this.bag[i] = this.bag[j];
                 this.bag[j] = temp;
             }
-            log(this.bag.join(" "));
-
         }
     },
 
