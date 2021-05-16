@@ -4,7 +4,11 @@ const def = {
     eraser: 0,
 
     // keydown/up codes
-    keyP:  80,
+    keyP: 80,
+
+    // TODO remove dev cheats
+    key1: 49,
+    key2: 50,
 
 
     /*

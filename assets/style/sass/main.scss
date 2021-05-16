@@ -93,7 +93,6 @@ $debugMode: 1;
             );
             @include svg($svg, 0, 0, 800, 200);
             margin: 0 auto;
-            background-color: #005500;
         }
         li {
             font-size: 20px;

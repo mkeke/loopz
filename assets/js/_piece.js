@@ -262,12 +262,25 @@ const piece = {
         // loop is detected and stored in board.loop
         log("loop with " + board.loop.length + " tiles");
 
+
         state.eventChain = [
             { ev: "time", ms: 50 },
             { func: this.flashLoop.bind(this), ev: state.trend, el: dom.tiles[board.loop[0].y*conf.tilesX + board.loop[0].x] },
-            { func: this.removeLoop.bind(this), ev: "time", ms: 300 },
-            { func: this.resumeAfterLoop.bind(this) },
+            { func: this.removeLoop.bind(this), ev: "time", ms: 1000 },
         ];
+
+        // if loop is the last one on board, add clear bonus to event chain
+        if(board.loop.length == state.tileCount) {
+            log("adding clear bonus function");
+            state.eventChain.push(
+                { func: this.clearBonus.bind(this), ev: "time", ms: 1000 }
+            );
+        }
+
+        state.eventChain.push(
+            { func: this.resumeAfterLoop.bind(this) }
+        );
+
         master.initEventChain();
 
         return true;
@@ -306,13 +319,15 @@ const piece = {
 
         // prolong the time for eraser to appear
         state.decEraserTime();
+    },
 
+    clearBonus: function() {
         // if board is empty: add bonus
         if(state.tileCount == 0) {
+            log("clear bonus!");
             state.incScore("bonus");
             dom.updateScore();
         }
-
     },
 
     resumeAfterLoop: function() {

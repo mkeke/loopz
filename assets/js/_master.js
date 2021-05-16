@@ -69,13 +69,20 @@ const master = {
 
     handleKeyboardEvents: function() {
         window.addEventListener("keydown", function(e){
-
             // handle first occurrence of key, ignore key repeat
             if(!e.repeat) {
                 switch(e.keyCode) {
                     case def.keyP:
                         // toggle user pause on/off
                         state.toggleUserPause();
+                        break;
+
+                    // dev hijack pieces                        
+                    case def.key1:
+                        piece.new(1);
+                        break;
+                    case def.key2:
+                        piece.new(5);
                         break;
                 }
             }
@@ -106,7 +113,12 @@ const master = {
     */
     triggerEventChainItem: function() {
         // set up event handler if defined
-        if(state.eventChain[0].ev == "time") {
+        log("triggerEventChainItem");
+        if(
+            state.eventChain !== undefined && 
+            state.eventChain.length > 0 && 
+            state.eventChain[0].ev !== undefined && 
+            state.eventChain[0].ev == "time") {
 
             if(state.eventChain[0].func !== undefined) {
                 // run function before setting timeout
@@ -121,7 +133,10 @@ const master = {
 
         } else {
 
-            if(state.eventChain[0].ev !== undefined) {
+            if(
+                state.eventChain !== undefined && 
+                state.eventChain.length > 0 && 
+                state.eventChain[0].ev !== undefined) {
                 state.eventChain[0].el.addEventListener(
                     state.eventChain[0].ev,
                     state.eventChainFunc
@@ -129,7 +144,14 @@ const master = {
             }
 
             // run the current function, eventually triggering the event
-            state.eventChain[0].func();
+            if(
+                state.eventChain !== undefined && 
+                state.eventChain.length > 0 && 
+                state.eventChain[0].func !== undefined) {
+
+                state.eventChain[0].func();
+            }
+
         }
     },
 
@@ -141,7 +163,13 @@ const master = {
     */
     continueEventChain: function() {
         // remove event listener if different from "time"
-        if(state.eventChain[0].ev !== "time") {
+        log("continueEventChain");
+        if(
+            state.eventChain !== undefined && 
+            state.eventChain.length > 0 && 
+            state.eventChain[0].ev !== undefined &&
+            state.eventChain[0].ev !== "time" && state.eventChain[0].el !== undefined) {
+
             state.eventChain[0].el.removeEventListener(
                 state.eventChain[0].ev,
                 state.eventChainFunc
