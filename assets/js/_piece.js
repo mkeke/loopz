@@ -178,11 +178,11 @@ const piece = {
             }
         } else {
             // visualize wrong move
-            state.eventChain = [
+            eventChain.new([
                 { func: dom.showWrongMove.bind(this), ev: state.trend, el: dom.boardWrapper },
                 { func: dom.hideWrongMove.bind(this) }
-            ];
-            master.initEventChain();
+            ]);
+            eventChain.run();
         }
     },
 

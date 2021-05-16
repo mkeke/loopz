@@ -46,26 +46,21 @@ const board = {
 
         let startEl = dom.tiles[this.loop[0].y*conf.tilesX + this.loop[0].x];
 
-        // set up event chain
-        state.eventChain = [
+        eventChain.new([
             { ev: "time", ms: 50 },
             { func: this.flashLoop.bind(this), ev: state.trend, el: startEl },
             { func: this.removeLoop.bind(this), ev: "time", ms: 1000 },
-        ];
-
-        // if loop is the last one on board, add clear bonus to event chain
+        ]);
         if(this.loop.length == state.tileCount) {
-            log("adding clear bonus function");
-            state.eventChain.push(
+            eventChain.add(
                 { func: this.addClearBonus.bind(this), ev: "time", ms: 1000 }
             );
         }
-
-        state.eventChain.push(
+        eventChain.add(
             { func: this.resumeAfterLoop.bind(this) }
         );
 
-        master.initEventChain();
+        eventChain.run();
 
         return true;
     },

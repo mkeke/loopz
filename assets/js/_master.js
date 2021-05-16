@@ -3,14 +3,6 @@ const master = {
     // raf: null,
 
     init: function() {
-        /*
-        // determine the correct raf
-        this.raf = (window.requestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.msRequestAnimationFrame).bind(window);
-        */
-
         dom.init();
         state.init();
         def.init();
@@ -92,96 +84,6 @@ const master = {
                 }
             }
         }.bind(this));
-    },
-
-    /*
-        initEventChain()
-        Set up and start a chain of functions and event triggers.
-        The chain defines which function to run,
-        and which element that fires a certain event,
-        before the next function can be run.
-
-        The chain must contain a start function and an end function,
-        thus the initial length must be at least 2
-    */
-    initEventChain: function() {
-        if(state.eventChain !== undefined && state.eventChain.length >= 2) {
-            state.eventChainFunc = this.continueEventChain.bind(this);
-            this.triggerEventChainItem();
-        }
-    },
-
-    /*
-        triggerEventChainItem()
-        set up event handler, if any
-        run the function currently on top of the chain
-    */
-    triggerEventChainItem: function() {
-        // set up event handler if defined
-        if(
-            state.eventChain !== undefined && 
-            state.eventChain.length > 0 && 
-            state.eventChain[0].ev !== undefined && 
-            state.eventChain[0].ev == "time") {
-
-            if(state.eventChain[0].func !== undefined) {
-                // run function before setting timeout
-                state.eventChain[0].func();
-            }
-
-            // wait until next step
-            setTimeout(
-                this.continueEventChain.bind(this), 
-                state.eventChain[0].ms
-            );
-
-        } else {
-
-            if(
-                state.eventChain !== undefined && 
-                state.eventChain.length > 0 && 
-                state.eventChain[0].ev !== undefined) {
-                state.eventChain[0].el.addEventListener(
-                    state.eventChain[0].ev,
-                    state.eventChainFunc
-                );
-            }
-
-            // run the current function, eventually triggering the event
-            if(
-                state.eventChain !== undefined && 
-                state.eventChain.length > 0 && 
-                state.eventChain[0].func !== undefined) {
-
-                state.eventChain[0].func();
-            }
-
-        }
-    },
-
-    /*
-        continueEventChain()
-        current event has occurred
-        remove event listener
-        prepare for the next element in chain
-    */
-    continueEventChain: function() {
-        // remove event listener if different from "time"
-        if(
-            state.eventChain !== undefined && 
-            state.eventChain.length > 0 && 
-            state.eventChain[0].ev !== undefined &&
-            state.eventChain[0].ev !== "time" && state.eventChain[0].el !== undefined) {
-
-            state.eventChain[0].el.removeEventListener(
-                state.eventChain[0].ev,
-                state.eventChainFunc
-            );
-        }
-
-        // prepare for the next element in chain
-        state.eventChain.shift();
-        this.triggerEventChainItem();
     },
 
 };

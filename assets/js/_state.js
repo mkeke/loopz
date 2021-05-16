@@ -115,11 +115,12 @@ const state = {
                     // time is up
                     state.pause = true;
                     dom.hideCurrentPiece();
-                    state.eventChain = [
-                        { func: this.handleTimeout.bind(this), ev: "time", ms: 500 },
+
+                    eventChain.new([
+                        { func: this.handleTimeout.bind(this), ev: "time", ms: 1000 },
                         { func: this.resumeTimeout.bind(this) }
-                    ];
-                    master.initEventChain();
+                    ]);
+                    eventChain.run();
                 }
 
                 dom.updateTime();
@@ -145,11 +146,11 @@ const state = {
     resumeTimeout: function() {
         if(this.lives < 0) {
             // TODO game over sequence
-            state.eventChain = [
+            eventChain.new([
                 { ev: "time", ms: 500 },
                 { func: this.startGameover.bind(this) }
-            ];
-            master.initEventChain();
+            ]);
+            eventChain.run();
 
         } else {
             this.time = 100;
