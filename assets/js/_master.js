@@ -44,8 +44,8 @@ const master = {
         }.bind(this));
 
         dom.parent.addEventListener("contextmenu", function(e){
+            e.preventDefault();
             if(state.gameOn && !state.pause && !state.userPause) {
-                e.preventDefault();
                 piece.rotate();
             }
         }.bind(this));

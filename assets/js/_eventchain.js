@@ -1,3 +1,17 @@
+/*
+    eventChain
+
+    Simen Lysebo, May 2021
+
+    example usage
+
+    // visualize wrong move by flashing border
+    eventChain.new([
+        { func: dom.showWrongMove.bind(this), ev: state.trend, el: dom.boardWrapper },
+        { func: dom.hideWrongMove.bind(this) }
+    ]);
+    eventChain.run();
+*/
 const eventChain = {
     _c: [],
     _f: null,
@@ -10,9 +24,16 @@ const eventChain = {
         this._c = arr;
     },
 
+    /*
+        add(item)
+        add item to the end of chain
+    */
     add: function(item) {
         this._c.push(item);
     },
+
+    // TODO insert(arr)
+    // insert arr after current [0]
 
     /*
         run()
@@ -60,7 +81,8 @@ const eventChain = {
             if(
                 this._c !== undefined && 
                 this._c.length > 0 && 
-                this._c[0].ev !== undefined) {
+                this._c[0].ev !== undefined
+            ) {
                 this._c[0].el.addEventListener(
                     this._c[0].ev,
                     this._f
@@ -71,7 +93,8 @@ const eventChain = {
             if(
                 this._c !== undefined && 
                 this._c.length > 0 && 
-                this._c[0].func !== undefined) {
+                this._c[0].func !== undefined
+            ) {
 
                 this._c[0].func();
             }
@@ -81,7 +104,7 @@ const eventChain = {
     },
 
     /*
-        continueEventChain()
+        continue()
         current event has occurred
         remove event listener
         prepare for the next element in chain
@@ -92,7 +115,8 @@ const eventChain = {
             this._c !== undefined && 
             this._c.length > 0 && 
             this._c[0].ev !== undefined &&
-            this._c[0].ev !== "time" && this._c[0].el !== undefined) {
+            this._c[0].ev !== "time" && this._c[0].el !== undefined
+        ) {
 
             this._c[0].el.removeEventListener(
                 this._c[0].ev,

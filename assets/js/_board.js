@@ -43,6 +43,7 @@ const board = {
 
         // loop is detected and stored in board.loop
         log("loop with " + board.loop.length + " tiles");
+        log("tileCount: " + state.tileCount);
 
         let startEl = dom.tiles[this.loop[0].y*conf.tilesX + this.loop[0].x];
 
@@ -211,7 +212,7 @@ const board = {
         dom.tiles[y*conf.tilesX + x].className="";
     },
 
-        /*
+    /*
         erase(x, y)
         erase continuous pieces from given location
         update score acording to number of tiles removed
@@ -226,6 +227,8 @@ const board = {
         let arr2 = this.getConnectedPieces(x,y,dir[1]);
         arr2.shift();
 
+        let size = arr.length + arr2.length;
+
         for(let i in arr) {
             this.unplot(arr[i].x,arr[i].y);
             state.tileCount--;
@@ -235,8 +238,74 @@ const board = {
             state.tileCount--;
         }
 
-        // TODO increase score
+        state.incScore("rest", size);
+        dom.updateScore();
     },
 
+    prepareRemoveSnakes: function() {
+
+        eventChain.new([
+            { ev: "time", ms: 1000 },
+        ]);
+
+        // find occurrence of snake
+        this.snakeX = 0;
+        this.snakeY = 0;
+        if(this.hasSnake()) {
+            eventChain.add(
+                { func: this.removeSnake.bind(this), ev: "time", ms: 500 }
+            );
+        } else {
+            eventChain.add(
+                { func: this.showIntro.bind(this) }
+            );
+        }
+
+        eventChain.run();
+    },
+
+    showIntro: function() {
+        state.gameOn = false;
+        dom.parent.removeClass("gameon");
+    },
+
+    removeSnake: function() {
+        // remove the snake starting from this.snakeX this.snakeY
+        // update score
+        this.erase(this.snakeX, this.snakeY);
+
+        // search for more snakes
+        // update eventChain
+        if(this.hasSnake()) {
+            eventChain.add(
+                { func: this.removeSnake.bind(this), ev: "time", ms: 500 }
+            );
+        } else {
+            eventChain.add(
+                { func: this.showIntro.bind(this) }
+            );
+        }
+    },
+
+    hasSnake: function() {
+        // searches the board for snakes, unifinished loopz
+        // starts from [this.snakeX, this.snakeY]
+        // returns true or false
+        // if true, [this.snakeX, this.snakeY] is position of snake
+
+        do {
+
+            if(this.b[this.snakeY][this.snakeX] !== def.space) {
+                return true;
+            }
+
+            if(++this.snakeX == conf.tilesX) {
+                this.snakeX = 0;
+                this.snakeY++;
+            }
+        } while(this.snakeY<conf.tilesY)
+
+        return false;
+    },
 
 }

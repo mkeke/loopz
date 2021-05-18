@@ -145,24 +145,15 @@ const state = {
 
     resumeTimeout: function() {
         if(this.lives < 0) {
-            // TODO game over sequence
-            eventChain.new([
-                { ev: "time", ms: 500 },
-                { func: this.startGameover.bind(this) }
-            ]);
-            eventChain.run();
+
+            // game over sequence
+            board.prepareRemoveSnakes();
 
         } else {
             this.time = 100;
             piece.new();
             state.pause = false;
         }
-    },
-
-    startGameover: function() {
-        log("game over man");
-        this.gameOn = false;
-        dom.parent.removeClass("gameon");
     },
 
     resetEraserTime: function() {
@@ -289,7 +280,7 @@ const state = {
                 this.score += [300,600,900][this.level];
                 break;
             case "rest":
-                // TODO increase score by number of tiles left
+                this.score += val*[2,4,6][this.level];
                 break;
         }
 
