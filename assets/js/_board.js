@@ -257,11 +257,21 @@ const board = {
             );
         } else {
             eventChain.add(
+                { func: this.animateGameOver.bind(this), ev: state.anend, el: dom.timeWrapper }
+            );
+            eventChain.add(
+                { ev: "time", ms: 2000 }
+            );
+            eventChain.add(
                 { func: this.showIntro.bind(this) }
             );
         }
 
         eventChain.run();
+    },
+
+    animateGameOver: function() {
+        dom.timeWrapper.addClass("gameover");
     },
 
     showIntro: function() {
@@ -281,6 +291,12 @@ const board = {
                 { func: this.removeSnake.bind(this), ev: "time", ms: 500 }
             );
         } else {
+            eventChain.add(
+                { func: this.animateGameOver.bind(this), ev: state.anend, el: dom.timeWrapper }
+            );
+            eventChain.add(
+                { ev: "time", ms: 2000 }
+            );
             eventChain.add(
                 { func: this.showIntro.bind(this) }
             );

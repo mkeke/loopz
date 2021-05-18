@@ -113,11 +113,38 @@ $debugMode: 1;
     .ztest {
         display: none;
         position: absolute;
-        left: 0;
+        left: 5%;
         top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #ffffff50;
+        width: 90%;
+        height: 90%;
+        background-color: #ffffffa0;
         padding-top: 5%;
+
+        .go {
+            width: 0%;
+            height: 0;
+            padding-bottom: percentage(128/1008);
+            background-color: green;
+
+            background-image: url('assets/images/gameover1008x128.png');
+            background-repeat: no-repeat;
+            background-position: left top;
+            background-size: auto 100%;
+
+            animation: gameover 2s steps(1) forwards;
+        }
+
+        @keyframes gameover {
+            from { width: 0%; }
+            11.1% { width: 11.5%; } // G
+            22.2% { width: 23.5%; } // A
+            33.3% { width: 37.1%; } // M
+            44.4% { width: 48%; } // E
+            55.5% { width: 52%; } // 
+            66.6% { width: 64.8%; } // O
+            77.7% { width: 76.7%; } // V
+            88.8% { width: 88%; } // E
+            to    { width: 100%; } // R
+        }
     }
 }

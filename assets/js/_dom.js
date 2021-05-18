@@ -9,6 +9,7 @@ const dom = {
     start: null,
 
     loopz: null,
+    timeWrapper: null,
     time: null,
     score: null,
     lives: null,
@@ -23,6 +24,7 @@ const dom = {
         this.start = this.parent.find("button.start");
 
         this.loopz = this.parent.find(".loopz");
+        this.timeWrapper = this.parent.find(".time");
         this.time = this.parent.find(".time div");
         this.score = this.parent.find(".score");
         this.lives = this.parent.find(".lives");
