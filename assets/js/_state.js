@@ -63,6 +63,7 @@ const state = {
 
         board.clear();
         dom.updateBoard();
+        dom.timeWrapper.removeClass("gameover");
 
         this.pieces = 0;
         this.lives = conf.startExtralife;

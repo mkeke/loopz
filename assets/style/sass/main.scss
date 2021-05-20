@@ -115,36 +115,121 @@ $debugMode: 1;
         position: absolute;
         left: 5%;
         top: 0;
-        width: 90%;
-        height: 90%;
-        background-color: #ffffffa0;
+        width: 100%;
+        height: 100%;
+        background-color: #2166aa;
         padding-top: 5%;
 
-        .go {
-            width: 0%;
-            height: 0;
-            padding-bottom: percentage(128/1008);
-            background-color: green;
+        $w:126; $h:16; $s:9;
+        div {
+            width: #{$w * $s}px;
+            height: #{$h * $s}px;
+            margin: 0 auto 30px;
+            //background-color: #00000020;
+            position: relative;
+        }
 
-            background-image: url('assets/images/gameover1008x128.png');
-            background-repeat: no-repeat;
-            background-position: left top;
+        div.pa {
+
+            $svg: (
+                '<mask id="p" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="880" height="160" />'
+                '<path fill="black" d="M55,35 h30 v10 l-20,20 h-10 Z" />'
+                '</mask>'
+                '<mask id="a" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="880" height="160" />'
+                '<path fill="black" d="M195,65 v-1 l20,-20 h10 v20 v1 Z" />'
+                '</mask>'
+                '<mask id="d" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="880" height="160" />'
+                '<path fill="black" d="M785,35 h31 v60 l-30,30 h-1 Z" />'
+                '</mask>'
+
+                '<g stroke="black" fill="#999999" stroke-width="10">'
+                // P
+                '<path mask="url(#p)" d="M5,5 h110 l20,20 v30 l-40,40 h-40 v60 h-50 Z" />'
+                '<path fill="none" d="M55,35 h30 v10 l-20,20 h-10 Z" />'
+                // A
+                '<path mask="url(#a)" d="M145,65 l60,-60 h70 v150 h-50 v-60 h-30 v60 h-50 Z" />'
+                '<path fill="none" d="M195,65 v-1 l20,-20 h10 v20 v1 Z" />'
+                // U
+                '<path d="M295,5 h50 v110 h10 l20,-20 v-90 h50 v110 l-40,40 h-70 l-20,-20 Z" />'
+                // S
+                '<path d="M445,45 l40,-40 h70 v10 h10 v40 h-40 v-20 h-20 v10 l30,30 h10 l30,30 v20 l-30,30 h-80 l-20,-20 v-30 h30 l20,20 h30 v-1 l-40,-40 h-10 l-30,-30 Z" />'
+                // E
+                '<path d="M595,5 h120 v30 h-70 v20 h50 v30 h-50 v40 h10 l20,-20 h40 v10 l-40,40 h-80 Z" />'
+                // D
+                '<path mask="url(#d)" d="M735,5 h110 l20,20 v80 l-50,50 h-80 Z" />'
+                '<path fill="none" d="M785,35 h31 v60 l-30,30 h-1 Z" />'
+                '</g>'
+            );                
+
+            @include svg($svg, 0, 0, 870, 160);
+            background-position: center center;
             background-size: auto 100%;
 
-            animation: gameover 2s steps(1) forwards;
+
+
         }
 
-        @keyframes gameover {
-            from { width: 0%; }
-            11.1% { width: 11.5%; } // G
-            22.2% { width: 23.5%; } // A
-            33.3% { width: 37.1%; } // M
-            44.4% { width: 48%; } // E
-            55.5% { width: 52%; } // 
-            66.6% { width: 64.8%; } // O
-            77.7% { width: 76.7%; } // V
-            88.8% { width: 88%; } // E
-            to    { width: 100%; } // R
+        div.bg {
+            background-image: url('assets/images/gameover126x16.png');
+            background-repeat: no-repeat;
+            background-position: left top;
+            background-size: contain;
+            // the power of the pixels <3
+            image-rendering: pixelated;
         }
+
+        div.ga {
+            &:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+
+$svg: (
+    '<mask id="a" stroke="none">'
+    '<rect fill="white" x="0" y="0" width="1250" height="160" />'
+    '<path fill="black" d="M205,65 v-1 l20,-20 h10 v20 v1 Z" />'
+    '</mask>'
+    '<mask id="o" stroke="none">'
+    '<rect fill="white" x="0" y="0" width="1250" height="160" />'
+    '<path fill="black" d="M725,55 l20,-20 h10v70 l-20,20 h-10 Z" />'
+    '</mask>'
+    '<mask id="r" stroke="none">'
+    '<rect fill="white" x="0" y="0" width="1250" height="160" />'
+    '<path fill="black" d="M1165,35 h30 v10 l-20,20 h-10 Z" />'
+    '</mask>'
+
+    '<g stroke="black" fill="#999999" stroke-width="10">'
+    // G
+    '<path d="M5,5 h100 l30,30 v10 h-50 v-10 h-30 v90 h1 l30,-30 v-10 h-21 v-30 h70 v60 l-40,40 h-90 Z" />'
+    // A
+    '<path mask="url(#a)" d="M155,65 l60,-60 h70 v150 h-50 v-60 h-30 v60 h-50 Z" />'
+    '<path fill="none" d="M205,65 v-1 l20,-20 h10 v20 v1 Z" />'
+    // M
+    '<path d="M305,5 h30 l40,40 h10 l40,-40 h30 v150 h-50 v-80 h-1 l-20,20 h-9 l-20,-20 h-1 v80 h-49 Z" />'
+    // E
+    '<path d="M475,5 h120 v30 h-70 v20 h50 v30 h-50 v40 h10 l20,-20 h40 v10 l-40,40 h-80 Z" />'
+    // O
+    '<path mask="url(#o)" d="M675,55 l50,-50 h70 v10 h10 v90 l-50,50 h-70 v-10 h-10 Z" />'
+    '<path fill="none" d="M725,55 l20,-20 h10v70 l-20,20 h-10 Z" />'
+    // V
+    '<path d="M825,5 h50 v90 h1 l30,-30 v-60 h49 v70 l-80,80 h-50 Z" />'
+    // E
+    '<path d="M975,5 h120 v30 h-70 v20 h50 v30 h-50 v40 h10 l20,-20 h40 v10 l-40,40 h-80 Z" />'
+    // R
+    '<path mask="url(#r)" d="M1115,5 h100 l20,20 v40 l-30,30 l40,40 v20 h-40 l-40,-40 h-1 v40 h-49 Z" />'
+    '<path fill="none" d="M1165,35 h30 v10 l-20,20 h-10 Z" />'
+    '</g>'
+);                
+
+@include svg($svg, 0, 0, 1250, 160);
+            }
+        }
+
     }
 }
