@@ -43,6 +43,12 @@ const dom = {
         return "" + str;
     },
 
+    createNumber: function(str) {
+        let arr = str.split("");
+        arr = arr.map(function(a){ return `<span class="n${a}"></span>` });
+        return arr.join("");
+    },
+
     updateStats: function() {
         // update all the things
         this.updateLives();
@@ -55,13 +61,13 @@ const dom = {
         // 4 digits
         let str = "0".repeat(4 - (""+state.loopz).length);
         str += state.loopz;
-        this.loopz.innerHTML = this.createCharset(str);
+        this.loopz.innerHTML = this.createNumber(str);
     },
     updateLives: function() {
         // 2 digits
         let str = "0".repeat(2 - (""+state.lives).length);
         str += state.lives;
-        this.lives.innerHTML = this.createCharset(str);
+        this.lives.innerHTML = this.createNumber(str);
     },
     updateTime: function() {
         this.time.style["width"] = state.time + "%";
@@ -70,7 +76,7 @@ const dom = {
         // 6 digits
         let str = "0".repeat(6 - (""+state.score).length);
         str += state.score;
-        this.score.innerHTML = this.createCharset(str);
+        this.score.innerHTML = this.createNumber(str);
     },
     updateBoard: function() {
         // unscramble board
@@ -167,6 +173,11 @@ const dom = {
 
         str += '.stats .top{' +
                 `padding-bottom:${state.tileSize-10}px;` + 
+                '}';
+
+        str += '.num span{' +
+                `width:${Math.floor(state.tileSize/2)}px;` + 
+                `height:${Math.floor(state.tileSize)}px;` + 
                 '}';
 
         this.runtimeStyle.innerHTML = str;
