@@ -176,6 +176,14 @@ section.stats {
     &.p6 { background-color: #888; }
 }
 
+// flash to white when loop is found
+.tiles p {
+    &.loop {
+        background-color: white;
+        transition: background-color .8s linear;
+    }
+}
+
 // piece primitive placement relative to piece origo
 .piece {
     // width and height is set by js (one tile)
@@ -327,6 +335,7 @@ section.stats {
 
     section.intro {
         display: block;
+        // TODO enable intro anim
     }
     section.board,
     section.stats {
@@ -336,6 +345,7 @@ section.stats {
     &.gameon {
         section.intro {
             display: none;
+            // TODO disable intro anim
         }
         section.board,
         section.stats {
@@ -457,13 +467,14 @@ section.board {
         display: inline-block;
         vertical-align: top;
     }
+    $sw: 'stroke-width="8"';
     .n0 {
         $svg: (
             '<mask id="n0" stroke="none">'
             '<rect fill="white" x="0" y="0" width="100" height="160" />'
             '<path fill="black" d="M35,45 l5,-5 l5,5 v70 l-5,5 l-5,-5 Z" />'
             '</mask>'
-            '<g stroke="#{$font-border}" fill="#{$font-color}" stroke-width="10">'
+            '<g stroke="#{$font-border}" fill="#{$font-color}" #{$sw}>'
             '<path mask="url(#n0)" d="M5,25 l20,-20 h30 l20,20 v110 l-20,20 h-30 l-20,-20 Z" />'
             '<path fill="none" d="M35,45 l5,-5 l5,5 v70 l-5,5 l-5,-5 Z" />'
             '</g>'
@@ -472,7 +483,7 @@ section.board {
     }
     .n1 {
         $svg: (
-            '<g stroke="#{$font-border}" fill="#{$font-color}" stroke-width="10">'
+            '<g stroke="#{$font-border}" fill="#{$font-color}" #{$sw}>'
             '<path d="M15,25 l20,-20 h20 v120 h20 v30 h-70 v-30 h20 v-60 h-10 Z" />'
             '</g>'
         );
@@ -480,7 +491,7 @@ section.board {
     }
     .n2 {
         $svg: (
-            '<g stroke="#{$font-border}" fill="#{$font-color}" stroke-width="10">'
+            '<g stroke="#{$font-border}" fill="#{$font-color}" #{$sw}>'
             '<path d="M5,25 l20,-20 h30 l20,20 v40 l-30,50 v10 h30 v30 h-70 v-30 l40,-70 v-20 h-10 v20 h-30 Z" />'
             '</g>'
         );
@@ -488,7 +499,7 @@ section.board {
     }
     .n3 {
         $svg: (
-            '<g stroke="#{$font-border}" fill="#{$font-color}" stroke-width="10">'
+            '<g stroke="#{$font-border}" fill="#{$font-color}" #{$sw}>'
             '<path d="M5,5 h70 v40 l-10,10 v20 l10,10 v50 l-20,20 h-30 l-20,-20 v-30 h20 l15,15 l5,-5 v-20 l-20,-20 v-20 l20,-20 v-1 h-40 Z" />'
             '</g>'
         );
@@ -496,7 +507,7 @@ section.board {
     }
     .n4 {
         $svg: (
-            '<g stroke="#{$font-border}" fill="#{$font-color}" stroke-width="10">'
+            '<g stroke="#{$font-border}" fill="#{$font-color}" #{$sw}>'
             '<path d="M5,75 l20,-50 l20,-20 h20 v60 h10 v50 h-10 v40 h-30 v-40 h-30 Z" />'
             '<path fill="none" d="M35,60 v20" />'
             '</g>'
@@ -505,7 +516,7 @@ section.board {
     }
     .n5 {
         $svg: (
-            '<g stroke="#{$font-border}" fill="#{$font-color}" stroke-width="10">'
+            '<g stroke="#{$font-border}" fill="#{$font-color}" #{$sw}>'
             '<path d="M5,5 h70 v30 h-40 v10 h10 l20,10 l10,10 v70 l-20,20 h-30 l-20,-20 v-30 h30 v10 l5,5 l5,-5 v-30 l-10,-10 h-30 Z" />'
             '</g>'
         );
@@ -517,7 +528,7 @@ section.board {
             '<rect fill="white" x="0" y="0" width="100" height="160" />'
             '<path fill="black" d="M35,100 l5,-5 l5,5 v20 l-5,5 l-5,-5 Z" />'
             '</mask>'
-            '<g stroke="#{$font-border}" fill="#{$font-color}" stroke-width="10">'
+            '<g stroke="#{$font-border}" fill="#{$font-color}" #{$sw}>'
             '<path mask="url(#n6)" d="M5,25 l20,-20 h40 v30 h-20 l-10,10 v20 h20 l20,20 v50 l-20,20 h-30 l-20,-20 Z" />'
             '<path fill="none" d="M35,100 l5,-5 l5,5 v20 l-5,5 l-5,-5 Z" />'
             '</g>'
@@ -526,7 +537,7 @@ section.board {
     }
     .n7 {
         $svg: (
-            '<g stroke="#{$font-border}" fill="#{$font-color}" stroke-width="10">'
+            '<g stroke="#{$font-border}" fill="#{$font-color}" #{$sw}>'
             '<path d="M5,5 h70 v40 l-30,60 v50 h-30 v-60 l25,-50 v-10 h-35 Z" />'
             '</g>'
         );
@@ -538,7 +549,7 @@ section.board {
             '<rect fill="white" x="0" y="0" width="100" height="160" />'
             '<path fill="black" d="M35,40 l5,-5 l5,5 v10 l-5,10 l-5,-10 Z M45,120 l-5,5 l-5,-5 v-10 l5,-10 l5,10 Z" />'
             '</mask>'
-            '<g stroke="#{$font-border}" fill="#{$font-color}" stroke-width="10">'
+            '<g stroke="#{$font-border}" fill="#{$font-color}" #{$sw}>'
             '<path mask="url(#n8)" d="M5,25 l20,-20 h30 l20,20 v30 l-10,25 l10,25 v30 l-20,20 h-30 l-20,-20 v-30 l10,-25 l-10,-25 Z" />'
             '<path fill="none" d="M35,40 l5,-5 l5,5 v10 l-5,10 l-5,-10 Z M45,120 l-5,5 l-5,-5 v-10 l5,-10 l5,10 Z" />'
             '</g>'
@@ -551,7 +562,7 @@ section.board {
             '<rect fill="white" x="0" y="0" width="100" height="160" />'
             '<path fill="black" d="M35,40 l5,-5 l5,5 v20 l-5,5 l-5,-5 Z" />'
             '</mask>'
-            '<g stroke="#{$font-border}" fill="#{$font-color}" stroke-width="10">'
+            '<g stroke="#{$font-border}" fill="#{$font-color}" #{$sw}>'
             '<path mask="url(#n9)" d="M5,25 l20,-20 h30 l20,20 v70 l-10,40 l-20,20 h-30 v-20 l20,-20 l10,-20 v-1 h-20 l-20,-20 Z" />'
             '<path fill="none" d="M35,40 l5,-5 l5,5 v20 l-5,5 l-5,-5 Z" />'
             '</g>'

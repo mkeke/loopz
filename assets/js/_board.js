@@ -95,16 +95,9 @@ const board = {
         dom.updateScore();
 
         // inc number of loopz + visual update
-        state.loopz++;
-        dom.updateLoopz();
-        if(state.loopz % conf.newLifeLoop == 0) {
-            state.lives++;
-            dom.updateLives();
-        }
+        state.incLoopz();
 
-        // maintain today's best
-        state.maxLoopz = Math.max(state.maxLoopz, state.loopz);
-        state.maxSize = Math.max(state.maxSize, this.loop.length);
+        state.checkSize(this.loop.length);
 
         // prolong the time for eraser to appear
         state.decEraserTime();

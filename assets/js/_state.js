@@ -30,9 +30,9 @@ const state = {
     tileCount: null, // number of occupied tiles left on the board
 
     // today's best
-    maxLoopz: null,
-    maxScore: null,
-    maxSize: null,
+    highscore: null,
+    bestLoop: null,
+    mostLoopz: null,
 
     // game states
     pause: null,
@@ -51,9 +51,9 @@ const state = {
         this.pause = false;
         this.userPause = false;
 
-        this.maxLoopz = 0;
-        this.maxScore = 0;
-        this.maxSize = 0;
+        this.highscore = 0;
+        this.bestLoop = 0;
+        this.mostLoopz = 0;
 
         // prepare timer loop
         this.raf(this.timer.bind(this));
@@ -272,7 +272,7 @@ const state = {
         key=rest, val is the number of tiles left
             clearing the board after game has ended
     */
-    incScore(key, val) {
+    incScore: function(key, val) {
         switch(key) {
             case "loop":
                 this.score += (val*val + (this.level+1)*2*val);
@@ -286,7 +286,30 @@ const state = {
         }
 
         // update today's best score
-        this.maxScore = Math.max(this.maxScore, this.score);
+        if(this.score > this.highscore) {
+            this.highscore = this.score;
+            dom.updateHighscore();
+        }
+    },
+
+    incLoopz: function() {
+        if(++this.loopz > this.mostLoopz) {
+            this.mostLoopz = this.loopz;
+            dom.updateMostLoopz();
+        }
+
+        dom.updateLoopz();
+        if(this.loopz % conf.newLifeLoop == 0) {
+            this.lives++;
+            dom.updateLives();
+        }
+    },
+
+    checkSize: function(size) {
+        if(size > this.bestLoop) {
+            this.bestLoop = size;
+            dom.updateBestLoop();
+        }
     },
 
     /*

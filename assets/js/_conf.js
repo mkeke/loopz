@@ -23,7 +23,7 @@ const conf = {
     // game
     startExtralife: 2,
     newLifeLoop: 25,
-    eraserTimeLimit: 60,
+    eraserTimeLimit: 90,
     eraserTimeLoopReduction: 10,
     eraserTimeReductionFactor: 0.5,
 

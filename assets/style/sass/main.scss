@@ -30,15 +30,6 @@ $debugMode: 1;
 
 
 
-    // TEST flash to white when loop is found
-    .tiles p {
-        &.loop {
-            background-color: white;
-            transition: background-color .8s linear;
-        }
-    }
-
-
     section.intro {
         .logo {
             width: 80%;
@@ -95,18 +86,122 @@ $debugMode: 1;
             margin: 0 auto;
         }
         li {
+            // TODO remove font size
             font-size: 20px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            padding-top: 22%;
+
+            opacity: 0;
+            &:nth-child(1) {
+                animation: intro 24s linear infinite;
+            }
+            &:nth-child(2) {
+                animation: intro 24s 8s linear infinite;
+            }
+            &:nth-child(3) {
+                animation: intro 24s 16s linear infinite;
+            }
+            &:nth-child(4) {
+                opacity: 1;
+            }
         }
+        @keyframes intro {
+            from, to { opacity: 0; }
+            2%, 31% { opacity: 1; }
+            33% { opacity: 0; }
+        }
+
+        .charset span {
+            display: inline-block;
+            vertical-align: top;
+
+            background-image: url('assets/images/chars576x30.png');
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-size: auto 100%;
+            // the power of the pixels <3
+            image-rendering: pixelated;
+
+            // width + height is the same for all chars
+            // and maintained by js
+
+            &.a   { @include setCharPos(0); }
+            &.b   { @include setCharPos(16); }
+            &.c   { @include setCharPos(32); }
+            &.d   { @include setCharPos(48); }
+            &.e   { @include setCharPos(64); }
+            &.f   { @include setCharPos(80); }
+            &.g   { @include setCharPos(96); }
+            &.h   { @include setCharPos(112); }
+            &.i   { @include setCharPos(128); }
+            &.j   { @include setCharPos(144); }
+            &.k   { @include setCharPos(160); }
+            &.l   { @include setCharPos(176); }
+            &.m   { @include setCharPos(192); }
+            &.n   { @include setCharPos(208); }
+            &.o   { @include setCharPos(224); }
+            &.p   { @include setCharPos(240); }
+            &.q   { @include setCharPos(256); }
+            &.r   { @include setCharPos(272); }
+            &.s   { @include setCharPos(288); }
+            &.t   { @include setCharPos(304); }
+            &.u   { @include setCharPos(320); }
+            &.v   { @include setCharPos(336); }
+            &.w   { @include setCharPos(352); }
+            &.x   { @include setCharPos(368); }
+            &.y   { @include setCharPos(384); }
+            &.z   { @include setCharPos(400); }
+            &.n0  { @include setCharPos(416); }
+            &.n1  { @include setCharPos(432); }
+            &.n2  { @include setCharPos(448); }
+            &.n3  { @include setCharPos(464); }
+            &.n4  { @include setCharPos(480); }
+            &.n5  { @include setCharPos(496); }
+            &.n6  { @include setCharPos(512); }
+            &.n7  { @include setCharPos(528); }
+            &.n8  { @include setCharPos(544); }
+            &.n9  { @include setCharPos(560); }
+            &.spc { background-image: none; }
+        }
+
         p {
             text-align: center;
+            &.left {
+                text-align: left;
+            }
+            &.right {
+                text-align: right;
+            }
             color: green;
         }
-        // TEST start buttons
+        .tab {
+            position: relative;
+            .right {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: auto;
+            }
+        }
+        // start buttons
         button.start {
             padding: 10px 20px;
-            border: 1px dashed red;
-            background-color: transparent; 
-            color: yellow;
+            border: none;
+            &.e {
+                background-color: #003300; 
+            }            
+            &.m {
+                background-color: #333300; 
+            }            
+            &.h {
+                background-color: #330000; 
+            }            
         }
     }
 

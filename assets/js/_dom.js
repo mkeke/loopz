@@ -14,6 +14,12 @@ const dom = {
     score: null,
     lives: null,
 
+    highscore: null,
+    bestLoop: null,
+    mostLoopz: null,
+
+    charset: null,
+
     init: function() {
         this.runtimeStyle = z("style.runtime");
         this.parent = z(".fullscreen");
@@ -29,9 +35,22 @@ const dom = {
         this.score = this.parent.find(".score");
         this.lives = this.parent.find(".lives");
 
+        this.highscore = this.parent.find(".highscore");
+        this.bestLoop = this.parent.find(".bestloop");
+        this.mostLoopz = this.parent.find(".mostloopz");
+
+        this.charset = this.parent.find(".charset");
+
         // handle viewport size change
         this.handleResize();
         window.onresize = this.handleResize.bind(this);
+    },
+
+    useCharset: function() {
+        this.charset.each(function(i, el) {
+            let txt = el.innerHTML;
+            el.innerHTML = this.createCharset(txt);
+        }.bind(this));
     },
 
     /*
@@ -40,6 +59,24 @@ const dom = {
     */
     createCharset: function(str) {
         // TODO charset
+        str = str.split("").map(function(a){
+            // check speziales
+            switch(a) {
+                case " ": a="spc";break;
+                case "1": a="n1";break;
+                case "2": a="n2";break;
+                case "3": a="n3";break;
+                case "4": a="n4";break;
+                case "5": a="n5";break;
+                case "6": a="n6";break;
+                case "7": a="n7";break;
+                case "8": a="n8";break;
+                case "9": a="n9";break;
+                case "0": a="n0";break;
+            }
+            return `<span class="${a}"></span>`;
+        }).join("");
+
         return "" + str;
     },
 
@@ -85,6 +122,15 @@ const dom = {
             let x = i%conf.tilesX;
             el.className = "p" + board.b[y][x];
         }.bind(this));
+    },
+    updateHighscore: function() {
+        this.highscore.innerHTML = this.createCharset(state.highscore + "    ");
+    },
+    updateMostLoopz: function() {
+        this.mostLoopz.innerHTML = this.createCharset(state.mostLoopz + "    ");
+    },
+    updateBestLoop: function() {
+        this.bestLoop.innerHTML = this.createCharset(state.bestLoop + "    ");
     },
 
 
@@ -176,6 +222,12 @@ const dom = {
                 '}';
 
         str += '.num span{' +
+                `width:${Math.floor(state.tileSize/2)}px;` + 
+                `height:${Math.floor(state.tileSize)}px;` + 
+                '}';
+
+        // actual ratio is 16:30, but 16:32 centered will do just fine
+        str += '.charset span{' +
                 `width:${Math.floor(state.tileSize/2)}px;` + 
                 `height:${Math.floor(state.tileSize)}px;` + 
                 '}';

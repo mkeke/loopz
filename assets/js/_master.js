@@ -11,6 +11,7 @@ const master = {
         this.handleButtonClick();
         this.handleMouseEvents();
         this.handleKeyboardEvents();
+        dom.useCharset();
 
         // skip start button click
         // state.newGame(2);

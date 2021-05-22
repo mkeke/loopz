@@ -319,3 +319,30 @@
     // use viewBoxSwitch[id] to set the correct viewBox start coordinates
     @include svg($svg, nth(nth($viewBoxSwitch, $id), 1), nth(nth($viewBoxSwitch, $id), 2), 30, 30);
 }
+
+/*
+    calculate background position percentage
+    based on pixel/viewbox offset and character width in charset/spritemap
+    the elements of the charset/spritemap is stacked horizontally
+    elements can have variable width
+    some space between elements is advised, to avoid bleeding
+
+    params:
+       offset: actual pixel/viewbox offset in spritemap/charset
+       charWidth: actual pixel/viewbox width of the charater/sprite
+
+    helper vars:
+       refWidth: the actual width of the spritemap
+       defaultWidth: the default html element width (in %, px, em or whatever)
+*/
+@mixin setCharPos($offset) {
+    $refWidth: 576; // pixel or viewBox width of reference image
+    $charWidth: 16;
+
+    $stepWidth: $refWidth / $charWidth;
+    $stepPercentage: 100 / ($stepWidth - 1);
+    $squarePos: $offset / $charWidth;
+    $offsetPercentage: $stepPercentage * $squarePos * 1%;
+
+    background-position: left #{$offsetPercentage} top;
+}
