@@ -41,7 +41,7 @@ $debugMode: 1;
         background-color: #2166aa;
         padding-top: 5%;
 
-        $w: 576; $h:30; $s: 8; $o: 0;
+        $w: 576; $h:30; $s: 8; $o: 17;
 
         div {
             width: #{$w * $s}px;
@@ -70,29 +70,105 @@ $debugMode: 1;
                 $svg: (
 '<mask id="a" stroke="none">'
 '<rect fill="white" x="0" y="0" width="576" height="30" />'
-'<path fill="black" d="M5,11 l6,-6 v8 h-6 Z" />'
+'<path fill="black" d="M0,0 m5,11 l6,-6 v8 h-6 Z" />'
 '</mask>'
 '<mask id="b" stroke="none">'
 '<rect fill="white" x="0" y="0" width="576" height="30" />'
-'<path fill="black" d="M21,5 h6 l-6,6 Z M21,15 h2 l4,4 l-6,6 Z" />'
+'<path fill="black" d="M16,0 m5,5 h6 l-6,6 Z M16,0 m5,15 h2 l4,4 l-6,6 Z" />'
 '</mask>'
 '<mask id="d" stroke="none">'
 '<rect fill="white" x="0" y="0" width="576" height="30" />'
-'<path fill="black" d="M53,5 h4 l2,2 v12 l-6,6 Z" />'
+'<path fill="black" d="M48,0 m5,5 h4 l2,2 v12 l-6,6 Z" />'
+'</mask>'
+'<mask id="o" stroke="none">'
+'<rect fill="white" x="0" y="0" width="576" height="30" />'
+'<path fill="black" d="M224,0 m5,9 l4,-4 l2,2 v14 l-4,4 l-2,-2 Z" />'
+'</mask>'
+'<mask id="p" stroke="none">'
+'<rect fill="white" x="0" y="0" width="576" height="30" />'
+'<path fill="black" d="M240,0 m5,5 h4 l2,2 l-6,6 Z" />'
+'</mask>'
+'<mask id="q" stroke="none">'
+'<rect fill="white" x="0" y="0" width="576" height="30" />'
+'<path fill="black" d="M256,0 m5,9 l4,-4 l2,2 v16 l-2,-2 h-2 v2 l-2,-2 Z" />'
+'</mask>'
+'<mask id="r" stroke="none">'
+'<rect fill="white" x="0" y="0" width="576" height="30" />'
+'<path fill="black" d="M272,0 m5,5 h4 l2,2 l-6,6 Z" />'
 '</mask>'
 '<g fill="#00ff0080" stroke="none">'
 // a
-'<path mask="url(#a)" d="M1,9 l8,-8 h6 v28 h-4 v-12 h-6 v12 h-4 Z" />'
+'<path mask="url(#a)" d="M0,0 m1,9 l8,-8 h6 v28 h-4 v-12 h-6 v12 h-4 Z" />'
 // b
-'<path mask="url(#b)" d="M17,1 h10 l4,4 v2 l-5,5 l5,5 v4 l-8,8 h-6 Z" />'
+'<path mask="url(#b)" d="M16,0 m1,1 h10 l4,4 v2 l-5,5 l5,5 v4 l-8,8 h-6 Z" />'
 // c
-'<path d="M33,1 h10 l4,4 v4 h-4 v-2 l-2,-2 h-4 v20 l6,-6 h4 v2 l-8,8 h-6 Z" />'
+'<path d="M32,0 m1,1 h10 l4,4 v4 h-4 v-2 l-2,-2 h-4 v20 l6,-6 h4 v2 l-8,8 h-6 Z" />'
 // d
-'<path mask="url(#d)" d="M49,1 h10 l4,4 v16 l-8,8 h-6 Z" />'
+'<path mask="url(#d)" d="M48,0 m1,1 h10 l4,4 v16 l-8,8 h-6 Z" />'
 // e
-'<path d="M65,1 h14 v4 h-10 v6 h6 v4 h-6 v10 l6,-6 h4 v2 l-8,8 h-6 Z" />'
+'<path d="M64,0 m1,1 h14 v4 h-10 v6 h6 v4 h-6 v10 l6,-6 h4 v2 l-8,8 h-6 Z" />'
 // f
-'<path d="M81,1 h14 v4 h-10 v6 h8 v4 h-8 v14 h-4 Z" />'
+'<path d="M80,0 m1,1 h14 v4 h-10 v6 h8 v4 h-8 v14 h-4 Z" />'
+// g
+'<path d="M96,0 m1,1 h10 l4,4 v4 h-4 v-2 l-2,-2 h-4 v20 l6,-6 v-4 h-4 v-4 h8 v10 l-8,8 h-6 Z" />'
+// h
+'<path d="M112,0 m1,1 h4 v10 h6 v-10 h4 v28 h-4 v-14 h-6 v14 h-4 Z" />'
+// i
+'<path d="M128,0 m1,1 m4,0 h4 v28 h-4 Z" />'
+// j
+'<path d="M144,0 m1,1 h14 v20 l-8,8 h-6 v-16 h4 v12 l6,-6 v-14 h-6 v2 h-4 Z" />'
+// k
+'<path d="M160,0 m1,1 h4 v10 l6,-6 h4 v2 l-6,6 l6,6 v10 h-4 v-8 l-6,-6 v14 h-4 Z" />'
+// l
+'<path d="M176,0 m1,1 h4 v24 l6,-6 h4 v2 l-8,8 h-6 Z" />'
+// m
+'<path d="M192,0 m1,1 h2 l5,10 l5,-10 h2 v28 h-4 v-14 l-3,4 l-3,-4 v14 h-4 Z" />'
+// n
+'<path d="M208,0 m1,1 h4 l6,12 v-12 h4 v28 h-4 v-6 l-6,-12 v18 h-4 Z" />'
+// o
+'<path mask="url(#o)" d="M224,0 m1,7 l6,-6 h4 l4,4 v18 l-6,6 h-6 l-2,-2 Z" />'
+// p
+'<path mask="url(#p)" d="M240,0 m1,1 h10 l4,4 v4 l-10,10 v10 h-4 Z" />'
+// q
+'<path mask="url(#q)" d="M256,0 m1,7 l6,-6 h4 l4,4 v20 l-1,1 l1,1 v2 h-6 l-1,-1 l-1,1 h-4 l-2,-2 Z" />'
+// r
+'<path mask="url(#r)" d="M272,0 m1,1 h10 l4,4 v4 l-6,6 l2,2 l4,8 v4 h-4 l-4,-8 l-2,-2 v10 h-4 Z" />'
+// s
+'<path d="M288,0 m1,7 l6,-6 h4 l4,4 v4 h-4 v-2 l-2,-2 l-4,4 l10,10 v4 l-6,6 h-4 l-4,-4 v-4 h4 v2 l2,2 l4,-4 l-10,-10 Z" />'
+// t
+'<path d="M304,0 m1,1 h14 l-2,4 h-4 v24 h-4 v-24 h-4 Z" />'
+// u
+'<path d="M320,0 m1,1 h4 v22 l2,2 l4,-4 v-20 h4 v22 l-6,6 h-4 l-4,-4 Z" />'
+// v
+'<path d="M336,0 m1,1 h4 v20 l6,-6 v-14 h4 v16 l-12,12 h-2 Z" />'
+// w
+'<path d="M352,0 m1,1 h4 v14 l3,-3 l3,3 v-14 h4 v28 h-2 l-5,-10 l-5,10 h-2 Z" />'
+// x
+'<path d="M368,0 m1,1 h4 v4 l" />'
+// y
+'<path d="M384,0 " />'
+// z
+'<path d="M400,0 " />'
+// 0
+'<path d="M416,0 " />'
+// 1
+'<path d="M432,0 " />'
+// 2
+'<path d="M448,0 " />'
+// 3
+'<path d="M464,0 " />'
+// 4
+'<path d="M480,0 " />'
+// 5
+'<path d="M496,0 " />'
+// 6
+'<path d="M512,0 " />'
+// 7
+'<path d="M528,0 " />'
+// 8
+'<path d="M544,0 " />'
+// 9
+'<path d="M560,0 " />'
 '</g>'
                 );
                 @include svg($svg, 0, 0, #{$w}, #{$h});
