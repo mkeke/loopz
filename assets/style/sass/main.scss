@@ -195,13 +195,16 @@ $debugMode: 1;
             border: none;
             &.e {
                 background-color: #003300; 
-            }            
+            }
             &.m {
                 background-color: #333300; 
-            }            
+            }
             &.h {
                 background-color: #330000; 
-            }            
+            }
+            span {
+                pointer-events: none;
+            }
         }
     }
 

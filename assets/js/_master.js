@@ -24,6 +24,8 @@ const master = {
             e.stopPropagation();
 
             let level = e.target.getAttribute("data-level");
+            log(e.target);
+            log(level);
             state.newGame(level);
         }.bind(this));
     },
