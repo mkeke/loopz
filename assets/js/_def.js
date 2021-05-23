@@ -6,11 +6,10 @@ const def = {
     // keydown/up codes
     keyP: 80,
 
-    // TODO remove dev cheats
+    // dev cheat keyss
     key1: 49,
     key2: 50,
     keyE: 69,
-
 
     /*
         piece definition
@@ -37,7 +36,6 @@ const def = {
     // lookups defining whether a piece is open in either direction
     // ot or ob ol = openings to the top right bottom left
     //       1      2      3      4      5      6
-// TODO refactor ot = ou, up down left right
     ot: [ 0, false, true,  true,  false, true,  false ],
     or: [ 0, false, false, true,  true,  false, true  ],
     ob: [ 0, true,  false, false, true,  true,  false ],

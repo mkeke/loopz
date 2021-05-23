@@ -59,16 +59,19 @@ const state = {
         this.raf(this.timer.bind(this));
     },
 
+    /*
+        newGame(level)
+        set up a new game with the specified level
+    */
     newGame: function(level) {
 
         board.clear();
         dom.updateBoard();
         dom.timeWrapper.removeClass("gameover");
-
+        dom.hideWrongMove();
         this.pieces = 0;
         this.lives = conf.startExtralife;
         this.loopz = 0;
-        // this.time = 100; set by piece.new()
         this.bonus = 1;
         this.score = 0;
         this.tileCount = 0;
@@ -90,16 +93,12 @@ const state = {
 
         dom.updateStats();
 
-        // enable timer loop
-
-
-        log("started new game level " + this.level);
     },
 
     /*
         timer()
         timer loop, updates time
-        but only when game is on and not paused or userPause
+        handles timeout when game is not paused or userPaused
     */
     timer: function() {
         let time = Date.now();
@@ -117,9 +116,10 @@ const state = {
                     state.pause = true;
                     dom.hideCurrentPiece();
 
+                    // update life, and wait a sec before resuming
                     eventChain.new([
-                        { func: this.handleTimeout.bind(this), ev: "time", ms: 1000 },
-                        { func: this.resumeTimeout.bind(this) }
+                        { fn: this.handleTimeout.bind(this), ev: "time", ms: 1000 },
+                        { fn: this.resumeTimeout.bind(this) }
                     ]);
                     eventChain.run();
                 }
@@ -131,6 +131,10 @@ const state = {
         this.raf(this.timer.bind(this));
     },
 
+    /*
+        handleTimeout()
+        decrease life unless an eraser was the active piece
+    */
     handleTimeout: function() {
 
         if(piece.id !== def.eraser) {
@@ -144,8 +148,14 @@ const state = {
         }
     },
 
+    /*
+        resumeTimeout()
+        resume game, or trigger the game over sequence
+    */
     resumeTimeout: function() {
         if(this.lives < 0) {
+
+            dom.hideWrongMove();
 
             // game over sequence
             board.prepareRemoveSnakes();
@@ -157,9 +167,19 @@ const state = {
         }
     },
 
+    /*
+        resetEraserTime()
+        reset the eraser stop watch
+    */
     resetEraserTime: function() {
         this.eraserTime = 0;
     },
+
+    /*
+        decEraserTime(isLoop)
+        decrease the time before an eraser is shown
+        the timer is erased differently based on the previous action
+    */
     decEraserTime: function(isLoop=true) {
         if(isLoop) {
             // a loop was created
@@ -170,12 +190,32 @@ const state = {
             // reduce eraserTime with a factor (0.5)
             this.eraserTime = Math.round(this.eraserTime*conf.eraserTimeReductionFactor);
         }
-        // TODO Math.max(0, val)
     },
+    /*
+        incEraserTime()
+        move one step closer to getting the eraser
+    */
     incEraserTime: function() {
         this.eraserTime++;
     },
 
+    /*
+        generateBag()
+        bag randomizer with a twist
+
+        The initial bag consists of easy pieces, and is shuffled.
+
+        The subsequent bags are filled in a more complex manner.
+        First the bag is filled with a selection of easy and intermediate
+        pieces, and then shuffled.
+        The bag then gets the most difficult pieces added to the end, and
+        the last 30% of the bag is shuffled. This makes the bag increase in
+        complexity, and we get a cycle of increased/decreased difficulty
+        similar to the original Amiga version of the game.
+
+        The cyclic difficulty is horreduously frustrating, and thus a key
+        feature to implement (sorry not sorry)
+    */
     generateBag: function() {
         this.bag = [];
 
@@ -183,18 +223,18 @@ const state = {
         if(this.pieces == 0) {
             // first bag with easy pieces
 
-            // primitives equally weighted between corners and lines
+            // 15 primitives equally weighted between corners and lines
             parts.push({n:15, p:[1,2,3,4,5,5,6,6]});
-            // corners
+            // 8 corners
             parts.push({n: 8, p:[7,8,9,10]});
-            // extended lines
+            // 3 extended lines
             parts.push({n: 3, p:[11,12]});
 
         } else {
             // default bag
 
-            // primitives with more straights than corners
-            parts.push({n:23, p:[1,2,3,4,5,6,5,6,5,6]});
+            // primitives with equal amounts of straights and corners
+            parts.push({n:23, p:[1,2,3,4,1,2,5,6,5,6,5,6]});
             // corners
             parts.push({n:10, p:[7,8,9,10]});
             // extended corners
@@ -253,6 +293,11 @@ const state = {
         }
     },
 
+    /*
+        getNextPiece()
+        draw the next piece from the bag
+        trigger regeneration of bag if the last piece is picked
+    */
     getNextPiece: function() {
         let p = this.bag.shift();
         this.pieces++;
@@ -292,6 +337,11 @@ const state = {
         }
     },
 
+    /*
+        incLoopz()
+        increase the number of loops created this session.
+        update the most loopz placeholder if necessary
+    */
     incLoopz: function() {
         if(++this.loopz > this.mostLoopz) {
             this.mostLoopz = this.loopz;
@@ -305,6 +355,11 @@ const state = {
         }
     },
 
+    /*
+        checkSize(size)
+        check if the current loop size is larger than today's
+        largest loop, and update the placeholder if necessary
+    */
     checkSize: function(size) {
         if(size > this.bestLoop) {
             this.bestLoop = size;
@@ -397,8 +452,11 @@ const state = {
         }
     },
 
+    /*
+        whichRequestAnimationFrame()
+        determine the correct raf for the current browser
+    */
     whichRequestAnimationFrame: function() {
-        // determine the correct raf
         return (window.requestAnimationFrame ||
             window.mozRequestAnimationFrame ||
             window.webkitRequestAnimationFrame ||

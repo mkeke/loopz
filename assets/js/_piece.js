@@ -4,34 +4,26 @@ const piece = {
     id: null,
 
     /*
-        new(id)
+        new(id, rotate)
         sets up a new piece
-        TODO: if id is not defined, select randomly based on level cycle
-        if new piece is a result of rotation, then don't reset the time
+        if time for eraser, select eraser
+        if new piece is a result of rotation, don't reset the time
     */
     new: function(id=null, rotate=false) {
 
-        /*
-            if pieceTime > limit
-                piece is eraser
-            else
-                stuff
-
-            create piece html
-            time stuff
-        */
-
         if(rotate == false && state.eraserTime > conf.eraserTimeLimit * 1000 / conf.rafDelay) {
-            // eraser time
+            // time to hand out the eraser
             this.id = def.eraser;
         } else {
             if(id === null) {
+                // get piece from bag
                 this.id = state.getNextPiece();
             } else {
                 this.id = id;
             }
 
             if(this.x == null || this.y == null) {
+                // center piece on board if coordinates are not calculated
                 this.x = Math.round(conf.tilesX / 2);
                 this.y = Math.round(conf.tilesY / 2);
             }
@@ -49,10 +41,10 @@ const piece = {
 
     /*
         updatePosition()
-        set correct position on the current piece container
+        Set correct position on the current piece container
+        Adjusting for the innser offset of the tiles container
     */
     updatePosition: function() {
-        // needs to adjust for the innser offset of the tiles container
         dom.current.style["left"] = this.x * state.tileSize + conf.borderInnerOffset + "px";
         dom.current.style["top"] = this.y * state.tileSize + conf.borderInnerOffset + "px";
     },
@@ -78,10 +70,10 @@ const piece = {
     /*
         rotate()
         rotate the current piece, according to def.r[id]
+        if piece is eraser, no need to rotate
+        rotate to a specific piece, flag as rotate to keep timer state
     */
     rotate: function() {
-        // rotate to a specific piece, flag as rotate
-        // if piece is eraser, no need to rotate
         if(this.id != def.eraser) {
             this.new(def.r[this.id], true);
         }
@@ -149,7 +141,7 @@ const piece = {
     drop: function() {
 
         if(this.id == def.eraser) {
-            // eraser cannot be used on empty tile
+            // only apply eraser if placed on an occupied tile
             if(board.b[this.y][this.x] !== def.space) {
                 board.erase(this.x, this.y);
                 state.decEraserTime(false);
@@ -162,6 +154,15 @@ const piece = {
             state.pause = true;
             dom.hideCurrentPiece();
 
+            /*
+                ugly bugfix
+                If wrong move is signaled just as the timer runs out, the
+                event chain is overwritten with timeout related events.
+                The event chain needs to handle this in a future version.
+                For now, just clear the wrongmove-class.
+            */
+            dom.hideWrongMove();
+
             // plot piece on board
             for(let i in def.p[this.id]) {
                 let pp = def.p[this.id][i];
@@ -172,15 +173,15 @@ const piece = {
             }
 
             if(!board.handleLoop(this.x, this.y)) {
-                // resume game
+                // no loop, just resume game
                 state.pause = false;
                 this.new();
             }
         } else {
             // visualize wrong move
             eventChain.new([
-                { func: dom.showWrongMove.bind(this), ev: state.trend, el: dom.boardWrapper },
-                { func: dom.hideWrongMove.bind(this) }
+                { fn: dom.showWrongMove.bind(this), ev: state.trend, el: dom.boardWrapper },
+                { fn: dom.hideWrongMove.bind(this) }
             ]);
             eventChain.run();
         }

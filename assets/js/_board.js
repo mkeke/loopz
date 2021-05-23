@@ -1,9 +1,8 @@
 const board = {
 
     // internal representation of the board
-    /*
-    */
     b: [],
+    // coordinates to tiles for the current loop
     loop: [],
 
     init: function() {
@@ -18,8 +17,11 @@ const board = {
 
     },
 
+    /*
+        clear()
+        fill internal board with space
+    */
     clear: function() {
-        // fill internal board with space
         this.b = [];
         for(let y=0; y<conf.tilesY; y++) {
             this.b.push([]);
@@ -30,7 +32,7 @@ const board = {
     },
 
     /*
-        handleLoop()
+        handleLoop(x, y)
 
         if the given coordinates are part of a complete loop
         set up event chain to remove it, update score etc
@@ -42,23 +44,21 @@ const board = {
         }
 
         // loop is detected and stored in board.loop
-        log("loop with " + board.loop.length + " tiles");
-        log("tileCount: " + state.tileCount);
 
         let startEl = dom.tiles[this.loop[0].y*conf.tilesX + this.loop[0].x];
 
         eventChain.new([
             { ev: "time", ms: 50 },
-            { func: this.flashLoop.bind(this), ev: state.trend, el: startEl },
-            { func: this.removeLoop.bind(this), ev: "time", ms: 1000 },
+            { fn: this.flashLoop.bind(this), ev: state.trend, el: startEl },
+            { fn: this.removeLoop.bind(this), ev: "time", ms: 1000 },
         ]);
         if(this.loop.length == state.tileCount) {
             eventChain.add(
-                { func: this.addClearBonus.bind(this), ev: "time", ms: 1000 }
+                { fn: this.addClearBonus.bind(this), ev: "time", ms: 1000 }
             );
         }
         eventChain.add(
-            { func: this.resumeAfterLoop.bind(this) }
+            { fn: this.resumeAfterLoop.bind(this) }
         );
 
         eventChain.run();
@@ -106,14 +106,21 @@ const board = {
         this.loop = [];
     },
 
+    /*
+        addClearBonus()
+        if board is empty: add bonus
+    */
     addClearBonus: function() {
-        // if board is empty: add bonus
         if(state.tileCount == 0) {
             state.incScore("bonus");
             dom.updateScore();
         }
     },
 
+    /*
+        resumeAfterLoop()
+        yup
+    */
     resumeAfterLoop: function() {
         piece.new();
         state.pause = false;
@@ -212,7 +219,6 @@ const board = {
     */
     erase: function(x, y) {
 
-
         // find continuous pieces in both directions
         let pp = this.b[y][x];
         let dir = def.exit[pp];
@@ -235,45 +241,63 @@ const board = {
         dom.updateScore();
     },
 
+    /*
+        prepareRemoveSnakes()
+        look for snakes (unfinished loopz)
+        and start the sequence for removing one at a time
+    */
     prepareRemoveSnakes: function() {
 
         eventChain.new([
             { ev: "time", ms: 1000 },
         ]);
 
-        // find occurrence of snake
+        // find first occurrence of snake
         this.snakeX = 0;
         this.snakeY = 0;
         if(this.hasSnake()) {
             eventChain.add(
-                { func: this.removeSnake.bind(this), ev: "time", ms: 500 }
+                { fn: this.removeSnake.bind(this), ev: "time", ms: 500 }
             );
         } else {
             eventChain.add(
-                { func: this.animateGameOver.bind(this), ev: state.anend, el: dom.timeWrapper }
+                { fn: this.animateGameOver.bind(this), ev: state.anend, el: dom.timeWrapper }
             );
             eventChain.add(
                 { ev: "time", ms: 2000 }
             );
             eventChain.add(
-                { func: this.showIntro.bind(this) }
+                { fn: this.showIntro.bind(this) }
             );
         }
 
         eventChain.run();
     },
 
+    /*
+        animateGameOver()
+        trigger animation of GAME OVER
+    */
     animateGameOver: function() {
         dom.timeWrapper.addClass("gameover");
     },
 
+    /*
+        showIntro()
+        game over anim is done. show intro
+    */
     showIntro: function() {
         state.gameOn = false;
         dom.parent.removeClass("gameon");
     },
 
+    /*
+        removeSnake()
+        remove the snake starting from this.snakeX this.snakeY
+        update score
+        search for more snakes and update eventChain
+    */
     removeSnake: function() {
-        // remove the snake starting from this.snakeX this.snakeY
         // update score
         this.erase(this.snakeX, this.snakeY);
 
@@ -281,26 +305,29 @@ const board = {
         // update eventChain
         if(this.hasSnake()) {
             eventChain.add(
-                { func: this.removeSnake.bind(this), ev: "time", ms: 500 }
+                { fn: this.removeSnake.bind(this), ev: "time", ms: 500 }
             );
         } else {
             eventChain.add(
-                { func: this.animateGameOver.bind(this), ev: state.anend, el: dom.timeWrapper }
+                { fn: this.animateGameOver.bind(this), ev: state.anend, el: dom.timeWrapper }
             );
             eventChain.add(
                 { ev: "time", ms: 2000 }
             );
             eventChain.add(
-                { func: this.showIntro.bind(this) }
+                { fn: this.showIntro.bind(this) }
             );
         }
     },
 
+    /*
+        hasSnake();
+        searches the board for snakes, unifinished loopz
+        starts from [this.snakeX, this.snakeY]
+        returns true or false
+        if true, [this.snakeX, this.snakeY] is position of snake
+    */
     hasSnake: function() {
-        // searches the board for snakes, unifinished loopz
-        // starts from [this.snakeX, this.snakeY]
-        // returns true or false
-        // if true, [this.snakeX, this.snakeY] is position of snake
 
         do {
 

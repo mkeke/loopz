@@ -1,7 +1,5 @@
 const master = {
 
-    // raf: null,
-
     init: function() {
         dom.init();
         state.init();
@@ -11,10 +9,8 @@ const master = {
         this.handleButtonClick();
         this.handleMouseEvents();
         this.handleKeyboardEvents();
-        dom.useCharset();
+        dom.applyCharset();
 
-        // skip start button click
-        // state.newGame(2);
     },
 
     handleButtonClick: function() {
@@ -24,18 +20,11 @@ const master = {
             e.stopPropagation();
 
             let level = e.target.getAttribute("data-level");
-            log(e.target);
-            log(level);
             state.newGame(level);
         }.bind(this));
     },
 
     handleMouseEvents: function() {
-        // TODO certain operations should only be triggered
-        // if game is running and not paused
-
-        // TODO certain operations should put the game on temporary pause
-        // and turn pause off after transitions/animations are done
 
         dom.parent.addEventListener("mousemove", function(e){
             e.preventDefault();
@@ -73,7 +62,8 @@ const master = {
                         state.toggleUserPause();
                         break;
 
-                    // dev hijack pieces                        
+                    /*
+                    // dev hijack pieces
                     case def.key1:
                         piece.new(1);
                         break;
@@ -84,6 +74,7 @@ const master = {
                         state.eraserTime = conf.eraserTimeLimit * 1001 / conf.rafDelay;
                         piece.new();
                         break;
+                    */
                 }
             }
         }.bind(this));

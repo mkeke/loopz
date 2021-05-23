@@ -7,10 +7,21 @@
 
     // visualize wrong move by flashing border
     eventChain.new([
-        { func: dom.showWrongMove.bind(this), ev: state.trend, el: dom.boardWrapper },
-        { func: dom.hideWrongMove.bind(this) }
+        { fn: dom.showWrongMove.bind(this), ev: state.trend, el: dom.boardWrapper },
+        { fn: dom.hideWrongMove.bind(this) }
     ]);
     eventChain.run();
+
+    TODO
+    - implement insert(arr)
+        insert arr after current [0]
+
+    ISSUES
+    - chain.new will overwrite the current chain, preventing the
+        scheduled functions from being executed, and causing
+        touble. Need to be able to run more chains in parallel
+
+
 */
 const eventChain = {
     _c: [],
@@ -32,8 +43,6 @@ const eventChain = {
         this._c.push(item);
     },
 
-    // TODO insert(arr)
-    // insert arr after current [0]
 
     /*
         run()
@@ -65,9 +74,9 @@ const eventChain = {
             this._c[0].ev !== undefined && 
             this._c[0].ev == "time") {
 
-            if(this._c[0].func !== undefined) {
+            if(this._c[0].fn !== undefined) {
                 // run function before setting timeout
-                this._c[0].func();
+                this._c[0].fn();
             }
 
             // wait until next step
@@ -93,10 +102,10 @@ const eventChain = {
             if(
                 this._c !== undefined && 
                 this._c.length > 0 && 
-                this._c[0].func !== undefined
+                this._c[0].fn !== undefined
             ) {
 
-                this._c[0].func();
+                this._c[0].fn();
             }
 
         }

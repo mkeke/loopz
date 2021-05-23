@@ -46,7 +46,11 @@ const dom = {
         window.onresize = this.handleResize.bind(this);
     },
 
-    useCharset: function() {
+    /*
+        applyCharset()
+        apply charset to all elements
+    */
+    applyCharset: function() {
         this.charset.each(function(i, el) {
             let txt = el.innerHTML;
             el.innerHTML = this.createCharset(txt);
@@ -58,9 +62,9 @@ const dom = {
         create charset html of string
     */
     createCharset: function(str) {
-        // TODO charset
+
         str = str.split("").map(function(a){
-            // check speziales
+            // specials
             switch(a) {
                 case " ": a="spc";break;
                 case "1": a="n1";break;
@@ -80,60 +84,103 @@ const dom = {
         return "" + str;
     },
 
+    /*
+        createNumber(str)
+        create number charset from string
+    */
     createNumber: function(str) {
         let arr = str.split("");
         arr = arr.map(function(a){ return `<span class="n${a}"></span>` });
         return arr.join("");
     },
 
+    /*
+        updateStats()
+        update all the visual stats
+    */
     updateStats: function() {
-        // update all the things
         this.updateLives();
         this.updateLoopz();
         this.updateTime();
         this.updateScore();
     },
 
+    /*
+        updateLoopz()
+        update the number of loopz created
+    */
     updateLoopz: function() {
         // 4 digits
         let str = "0".repeat(4 - (""+state.loopz).length);
         str += state.loopz;
         this.loopz.innerHTML = this.createNumber(str);
     },
+
+    /*
+        updateLives()
+        update the number of lives left
+    */
     updateLives: function() {
         // 2 digits
         let str = "0".repeat(2 - (""+state.lives).length);
         str += state.lives;
         this.lives.innerHTML = this.createNumber(str);
     },
+
+    /*
+        updateTime()
+        update time bar
+    */
     updateTime: function() {
         this.time.style["width"] = state.time + "%";
     },
+
+    /*
+        updateScore()
+        update current score
+    */
     updateScore: function() {
         // 6 digits
         let str = "0".repeat(6 - (""+state.score).length);
         str += state.score;
         this.score.innerHTML = this.createNumber(str);
     },
+
+    /*
+        updateBoard()
+        show correct tiles on the board
+    */
     updateBoard: function() {
-        // unscramble board
         this.tiles.each(function(i, el){
             let y = Math.floor(i/conf.tilesX);
             let x = i%conf.tilesX;
             el.className = "p" + board.b[y][x];
         }.bind(this));
     },
+
+    /*
+        updateHighscore()
+        put highscore in the correct container, using charset
+    */
     updateHighscore: function() {
         this.highscore.innerHTML = this.createCharset(state.highscore + "    ");
     },
+
+    /*
+        updateMostLoopz()
+        put number of loopz in the correct container, using charset
+    */
     updateMostLoopz: function() {
         this.mostLoopz.innerHTML = this.createCharset(state.mostLoopz + "    ");
     },
+
+    /*
+        updateBestLoop()
+        put largest loop in the correct container, using charset
+    */
     updateBestLoop: function() {
         this.bestLoop.innerHTML = this.createCharset(state.bestLoop + "    ");
     },
-
-
 
     /*
         calculateSizes()
@@ -168,13 +215,6 @@ const dom = {
             ratioWidth = tileSize * conf.ratioWidthTiles + conf.ratioWidthPx;
             ratioHeight = tileSize * conf.ratioHeightTiles + conf.ratioHeightPx;
         }
-
-        /*
-            TODO
-            if stats elements should be centered on top of its parent,
-            then the tiles might need to be even numbers.
-            check if spritemaps etc are blurry
-        */
 
         // update state
         state.tileSize = tileSize;
@@ -226,7 +266,8 @@ const dom = {
                 `height:${Math.floor(state.tileSize)}px;` + 
                 '}';
 
-        // actual ratio is 16:30, but 16:32 centered will do just fine
+        // actual character ratio is 16:30,
+        // but 16:32 centered will do juuust fine
         str += '.charset span{' +
                 `width:${Math.floor(state.tileSize/2)}px;` + 
                 `height:${Math.floor(state.tileSize)}px;` + 
@@ -254,10 +295,18 @@ const dom = {
         this.current.innerHTML = "";
     },
 
-    // effect for wrong move: border flashes red
+    /*
+        showWrongMove()
+        effect for wrong move: border flashes red
+    */
     showWrongMove: function() {
         dom.boardWrapper.addClass("wrongmove");
     },
+
+    /*
+        hideWrongMove()
+        effect for wrong move: border flashes red
+    */
     hideWrongMove: function() {
         dom.boardWrapper.removeClass("wrongmove");
     },
