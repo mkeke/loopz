@@ -663,53 +663,276 @@ section.intro {
         display: inline-block;
         vertical-align: top;
 
-        background-image: url('assets/images/chars576x30.png');
-        background-repeat: no-repeat;
-        background-position: left center;
-        background-size: auto 100%;
-        // the power of the pixels <3
-        image-rendering: pixelated;
-
         // width + height is the same for all chars
         // and maintained by js
 
-        &.a   { @include setCharPos(0); }
-        &.b   { @include setCharPos(16); }
-        &.c   { @include setCharPos(32); }
-        &.d   { @include setCharPos(48); }
-        &.e   { @include setCharPos(64); }
-        &.f   { @include setCharPos(80); }
-        &.g   { @include setCharPos(96); }
-        &.h   { @include setCharPos(112); }
-        &.i   { @include setCharPos(128); }
-        &.j   { @include setCharPos(144); }
-        &.k   { @include setCharPos(160); }
-        &.l   { @include setCharPos(176); }
-        &.m   { @include setCharPos(192); }
-        &.n   { @include setCharPos(208); }
-        &.o   { @include setCharPos(224); }
-        &.p   { @include setCharPos(240); }
-        &.q   { @include setCharPos(256); }
-        &.r   { @include setCharPos(272); }
-        &.s   { @include setCharPos(288); }
-        &.t   { @include setCharPos(304); }
-        &.u   { @include setCharPos(320); }
-        &.v   { @include setCharPos(336); }
-        &.w   { @include setCharPos(352); }
-        &.x   { @include setCharPos(368); }
-        &.y   { @include setCharPos(384); }
-        &.z   { @include setCharPos(400); }
-        &.n0  { @include setCharPos(416); }
-        &.n1  { @include setCharPos(432); }
-        &.n2  { @include setCharPos(448); }
-        &.n3  { @include setCharPos(464); }
-        &.n4  { @include setCharPos(480); }
-        &.n5  { @include setCharPos(496); }
-        &.n6  { @include setCharPos(512); }
-        &.n7  { @include setCharPos(528); }
-        &.n8  { @include setCharPos(544); }
-        &.n9  { @include setCharPos(560); }
+        &.a {
+            $svg:(
+                '<mask id="a" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="16" height="30" />'
+                '<path fill="black" d="M0,0m5,11l6,-6v8h-6Z" />'
+                '</mask>'
+                '<path stroke="none" fill="#{$font-color}" mask="url(#a)" d="M1,9l8,-8h6v28h-4v-12h-6v12h-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.b {
+            $svg:(
+                '<mask id="b" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="16" height="30" />'
+                '<path fill="black" d="M5,5h6l-6,6ZM5,15h2l4,4l-6,6Z" />'
+                '</mask>'
+                '<path stroke="none" fill="#{$font-color}" mask="url(#b)" d="M1,1h10l4,4v2l-5,5l5,5v4l-8,8h-6Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.c {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h10l4,4v4h-4v-2l-2,-2h-4v20l6,-6h4v2l-8,8h-6Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.d {
+            $svg:(
+                '<mask id="d" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="16" height="30" />'
+                '<path fill="black" d="M5,5 h4 l2,2 v12 l-6,6 Z" />'
+                '</mask>'
+                '<path stroke="none" fill="#{$font-color}" mask="url(#d)" d="M1,1h10l4,4v16l-8,8h-6Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.e {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h14v4h-10v6h6v4h-6v10l6,-6h4v2l-8,8h-6Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.f {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h14v4h-10v6h8v4h-8v14h-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.g {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h10l4,4v4h-4v-2l-2,-2h-4v20l6,-6v-4h-4v-4h8v10l-8,8h-6Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.h {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h4v10h6v-10h4v28h-4v-14h-6v14h-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.i {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1m4,0h4v28h-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.j {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h14v20l-8,8h-6v-16h4v12l6,-6v-14h-6v2h-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.k {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h4v10l6,-6h4v2l-6,6l6,6v10h-4v-8l-6,-6v14h-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.l {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h4v24l6,-6h4v2l-8,8h-6Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.m {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h2l5,10l5,-10h2v28h-4v-14l-3,4l-3,-4v14h-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.n {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h4l6,12v-12h4v28h-4v-6l-6,-12v18h-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.o {
+            $svg:(
+                '<mask id="o" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="16" height="30" />'
+                '<path fill="black" d="M5,9l4,-4l2,2v14l-4,4l-2,-2Z" />'
+                '</mask>'
+                '<path stroke="none" fill="#{$font-color}" mask="url(#o)" d="M1,7l6,-6h4l4,4v18l-6,6h-6l-2,-2Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.p {
+            $svg:(
+                '<mask id="p" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="16" height="30" />'
+                '<path fill="black" d="M5,5h4l2,2l-6,6Z" />'
+                '</mask>'
+                '<path stroke="none" fill="#{$font-color}" mask="url(#p)" d="M1,1h10l4,4v4l-10,10v10h-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.q {
+            $svg:(
+                '<mask id="q" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="16" height="30" />'
+                '<path fill="black" d="M5,9l4,-4l2,2v16l-2,-2h-2v2l-2,-2Z" />'
+                '</mask>'
+                '<path stroke="none" fill="#{$font-color}" mask="url(#q)" d="M1,7l6,-6h4l4,4v20l-1,1l1,1v2h-6l-1,-1l-1,1h-4l-2,-2Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.r {
+            $svg:(
+                '<mask id="r" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="16" height="30" />'
+                '<path fill="black" d="M5,5h4l2,2l-6,6Z" />'
+                '</mask>'
+                '<path stroke="none" fill="#{$font-color}" mask="url(#r)" d="M1,1h10l4,4v4l-6,6l2,2l4,8v4h-4l-4,-8l-2,-2v10h-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.s {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,7l6,-6h4l4,4v4h-4v-2l-2,-2l-4,4l10,10v4l-6,6h-4l-4,-4v-4h4v2l2,2l4,-4l-10,-10Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.t {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h14l-2,4h-4v24h-4v-24h-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.u {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h4v22l2,2l4,-4v-20h4v22l-6,6h-4l-4,-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.v {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h4v20l6,-6v-14h4v16l-12,12h-2Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.w {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h4v14l3,-3l3,3v-14h4v28h-2l-5,-10l-5,10h-2Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.x {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h4v4l3,3l3,-3v-4h4v6l-5,5l1,1l4,8v8h-4v-6l-3,-3l-3,3v6h-4v-8l4,-8l1,-1l-5,-5Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.y {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h4v6l3,3l3,-3v-6h4v6l-4,6v16h-4v-12l-6,-10Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.z {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h14v6l-10,18h10v4h-14v-6l10,-18h-10Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.n0 {
+            $svg:(
+                '<mask id="n0" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="16" height="30" />'
+                '<path fill="black" d="M5,7l2,-2h2l2,2v16l-2,2h-2l-2,-2Z" />'
+                '</mask>'
+                '<path stroke="none" fill="#{$font-color}" mask="url(#n0)" d="M1,5l4,-4h6l4,4v20l-4,4h-6l-4,-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.n1 {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,5l4,-4h4v24h6l-2,4h-12v-4h4v-18l-2,2h-2Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.n2 {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,5l4,-4h6l4,4v6l-8,8l-2,6h10v4h-14v-6l2,-6l8,-8v-2l-2,-2h-2l-2,2v2h-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.n3 {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,5l4,-4h6l4,4v6l-4,4l4,4v6l-4,4h-6l-4,-4v-2h4l2,2h2l2,-2v-4l-2,-2h-4v-4h4l2,-2v-4l-2,-2h-2l-2,2h-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.n4 {
+            $svg:(
+                '<mask id="n4" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="16" height="30" />'
+                '<path fill="black" d="M6,13l3,-5v5Z" />'
+                '</mask>'
+                '<path stroke="none" fill="#{$font-color}" mask="url(#n4)" d="M1,15l2,-4l6,-10h4v12h2v4h-2v12h-4v-12h-8Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.n5 {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h14v4h-10v8h6l4,4v8l-4,4h-6l-4,-4v-2h4l2,2h2l2,-2v-4l-2,-2h-8Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.n6 {
+            $svg:(
+                '<mask id="n6" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="16" height="30" />'
+                '<path fill="black" d="M5,19l2,-2h2l2,2v4l-2,2h-2l-2,-2Z" />'
+                '</mask>'
+                '<path stroke="none" fill="#{$font-color}" mask="url(#n6)" d="M1,5l4,-4h6l4,4v4h-4v-2l-2,-2h-2l-2,2v8l2,-2h4l4,4v8l-4,4h-6l-4,-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.n7 {
+            $svg:(
+                '<path stroke="none" fill="#{$font-color}" d="M1,1h14v8l-10,20h-4v-4l9,-18v-2h-9Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.n8 {
+            $svg:(
+                '<mask id="n8" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="16" height="30" />'
+                '<path fill="black" d="M5,7l2,-2h2l2,2v4l-2,2h-2l-2,-2Z" />'
+                '<path fill="black" d="M5,19l2,-2h2l2,2v4l-2,2h-2l-2,-2Z" />'
+                '</mask>'
+                '<path stroke="none" fill="#{$font-color}" mask="url(#n8)" d="M1,5l4,-4h6l4,4v7l-3,3l3,3v7l-4,4h-6l-4,-4v-7l3,-3l-3,-3Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
+        &.n9 {
+            $svg:(
+                '<mask id="n9" stroke="none">'
+                '<rect fill="white" x="0" y="0" width="16" height="30" />'
+                '<path fill="black" d="M5,7l2,-2h2l2,2v4l-2,2h-2l-2,-2Z" />'
+                '</mask>'
+                '<path stroke="none" fill="#{$font-color}" mask="url(#n9)" d="M1,5l4,-4h6l4,4v20l-4,4h-6l-4,-4v-4h4v2l2,2h2l2,-2v-8l-2,2h-4l-4,-4Z" />'
+            );
+            @include svg($svg, 0, 0, 16, 30);
+        }
         &.spc { background-image: none; }
+
     }
 
     p {
