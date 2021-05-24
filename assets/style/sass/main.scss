@@ -27,4 +27,17 @@ $debugMode: 1;
     section, section.board {
     //    display: none;
     }
+
+    .ztest {
+        position: absolute;
+        left: 1%;
+        top: 1%;
+        width: 98%;
+        height: auto;
+        font-size: 30px;
+        color: yellow;
+        background-color: #00000090;
+    }
+
+
 }

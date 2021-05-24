@@ -80,12 +80,33 @@ const piece = {
     },
 
     /*
+        moveFrom(px, py, dx, dy)
+        move piece from px,py in offset dx,dy
+    */
+    moveFrom: function(px, py, dx, dy) {
+
+        let nx = Math.min(
+            conf.tilesX-1, Math.max(
+                0, Math.floor(px + dx/state.tileSize)));
+        let ny = Math.min(
+            conf.tilesY-1, Math.max(
+                0, Math.floor(py + dy/state.tileSize)));
+
+        if(this.x !== nx || this.y !== ny) {
+            this.x = nx;
+            this.y = ny;
+            piece.updatePosition();
+        }
+
+    },
+
+    /*
         moveTo(vpX, vpY)
         move the origo of the piece to the board coordinates
         that are closest to viewportX,viewportY
         update the position only if the coordinates have changed
     */
-    moveTo(vpX, vpY) {
+    moveTo: function(vpX, vpY) {
 
         // TODO precalc this. No need to calc each time
         let boardLeft = state.ratioLeft + conf.borderDX;
@@ -153,15 +174,6 @@ const piece = {
             // temporarily set game on pause and hide piece
             state.pause = true;
             dom.hideCurrentPiece();
-
-            /*
-                ugly bugfix
-                If wrong move is signaled just as the timer runs out, the
-                event chain is overwritten with timeout related events.
-                The event chain needs to handle this in a future version.
-                For now, just clear the wrongmove-class.
-            */
-            //dom.hideWrongMove();
 
             // plot piece on board
             for(let i in def.p[this.id]) {

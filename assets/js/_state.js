@@ -68,7 +68,7 @@ const state = {
         board.clear();
         dom.updateBoard();
         dom.timeWrapper.removeClass("gameover");
-        //dom.hideWrongMove();
+        
         this.pieces = 0;
         this.lives = conf.startExtralife;
         this.loopz = 0;
@@ -154,8 +154,6 @@ const state = {
     */
     resumeTimeout: function() {
         if(this.lives < 0) {
-
-            // dom.hideWrongMove();
 
             // game over sequence
             board.prepareRemoveSnakes();

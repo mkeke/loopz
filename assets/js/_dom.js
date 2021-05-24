@@ -1,6 +1,7 @@
 const dom = {
     runtimeStyle: null,
     parent: null,
+    touch: null,
     ratio: null,
     boardWrapper: null,
     board: null,
@@ -23,6 +24,7 @@ const dom = {
     init: function() {
         this.runtimeStyle = z("style.runtime");
         this.parent = z(".fullscreen");
+        this.touch = this.parent.find(".touch");
         this.ratio = this.parent.find(".ratio");
         this.boardWrapper = this.parent.find("section.board");
         this.board = this.parent.find("section.board .tiles");

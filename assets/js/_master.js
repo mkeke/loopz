@@ -9,6 +9,11 @@ const master = {
         this.handleButtonClick();
         this.handleMouseEvents();
         this.handleKeyboardEvents();
+
+        if(navigator.maxTouchPoints > 0) {
+            this.handleTouchEvents();
+        }
+
         dom.applyCharset();
 
     },
@@ -78,6 +83,78 @@ const master = {
                 }
             }
         }.bind(this));
+    },
+
+    /*
+        handleTouchEvents()
+        tap:
+            above board: pause
+            below board: rotate
+            on board: drop
+        move:
+            move piece
+    */
+    handleTouchEvents: function() {
+        dom.touch.addClass("active");
+
+        let touchX, touchY, dx, dy, isMove;
+        let px, py;
+
+        dom.touch.addEventListener("touchstart", function(e) {
+            e.preventDefault();
+            touchX = e.targetTouches[0].clientX;
+            touchY = e.targetTouches[0].clientY;
+            isMove = false;
+            px = piece.x;
+            py = piece.y;
+        });
+
+        dom.touch.addEventListener("touchmove", function(e) {
+            e.preventDefault();
+            if(state.gameOn) {
+                dx = e.targetTouches[0].clientX - touchX;
+                dy = e.targetTouches[0].clientY - touchY;
+
+                if(Math.abs(dx) > state.tileSize || Math.abs(dy) > state.tileSize) {
+                    isMove = true;
+                }
+
+                if (isMove) {
+                    // move piece according to px,py
+                    piece.moveFrom(px, py, dx, dy);
+                }
+            }
+
+        }.bind(this));
+
+        dom.touch.addEventListener("touchend", function(e) {
+            e.preventDefault();
+
+            if(!isMove) {
+
+                if (touchY < state.ratioTop) {
+                    state.toggleUserPause();
+
+                } else if (touchY < 
+                    state.ratioTop +
+                    state.tileSize * conf.tilesY
+                    + 2*conf.borderDX
+                    ) {
+
+                    if(state.gameOn && !state.pause && !state.userPause) {
+                        e.preventDefault();
+                        piece.drop();
+                    }
+
+                } else {
+                    if(state.gameOn && !state.pause && !state.userPause) {
+                        piece.rotate();
+                    }
+                }
+            }
+
+        }.bind(this));
+
     },
 
 };
