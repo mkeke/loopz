@@ -47,21 +47,23 @@ const board = {
 
         let startEl = dom.tiles[this.loop[0].y*conf.tilesX + this.loop[0].x];
 
-        eventChain.new([
+        let ech = new EventChain([
             { ev: "time", ms: 50 },
             { fn: this.flashLoop.bind(this), ev: state.trend, el: startEl },
             { fn: this.removeLoop.bind(this), ev: "time", ms: 1000 },
         ]);
+
         if(this.loop.length == state.tileCount) {
-            eventChain.add(
+            ech.add(
                 { fn: this.addClearBonus.bind(this), ev: "time", ms: 1000 }
             );
         }
-        eventChain.add(
+
+        ech.add(
             { fn: this.resumeAfterLoop.bind(this) }
         );
 
-        eventChain.run();
+        ech.run();
 
         return true;
     },
@@ -248,30 +250,34 @@ const board = {
     */
     prepareRemoveSnakes: function() {
 
-        eventChain.new([
+        // keep the chain, to be able to add new items to it
+        // for each snake left on the board
+        this.endChain = new EventChain();
+
+        this.endChain.add(
             { ev: "time", ms: 1000 },
-        ]);
+        );
 
         // find first occurrence of snake
         this.snakeX = 0;
         this.snakeY = 0;
         if(this.hasSnake()) {
-            eventChain.add(
+            this.endChain.add(
                 { fn: this.removeSnake.bind(this), ev: "time", ms: 500 }
             );
         } else {
-            eventChain.add(
+            this.endChain.add(
                 { fn: this.animateGameOver.bind(this), ev: state.anend, el: dom.timeWrapper }
             );
-            eventChain.add(
+            this.endChain.add(
                 { ev: "time", ms: 2000 }
             );
-            eventChain.add(
+            this.endChain.add(
                 { fn: this.showIntro.bind(this) }
             );
         }
 
-        eventChain.run();
+        this.endChain.run();
     },
 
     /*
@@ -304,17 +310,17 @@ const board = {
         // search for more snakes
         // update eventChain
         if(this.hasSnake()) {
-            eventChain.add(
+            this.endChain.add(
                 { fn: this.removeSnake.bind(this), ev: "time", ms: 500 }
             );
         } else {
-            eventChain.add(
+            this.endChain.add(
                 { fn: this.animateGameOver.bind(this), ev: state.anend, el: dom.timeWrapper }
             );
-            eventChain.add(
+            this.endChain.add(
                 { ev: "time", ms: 2000 }
             );
-            eventChain.add(
+            this.endChain.add(
                 { fn: this.showIntro.bind(this) }
             );
         }

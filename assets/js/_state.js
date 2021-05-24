@@ -68,7 +68,7 @@ const state = {
         board.clear();
         dom.updateBoard();
         dom.timeWrapper.removeClass("gameover");
-        dom.hideWrongMove();
+        //dom.hideWrongMove();
         this.pieces = 0;
         this.lives = conf.startExtralife;
         this.loopz = 0;
@@ -117,11 +117,11 @@ const state = {
                     dom.hideCurrentPiece();
 
                     // update life, and wait a sec before resuming
-                    eventChain.new([
+                    let ech = new EventChain([
                         { fn: this.handleTimeout.bind(this), ev: "time", ms: 1000 },
                         { fn: this.resumeTimeout.bind(this) }
                     ]);
-                    eventChain.run();
+                    ech.run();
                 }
 
                 dom.updateTime();
@@ -155,7 +155,7 @@ const state = {
     resumeTimeout: function() {
         if(this.lives < 0) {
 
-            dom.hideWrongMove();
+            // dom.hideWrongMove();
 
             // game over sequence
             board.prepareRemoveSnakes();

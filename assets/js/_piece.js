@@ -161,7 +161,7 @@ const piece = {
                 The event chain needs to handle this in a future version.
                 For now, just clear the wrongmove-class.
             */
-            dom.hideWrongMove();
+            //dom.hideWrongMove();
 
             // plot piece on board
             for(let i in def.p[this.id]) {
@@ -179,11 +179,10 @@ const piece = {
             }
         } else {
             // visualize wrong move
-            eventChain.new([
+            new EventChain([
                 { fn: dom.showWrongMove.bind(this), ev: state.trend, el: dom.boardWrapper },
                 { fn: dom.hideWrongMove.bind(this) }
-            ]);
-            eventChain.run();
+            ]).run();
         }
     },
 
