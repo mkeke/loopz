@@ -1,7 +1,8 @@
 const conf = {
     debugLevel: 1,
 
-    // screen maxWidth
+    // screen max/min width
+    minWidth: 380,
     maxWidth: 800,
 
     // timer loop repeat delay

@@ -26,24 +26,25 @@ keyboard
 # Mobile hotspots
 
      _____________________
+    |above board:         |
     |                     |
-    |    TOGGLE PAUSE     |
-    |__________ __________|
-    |          :          |
-    | TAP TO   :   TAP TO |
-    | ROTATE   :   ROTATE |
-    | LEFT     :    RIGHT |
-    |          :          |
+    |    TAP TO PAUSE     |
+    |_____________________|
+    |board:               |
     |                     |
-    |        SWIPE        |
-    |       TO MOVE       |
-    |        PIECE        |
+    |    SWIPE TO MOVE    |
     |                     |
-    |          :          |
-    |          :          |
-    |__________:__________|
+    |     TAP TO DROP     |
     |                     |
-    |      DROP PIECE     |
+    |                     |
+    |_____________________|
+    |below board:         |
+    |                     |
+    |    SWIPE TO MOVE    |
+    |                     |
+    |    TAP TO ROTATE    |
+    |                     |
+    |                     |
     |_____________________|
 
 

@@ -198,7 +198,7 @@ const dom = {
     */
     calculateSizes: function() {
 
-        let innerWidth = Math.min(conf.maxWidth, window.innerWidth);
+        let innerWidth = Math.min(conf.maxWidth, Math.max(conf.minWidth, window.innerWidth));
 
         // attempt to determine tile size based on available screen width
         let tileSize = Math.floor(
