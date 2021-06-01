@@ -108,16 +108,15 @@ const piece = {
     */
     moveTo: function(vpX, vpY) {
 
-        // TODO precalc this. No need to calc each time
         let boardLeft = state.ratioLeft + conf.borderDX;
         let boardTop = state.ratioTop + conf.borderDX;
 
         let px = Math.min(
             conf.tilesX-1, Math.max(
-                0, Math.floor((vpX - boardLeft) / state.tileSize)));
+                0, Math.floor((vpX - state.boardLeft) / state.tileSize)));
         let py = Math.min(
             conf.tilesY-1, Math.max(
-                0, Math.floor((vpY - boardTop) / state.tileSize)));
+                0, Math.floor((vpY - state.boardTop) / state.tileSize)));
 
         /*
             the above is a simplified way of doing this:
@@ -125,26 +124,26 @@ const piece = {
             let boardWidth = conf.tilesX * state.tileSize;
             let boardHeight = conf.tilesY * state.tileSize;
 
-            if(x < boardLeft) {
+            if(x < state.boardLeft) {
                 // left side of the board
                 px = 0;
-            } else if(x > boardLeft + boardWidth) {
+            } else if(x > state.boardLeft + boardWidth) {
                 // right side of the board
                 px = conf.tilesX - 1;
             } else {
                 // calc
-                px = Math.floor((x - boardLeft) / state.tileSize);
+                px = Math.floor((x - state.boardLeft) / state.tileSize);
             }
 
-            if(y < boardTop) {
+            if(y < state.boardTop) {
                 // above the board            
                 py = 0;
-            } else if (y > boardTop + boardHeight) {
+            } else if (y > state.boardTop + boardHeight) {
                 // below the board
                 py = conf.tilesY - 1;
             } else {
                 // calc
-                py = Math.floor((y - boardTop) / state.tileSize);
+                py = Math.floor((y - state.boardTop) / state.tileSize);
             }
         */
 

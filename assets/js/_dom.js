@@ -226,6 +226,9 @@ const dom = {
         state.ratioLeft = Math.floor((window.innerWidth - state.ratioWidth) / 2);
         state.ratioTop = Math.floor((window.innerHeight - state.ratioHeight) / 4);
 
+        state.boardLeft = state.ratioLeft + conf.borderDX;
+        state.boardTop = state.ratioTop + conf.borderDX;
+
         log(`screen:${window.innerWidth}x${window.innerHeight} ratio:${state.ratioWidth}x${state.ratioHeight} tile:${tileSize}`);
     },
 

@@ -5,6 +5,8 @@ const state = {
     ratioLeft: null,
     ratioTop: null,
     tileSize: null,
+    boardLeft: null,
+    boardTop: null,
 
     // end event names
     trend: null,
@@ -68,7 +70,7 @@ const state = {
         board.clear();
         dom.updateBoard();
         dom.timeWrapper.removeClass("gameover");
-        
+
         this.pieces = 0;
         this.lives = conf.startExtralife;
         this.loopz = 0;
