@@ -6,10 +6,12 @@ const def = {
     // keydown/up codes
     keyP: 80,
 
-    // dev cheat keyss
+    /*
+    // dev cheat keys
     key1: 49,
     key2: 50,
     keyE: 69,
+    */
 
     /*
         piece definition

@@ -1,5 +1,5 @@
 const conf = {
-    debugLevel: 1,
+    debugLevel: 0,
 
     // screen max/min width
     minWidth: 380,

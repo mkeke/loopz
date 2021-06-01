@@ -28,7 +28,6 @@ const state = {
     lives: null,
     time: null, // percentage of time left
     eraserTime: null, // used to determine if eraser is needed
-    bonus: null,
     tileCount: null, // number of occupied tiles left on the board
 
     // today's best
@@ -74,7 +73,6 @@ const state = {
         this.pieces = 0;
         this.lives = conf.startExtralife;
         this.loopz = 0;
-        this.bonus = 1;
         this.score = 0;
         this.tileCount = 0;
         this.resetEraserTime();
@@ -94,7 +92,6 @@ const state = {
         piece.new();
 
         dom.updateStats();
-
     },
 
     /*

@@ -15,7 +15,6 @@ const master = {
         }
 
         dom.applyCharset();
-
     },
 
     handleButtonClick: function() {
@@ -58,7 +57,7 @@ const master = {
 
     handleKeyboardEvents: function() {
         window.addEventListener("keydown", function(e){
-            // log(e.keyCode);
+            log(e.keyCode);
             // handle first occurrence of key, ignore key repeat
             if(!e.repeat) {
                 switch(e.keyCode) {
